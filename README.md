@@ -1,13 +1,9 @@
-# Futura Casa v7.5 — Permissões AR
+# Futura Casa v7.6 — AR refinada
 
-Ajustes desta versão:
-
-- O fluxo do modo campo agora solicita permissões em sequência ao abrir a Realidade Aumentada:
-  1. câmera;
-  2. bússola/orientação;
-  3. localização/GPS.
-- A solicitação da bússola é disparada imediatamente ao abrir o modo AR.
-- O botão "Ativar bússola" permanece como fallback quando o navegador exigir toque manual.
-- Mantidas as setas direcionais dos lotes próximos e a identificação do lote em tempo real.
-
-Observação: no iPhone/Safari, o sistema pode exigir confirmação explícita do usuário para liberar sensores de movimento/orientação.
+Ajustes realizados:
+- removidos os botões "Bússola ativa" e "Fechar" da barra inferior do modo AR;
+- fechamento mantido apenas pelo botão X no topo direito;
+- bússola redesenhada com visual mais sofisticado e alinhada ao botão X;
+- janela de realidade aumentada ampliada;
+- pins dos lotes e locais próximos com ícones mais profissionais;
+- orientação dos lotes e referências continua sendo atualizada em tempo real conforme a rotação do aparelho.

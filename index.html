@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v7.5 Permissões AR</title>
+<title>Futura Casa | v7.6 AR Refinada</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -247,6 +247,58 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
   .fieldInfo .res:last-child{grid-column:1/-1}
   .fieldActions{display:grid;grid-template-columns:1fr 1fr}
   .fieldActions .btn{width:100%;min-height:44px;padding:0 12px}
+}
+
+
+
+/* v7.6 — refinamento da experiência AR */
+.fieldStage{min-height:700px;height:min(78vh,840px)}
+.fieldTop{left:18px;right:18px;top:18px;padding:0;background:transparent;border:none;box-shadow:none;backdrop-filter:none;align-items:flex-start;justify-content:space-between;z-index:8}
+.fieldClose{width:74px;height:74px;border-radius:24px;border:1px solid rgba(16,20,29,.08);background:rgba(255,253,249,.96);color:var(--ink);font-size:42px;font-weight:950;display:grid;place-items:center;box-shadow:0 22px 56px rgba(16,20,29,.16)}
+.fieldCompass{position:relative;left:auto;top:auto;width:112px;min-height:112px;border-radius:30px;background:rgba(255,253,249,.94);border:1px solid rgba(16,20,29,.08);padding:12px 12px 10px;display:grid;place-items:center;gap:6px;backdrop-filter:blur(18px);box-shadow:0 22px 60px rgba(16,20,29,.14);z-index:8;overflow:hidden}
+.fieldCompass:before{content:"";position:absolute;inset:8px;border-radius:24px;border:1px solid rgba(243,111,47,.10);pointer-events:none}
+.fieldCompassDial{width:74px;height:74px;border-radius:50%;border:2px solid rgba(243,111,47,.18);display:grid;place-items:center;position:relative;background:radial-gradient(circle at 50% 42%,#fff 0%,#fffdf9 58%,#f6eee6 100%);box-shadow:inset 0 0 0 1px rgba(16,20,29,.04)}
+.fieldCompassDial:before{content:"";position:absolute;inset:8px;border-radius:50%;border:1px dashed rgba(16,20,29,.14)}
+.fieldCompassDial:after{content:"";position:absolute;inset:18px;border-radius:50%;border:1px solid rgba(243,111,47,.12)}
+.fieldCompassRose{position:absolute;inset:14px;border-radius:50%;background:conic-gradient(from 0deg, rgba(243,111,47,.10), rgba(243,111,47,0) 18%, rgba(16,20,29,.02) 32%, rgba(243,111,47,.10) 50%, rgba(243,111,47,0) 68%, rgba(16,20,29,.02) 82%, rgba(243,111,47,.10))}
+.fieldNorthLabel{position:absolute;top:8px;font-size:11px;font-weight:950;letter-spacing:.12em;color:var(--orange)}
+.fieldNeedleWrap{position:absolute;inset:0;display:grid;place-items:center;transition:transform .12s linear;will-change:transform}
+.fieldNeedle{width:8px;height:42px;position:relative;display:block;clip-path:polygon(50% 0, 88% 38%, 63% 38%, 63% 100%, 37% 100%, 37% 38%, 12% 38%);background:linear-gradient(180deg,var(--orange2) 0%,var(--orange) 45%,#ffb37f 100%);filter:drop-shadow(0 8px 12px rgba(243,111,47,.26))}
+.fieldNeedle:after{content:"";position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:8px;height:18px;border-radius:999px;background:linear-gradient(180deg,#182235,#33405f)}
+.fieldCompassCenter{position:absolute;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--orange);box-shadow:0 0 0 3px rgba(243,111,47,.12)}
+.fieldCompassMeta{display:grid;justify-items:center;gap:1px}
+.fieldCompassMeta strong{font-size:19px;line-height:1;color:var(--ink)}
+.fieldCompassMeta small{font-size:10px;line-height:1.1;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:900}
+.fieldPin{min-width:144px;max-width:204px;padding:12px 14px;border-radius:20px;background:rgba(255,253,249,.92)}
+.fieldPinHead{display:flex;align-items:center;gap:10px}
+.fieldPinLabel{display:flex;align-items:center;gap:8px;min-width:0;flex:1}
+.fieldPinLabelText{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fieldPinDir{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(243,111,47,.10);border:1px solid rgba(243,111,47,.18);color:var(--orange);flex:0 0 auto}
+.fieldPinDirArrow{display:inline-grid;place-items:center;width:14px;height:14px;transform-origin:50% 50%;transition:transform .10s linear;will-change:transform}
+.fieldPinDirArrow svg{width:14px;height:14px;display:block;fill:currentColor}
+.fieldPinIcon{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(243,111,47,.14);color:var(--orange);flex:0 0 auto}
+.fieldPinIcon svg{width:15px;height:15px;display:block;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.fieldPin small{display:flex;align-items:center;gap:6px;margin-top:5px;color:var(--muted);font-weight:780}
+.fieldPin small b{font-size:10px;color:rgba(16,20,29,.38)}
+.fieldPin.placePin .fieldPinIcon{background:rgba(37,167,101,.11);color:#178653}
+.fieldPin.placePin .fieldPinDir{background:rgba(37,167,101,.10);border-color:rgba(37,167,101,.18);color:#178653}
+.fieldStatusIcon svg{width:30px;height:30px;display:block;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.fieldActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.fieldActions .btn{min-height:58px;display:flex;align-items:center;justify-content:center;gap:10px}
+.fieldActions .actionIcon{display:inline-grid;place-items:center;width:20px;height:20px;font-size:18px;line-height:1}
+.fieldActionHidden{display:none !important}
+@media(max-width:700px){
+  .fieldStage{height:80vh;min-height:620px;border-radius:24px}
+  .fieldTop{left:12px;right:12px;top:12px}
+  .fieldClose{width:66px;height:66px;font-size:38px;border-radius:22px}
+  .fieldCompass{width:98px;min-height:98px;padding:10px 10px 8px;border-radius:26px}
+  .fieldCompassDial{width:64px;height:64px}
+  .fieldNeedle{height:36px}
+  .fieldPin{min-width:112px;max-width:164px;padding:9px 10px;border-radius:16px}
+  .fieldPinLabel{gap:6px}
+  .fieldPinIcon{width:24px;height:24px}
+  .fieldPinDir{width:24px;height:24px}
+  .fieldActions{grid-template-columns:1fr 1fr;gap:10px}
 }
 
 </style>
@@ -1866,6 +1918,191 @@ if(savedBuyer){
 }
 
 renderAll();
+
+
+function fieldDirectionArrowSvg(){
+  return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 20 21 12 17.3 4 21 12 3Z"></path></svg>`;
+}
+
+function fieldPointIconSvg(point){
+  const label = String(point?.label || '').toLowerCase();
+  if(point?.kind === 'lot'){
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5 12 4l8 4.5v7L12 20l-8-4.5v-7Z"></path><path d="M12 4v16"></path><path d="M4 8.5 12 13l8-4.5"></path></svg>`;
+  }
+  if(label.includes('portaria')){
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V7"></path><path d="M20 20V7"></path><path d="M4 7h16"></path><path d="M9 7v13"></path><path d="M15 7v13"></path></svg>`;
+  }
+  if(label.includes('acesso')){
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18h10"></path><path d="M10 6h10"></path><path d="m11 15 3 3 6-6"></path></svg>`;
+  }
+  if(label.includes('verde')){
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c5-2 8-6.5 8-12-5.5 0-10 2.8-12 8"></path><path d="M12 20c-4.5-1.8-7-5.7-8-10 4.4-.2 7.8 1.3 10 4.6"></path></svg>`;
+  }
+  if(label.includes('lazer')){
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19h14"></path><path d="M12 19V9"></path><path d="M12 9c2.2-2.5 4.8-3.5 7-3.5 0 3.3-2 5.7-7 5.7-4.9 0-7-2.4-7-5.7 2.2 0 4.8 1 7 3.5Z"></path></svg>`;
+  }
+  return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.5 6-10a6 6 0 1 0-12 0c0 4.5 6 10 6 10Z"></path><path d="M12 13.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z"></path></svg>`;
+}
+
+function fieldPointHtml(points=[]){
+  const finalPoints = points.length ? points : [
+    {kind:'place', label:'Portaria', distance:49, bearing:309},
+    {kind:'place', label:'Lazer', distance:25, bearing:197},
+    {kind:'lot', label:'Lote', distance:6, bearing:0}
+  ];
+  return finalPoints.slice(0,4).map((p,i)=>`
+    <div class="fieldPin ${p.kind === 'lot' ? 'nearLot' : 'placePin'} p${i+1}">
+      <div class="fieldPinHead">
+        <span class="fieldPinDir" aria-hidden="true"><span class="fieldPinDirArrow" style="transform:rotate(${pointArrowRotation(p)}deg)">${fieldDirectionArrowSvg()}</span></span>
+        <div class="fieldPinLabel">
+          <span class="fieldPinIcon" aria-hidden="true">${fieldPointIconSvg(p)}</span>
+          <span class="fieldPinLabelText">${p.label}</span>
+        </div>
+      </div>
+      <small><span>${p.distance} m</span><b>•</b><span>${Math.round(p.bearing || 0)}°</span></small>
+    </div>
+  `).join('');
+}
+
+function updateFieldPins(points){
+  fieldCurrentPoints = points || [];
+  const el = $('#fieldPins');
+  if(el) el.innerHTML = fieldPointHtml(fieldCurrentPoints);
+  refreshFieldPinDirections();
+}
+
+function refreshFieldPinDirections(){
+  const arrows = document.querySelectorAll('.fieldPinDirArrow');
+  arrows.forEach((arrow, idx)=>{
+    const point = fieldCurrentPoints[idx];
+    if(!point) return;
+    arrow.style.transform = `rotate(${pointArrowRotation(point)}deg)`;
+  });
+}
+
+function updateFieldHeading(heading){
+  if(heading == null || Number.isNaN(heading)) return;
+  const value = Math.round((heading + 360) % 360);
+  fieldCurrentHeading = value;
+  const headingEl = $('#fieldHeading');
+  const needleWrap = $('#fieldNeedleWrap') || $('#fieldNeedle');
+  if(headingEl) headingEl.textContent = `${value}°`;
+  if(needleWrap) needleWrap.style.transform = `rotate(${value}deg)`;
+  refreshFieldPinDirections();
+}
+
+function setupFieldOrientation({autoRequest=false} = {}){
+  const button = $('#fieldCompassPermission');
+  const headingEl = $('#fieldHeading');
+  const handler = (event) => {
+    let heading = null;
+    if(typeof event.webkitCompassHeading === 'number'){
+      heading = event.webkitCompassHeading;
+    }else if(typeof event.alpha === 'number'){
+      heading = 360 - event.alpha;
+    }
+    if(heading != null) updateFieldHeading(heading);
+  };
+  arOrientationHandler = handler;
+
+  let compassActive = false;
+  const activateListeners = () => {
+    if(compassActive) return;
+    compassActive = true;
+    window.removeEventListener('deviceorientationabsolute', handler, true);
+    window.removeEventListener('deviceorientation', handler, true);
+    window.addEventListener('deviceorientationabsolute', handler, true);
+    window.addEventListener('deviceorientation', handler, true);
+    if(button){
+      button.textContent = 'Bússola ativa';
+      button.disabled = true;
+    }
+    toast('Bússola ativada.');
+  };
+
+  const requestCompass = async () => {
+    try{
+      const result = await DeviceOrientationEvent.requestPermission();
+      if(result === 'granted'){
+        activateListeners();
+      }else{
+        if(headingEl) headingEl.textContent = 'perm.';
+        toast('Permissão da bússola não autorizada.');
+      }
+    }catch(e){
+      if(headingEl) headingEl.textContent = 'perm.';
+      toast('A permissão da bússola depende do sistema do aparelho.');
+    }
+  };
+
+  if(window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function'){
+    if(button){
+      button.style.display = 'none';
+      button.onclick = requestCompass;
+    }
+    if(autoRequest) requestCompass();
+  }else if(window.DeviceOrientationEvent){
+    if(button) button.style.display = 'none';
+    activateListeners();
+  }else{
+    if(button) button.style.display = 'none';
+    if(headingEl) headingEl.textContent = 'sem';
+  }
+}
+
+function openARView(id){
+  const lot = LOTS.find(x=>x.id===id);
+  if(!lot) return;
+  if(!lotDestination(lot)){
+    toast('Cadastre a posição GPS deste lote antes de usar AR.');
+    openGpsEditModal(id);
+    return;
+  }
+  const image = lot.thumb || 'assets/img/lot-sol45-premium.png';
+  const coords = lotDestination(lot);
+  openModal(`
+    <div class="modalBody">
+      <div class="fieldShell">
+        <div class="fieldStage">
+          <video id="fieldVideo" autoplay playsinline muted></video>
+          <div class="fieldFallback" id="fieldFallback">
+            <img src="${image}" alt="${lot.name}">
+          </div>
+          <div class="fieldVeil"></div>
+          <div class="fieldTop">
+            <div class="fieldCompass" aria-label="Bússola">
+              <div class="fieldCompassDial">
+                <div class="fieldCompassRose"></div>
+                <span class="fieldNorthLabel">N</span>
+                <div class="fieldNeedleWrap" id="fieldNeedleWrap"><div class="fieldNeedle" id="fieldNeedle"></div></div>
+                <div class="fieldCompassCenter"></div>
+              </div>
+              <div class="fieldCompassMeta"><strong id="fieldHeading">--°</strong><small>bússola</small></div>
+            </div>
+            <button class="fieldClose" data-close-modal aria-label="Fechar">×</button>
+          </div>
+          <div id="fieldPins" class="fieldPins">${fieldPointHtml(buildFieldPoints(lot))}</div>
+          <div class="fieldStatus">
+            <div class="fieldStatusIcon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.5 6-10a6 6 0 1 0-12 0c0 4.5 6 10 6 10Z"></path><path d="M12 13.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z"></path></svg></div>
+            <div class="fieldStatusText"><small class="dynamicLabel" id="fieldStatusLabel">Você está vendo</small><b id="fieldCurrentPoint">${lot.name}</b><span id="fieldAccuracy">Solicitando câmera, bússola e localização...</span></div>
+          </div>
+        </div>
+        <div class="fieldInfo">
+          <div class="res"><small>Coordenada do lote</small><b id="fieldInfoCoords">${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}</b></div>
+          <div class="res"><small>Produto</small><b id="fieldInfoProduct">${lot.area} m² · ${lot.dims}</b></div>
+          <div class="res"><small>Valor</small><b id="fieldInfoValue">${fmt(lot.price)}</b></div>
+        </div>
+        <div class="fieldActions">
+          <button class="btn primary" data-route-lot="${lot.id}"><span class="actionIcon">↗</span><span>Abrir rota</span></button>
+          <button class="btn light" data-edit-gps-lot="${lot.id}"><span class="actionIcon">◎</span><span>Atualizar GPS</span></button>
+          <button class="fieldActionHidden" id="fieldCompassPermission" type="button" aria-hidden="true" tabindex="-1">Ativar bússola</button>
+        </div>
+      </div>
+    </div>
+  `, 'fieldModalCard');
+  initFieldExperience(lot.id);
+}
+
 </script>
 </body>
 </html>
