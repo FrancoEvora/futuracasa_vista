@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v7.1 Cadastro de Lotes</title>
+<title>Futura Casa | v7.2 Campo AR</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -139,6 +139,63 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 .confirmBox p{margin:0;color:var(--muted);line-height:1.45}
 .registerBadge{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;background:rgba(37,167,101,.12);color:#178653;font-weight:950;font-size:12px}
 @media(max-width:700px){.gpsBox{display:grid}.mediaPreview{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* v7.2 — Modo Campo Futura Casa, feito do zero no layout da plataforma */
+.fieldModalCard{width:min(980px,100%);background:#fffdf9;color:var(--ink);border:1px solid rgba(16,20,29,.08);overflow:hidden}
+.fieldModalCard .modalHead{background:linear-gradient(180deg,#fffdf9,#fbf3ea);border-bottom:1px solid var(--line)}
+.fieldShell{display:grid;gap:16px}
+.fieldStage{position:relative;min-height:640px;height:min(74vh,760px);border-radius:30px;overflow:hidden;background:#efe6da;box-shadow:0 26px 90px rgba(16,20,29,.18);border:1px solid rgba(16,20,29,.08)}
+.fieldStage video,.fieldFallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.fieldFallback{background:#efe6da;overflow:hidden}
+.fieldFallback img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.92) contrast(.95);opacity:.62}
+.fieldFallback.hidden{display:none}
+.fieldVeil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,253,249,.12) 0%,rgba(255,253,249,.02) 34%,rgba(16,20,29,.25) 100%);pointer-events:none}
+.fieldTop{position:absolute;left:18px;right:18px;top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:rgba(255,253,249,.86);border:1px solid rgba(16,20,29,.08);border-radius:24px;backdrop-filter:blur(18px);box-shadow:0 18px 60px rgba(16,20,29,.12)}
+.fieldTopBrand{display:grid;gap:2px}
+.fieldTopBrand small{letter-spacing:.16em;text-transform:uppercase;color:var(--orange);font-weight:950;font-size:11px}
+.fieldTopBrand b{font-size:18px;color:var(--ink)}
+.fieldClose{width:46px;height:46px;border-radius:17px;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:24px;font-weight:950}
+.fieldCompass{position:absolute;left:18px;top:112px;width:92px;border-radius:24px;background:rgba(255,253,249,.88);border:1px solid rgba(16,20,29,.08);padding:12px;display:grid;place-items:center;gap:8px;backdrop-filter:blur(16px);box-shadow:0 18px 60px rgba(16,20,29,.12)}
+.fieldCompassDial{width:62px;height:62px;border-radius:50%;border:2px solid rgba(243,111,47,.28);display:grid;place-items:center;position:relative;background:#fff}
+.fieldCompassDial span{position:absolute;top:6px;font-size:11px;font-weight:950;color:var(--orange)}
+.fieldNeedle{width:4px;height:32px;border-radius:999px;background:linear-gradient(180deg,var(--orange),var(--orange2));transform-origin:50% 90%;box-shadow:0 0 16px rgba(243,111,47,.3)}
+.fieldCompass strong{font-size:18px;color:var(--ink)}
+.fieldPin{position:absolute;min-width:132px;max-width:190px;padding:11px 13px;background:rgba(255,253,249,.90);border:1px solid rgba(243,111,47,.24);border-radius:19px;box-shadow:0 20px 60px rgba(16,20,29,.15);backdrop-filter:blur(16px)}
+.fieldPin:after{content:"";position:absolute;left:50%;bottom:-32px;width:2px;height:32px;background:linear-gradient(180deg,rgba(243,111,47,.72),rgba(243,111,47,0))}
+.fieldPinHead{display:flex;align-items:center;gap:8px;font-weight:950;color:var(--ink)}
+.fieldPinIcon{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:rgba(243,111,47,.14);color:var(--orange);font-size:14px}
+.fieldPin small{display:block;margin-top:4px;color:var(--muted);font-weight:750}
+.fieldPin.p1{left:13%;top:42%}
+.fieldPin.p2{right:8%;top:31%}
+.fieldPin.p3{left:28%;top:58%}
+.fieldPin.p4{right:19%;top:55%}
+.fieldStatus{position:absolute;left:18px;right:18px;bottom:18px;display:flex;align-items:center;gap:16px;padding:18px 20px;background:rgba(255,253,249,.92);border:1px solid rgba(16,20,29,.08);border-radius:28px;box-shadow:0 24px 80px rgba(16,20,29,.20);backdrop-filter:blur(18px)}
+.fieldStatusIcon{width:70px;height:70px;border-radius:50%;background:rgba(243,111,47,.12);color:var(--orange);display:grid;place-items:center;font-size:30px;border:1px solid rgba(243,111,47,.22)}
+.fieldStatusText{flex:1}
+.fieldStatusText small{display:block;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);font-weight:950;font-size:11px}
+.fieldStatusText b{display:block;font-size:24px;margin:2px 0 4px}
+.fieldStatusText span{color:var(--muted)}
+.fieldInfo{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.fieldInfo .res{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.fieldInfo .res small{color:var(--muted)}
+.fieldInfo .res b{color:var(--ink)}
+.fieldActions{display:flex;gap:10px;flex-wrap:wrap}
+.fieldActions .btn{flex:1 1 180px}
+@media(max-width:700px){
+  .fieldStage{height:76vh;min-height:590px;border-radius:22px}
+  .fieldTop{left:12px;right:12px;top:12px;padding:12px}
+  .fieldCompass{left:12px;top:100px;width:80px;padding:9px}
+  .fieldPin{min-width:118px;padding:10px 11px}
+  .fieldPin.p1{left:8%;top:41%}
+  .fieldPin.p2{right:5%;top:32%}
+  .fieldPin.p3{left:18%;top:57%}
+  .fieldPin.p4{right:8%;top:61%}
+  .fieldStatus{left:12px;right:12px;bottom:12px;padding:14px}
+  .fieldStatusIcon{width:58px;height:58px}
+  .fieldStatusText b{font-size:21px}
+  .fieldInfo{grid-template-columns:1fr}
+}
 
 </style>
 </head>
@@ -841,7 +898,7 @@ function openLotDetails(id){
       <p><b>Valor estimado:</b> ${fmt(l.price)}<br><b>Dimensões:</b> ${l.dims}<br><b>Perfil:</b> ${l.taste} • ${l.tag}</p>
       ${gpsBlock}
       ${videoList}
-      <div class="arHelpBox"><b>Recursos v7.1:</b> use <b>Rota</b> para abrir o Google Maps, <b>Realidade aumentada</b> para visualizar referências do lote, ou edite a posição GPS quando necessário.</div>
+      <div class="arHelpBox"><b>Recursos Futura Casa v7.2:</b> use <b>Rota</b> para abrir o Google Maps, <b>Realidade aumentada</b> para visualizar referências do lote em campo, ou edite a posição GPS quando necessário.</div>
       <div class="actions">
         <button class="btn primary" data-route-lot="${l.id}">Rota</button>
         <button class="btn primary" data-ar-lot="${l.id}">Realidade aumentada</button>
@@ -929,6 +986,7 @@ function lotDestination(lot){
 
 function mapsDirectionsUrl(lot, origin=null){
   const dest = lotDestination(lot);
+  if(!dest) return '';
   const params = new URLSearchParams({
     api: '1',
     destination: `${dest.lat},${dest.lng}`,
@@ -997,17 +1055,17 @@ function metersBetween(a,b){
   return Math.round(2 * R * Math.atan2(Math.sqrt(h), Math.sqrt(1-h)));
 }
 
-function arMarkerHtml(points=[]){
+function fieldPointHtml(points=[]){
   const fallback = [
     {label:'Portaria', distance:49, bearing:309},
     {label:'Lazer', distance:25, bearing:197},
-    {label:'Garagem', distance:62, bearing:284},
+    {label:'Acesso', distance:18, bearing:25},
     {label:'Lote', distance:6, bearing:0}
   ];
   const finalPoints = points.length ? points : fallback;
   return finalPoints.slice(0,4).map((p,i)=>`
-    <div class="arMarker m${i+1}">
-      <div class="kicker"><span class="dot">›</span><span>${p.label}</span></div>
+    <div class="fieldPin p${i+1}">
+      <div class="fieldPinHead"><span class="fieldPinIcon">⌖</span><span>${p.label}</span></div>
       <small>${p.distance} m · ${p.bearing}°</small>
     </div>
   `).join('');
@@ -1022,54 +1080,59 @@ function openARView(id){
     return;
   }
   const image = lot.thumb || 'assets/img/lot-sol45-premium.png';
+  const coords = lotDestination(lot);
   openModal(`
-    <div class="modalHead"><div><span class="tag">Realidade aumentada</span><h2>${lot.name}</h2><p class="muted">Autorize câmera, localização e bússola para visualizar pontos próximos ao lote.</p></div><button class="btn light small" data-close-modal>Fechar</button></div>
+    <div class="modalHead"><div><span class="tag">Futura Casa Campo</span><h2>${lot.name}</h2><p class="muted">Experiência em campo criada no layout Futura Casa. Use câmera, localização e bússola do aparelho para visualizar referências próximas ao lote.</p></div><button class="btn light small" data-close-modal>Fechar</button></div>
     <div class="modalBody">
-      <div class="arShell">
-        <div class="arScene">
-          <video id="arVideo" autoplay playsinline muted></video>
-          <div class="arFallback" id="arFallback">
+      <div class="fieldShell">
+        <div class="fieldStage">
+          <video id="fieldVideo" autoplay playsinline muted></video>
+          <div class="fieldFallback" id="fieldFallback">
             <img src="${image}" alt="${lot.name}">
-            <div class="arFallbackText"><b>Prévia de realidade aumentada</b><br><span>Se a câmera não estiver disponível, esta visualização usa a imagem do lote como fundo.</span></div>
           </div>
-          <div class="arOverlay"></div>
-          <div class="arTopPill">
-            <div class="arBrand"><small>Futura Casa AR v7.0</small><b>${lot.project}</b></div>
-            <button class="arCloseMini" data-close-modal>×</button>
+          <div class="fieldVeil"></div>
+          <div class="fieldTop">
+            <div class="fieldTopBrand"><small>Modo Campo v7.2</small><b>${lot.project}</b></div>
+            <button class="fieldClose" data-close-modal>×</button>
           </div>
-          <div class="arCompass">
-            <div class="arCompassDial"><span>N</span><div class="arCompassNeedle" id="arNeedle"></div></div>
-            <strong id="arHeading">--°</strong>
+          <div class="fieldCompass">
+            <div class="fieldCompassDial"><span>N</span><div class="fieldNeedle" id="fieldNeedle"></div></div>
+            <strong id="fieldHeading">--°</strong>
           </div>
-          ${arMarkerHtml(lot.arPoints)}
-          <div class="arBottomStatus">
-            <div class="arStatusIcon">⌖</div>
-            <div class="arStatusText"><small>Você está em</small><b id="arCurrentPoint">Localizando...</b><span id="arAccuracy">Solicitando GPS...</span></div>
-            <button class="arInfoButton" type="button" title="Informações">i</button>
+          ${fieldPointHtml(lot.arPoints)}
+          <div class="fieldStatus">
+            <div class="fieldStatusIcon">⌖</div>
+            <div class="fieldStatusText"><small>Você está vendo</small><b id="fieldCurrentPoint">${lot.name}</b><span id="fieldAccuracy">Solicitando GPS e câmera...</span></div>
           </div>
         </div>
-        <div class="arActions">
+        <div class="fieldInfo">
+          <div class="res"><small>Destino</small><b>${Number(coords.lat).toFixed(5)}, ${Number(coords.lng).toFixed(5)}</b></div>
+          <div class="res"><small>Produto</small><b>${lot.area} m² · ${lot.dims}</b></div>
+          <div class="res"><small>Valor</small><b>${fmt(lot.price)}</b></div>
+        </div>
+        <div class="fieldActions">
           <button class="btn primary" data-route-lot="${lot.id}">Abrir rota</button>
-          <button class="btn light" id="arCompassPermission">Ativar bússola</button>
-          <button class="btn light" data-close-modal>Fechar AR</button>
+          <button class="btn light" data-edit-gps-lot="${lot.id}">Atualizar GPS</button>
+          <button class="btn light" id="fieldCompassPermission">Ativar bússola</button>
+          <button class="btn light" data-close-modal>Fechar</button>
         </div>
       </div>
     </div>
-  `, 'arModalCard');
-  setTimeout(()=>initARExperience(lot.id), 50);
+  `, 'fieldModalCard');
+  setTimeout(()=>initFieldExperience(lot.id), 50);
 }
 
-function initARExperience(lotId){
+function initFieldExperience(lotId){
   const lot = LOTS.find(x=>x.id===lotId);
   if(!lot) return;
-  startARCamera();
-  startARLocation(lot);
-  setupAROrientation();
+  startFieldCamera();
+  startFieldLocation(lot);
+  setupFieldOrientation();
 }
 
-function startARCamera(){
-  const video = $('#arVideo');
-  const fallback = $('#arFallback');
+function startFieldCamera(){
+  const video = $('#fieldVideo');
+  const fallback = $('#fieldFallback');
   if(!video || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
     if(fallback) fallback.classList.remove('hidden');
     return;
@@ -1083,49 +1146,49 @@ function startARCamera(){
     })
     .catch(()=>{
       if(fallback) fallback.classList.remove('hidden');
-      toast('Câmera não autorizada. Exibindo prévia do lote.');
+      toast('Câmera não autorizada. Exibindo imagem do lote como prévia.');
     });
 }
 
-function startARLocation(lot){
+function startFieldLocation(lot){
   if(!navigator.geolocation){
-    $('#arCurrentPoint').textContent = lot.name;
-    $('#arAccuracy').textContent = 'GPS indisponível neste navegador.';
+    $('#fieldAccuracy').textContent = 'GPS indisponível neste navegador.';
     return;
   }
-  toast('Autorize sua localização para ativar os pontos em AR.');
+  toast('Autorize sua localização para calcular distância até o lote.');
   const destination = lotDestination(lot);
   arWatchId = navigator.geolocation.watchPosition(
     pos=>{
       const current = {lat: pos.coords.latitude, lng: pos.coords.longitude};
-      const distance = metersBetween(current, destination);
-      $('#arCurrentPoint').textContent = distance <= 18 ? lot.name : 'Próximo ao lote';
-      $('#arAccuracy').textContent = `${distance} m do ponto · GPS ± ${Math.round(pos.coords.accuracy || 0)} m`;
+      const distance = destination ? metersBetween(current, destination) : null;
+      $('#fieldCurrentPoint').textContent = distance !== null && distance <= 18 ? lot.name : 'Próximo ao lote';
+      $('#fieldAccuracy').textContent = distance !== null
+        ? `${distance} m do lote · GPS ± ${Math.round(pos.coords.accuracy || 0)} m`
+        : `GPS ± ${Math.round(pos.coords.accuracy || 0)} m`;
     },
     ()=>{
-      $('#arCurrentPoint').textContent = lot.name;
-      $('#arAccuracy').textContent = 'Permita a localização para medir distância real.';
+      $('#fieldAccuracy').textContent = 'Permita localização para medir distância real.';
     },
     {enableHighAccuracy:true, maximumAge:5000, timeout:10000}
   );
 }
 
-function updateARHeading(heading){
+function updateFieldHeading(heading){
   if(heading == null || Number.isNaN(heading)) return;
   const value = Math.round((heading + 360) % 360);
-  const headingEl = $('#arHeading');
-  const needle = $('#arNeedle');
+  const headingEl = $('#fieldHeading');
+  const needle = $('#fieldNeedle');
   if(headingEl) headingEl.textContent = `${value}°`;
   if(needle) needle.style.transform = `rotate(${value}deg)`;
 }
 
-function setupAROrientation(){
-  const button = $('#arCompassPermission');
+function setupFieldOrientation(){
+  const button = $('#fieldCompassPermission');
   const handler = (event) => {
     const heading = event.webkitCompassHeading != null
       ? event.webkitCompassHeading
       : (event.alpha != null ? 360 - event.alpha : null);
-    updateARHeading(heading);
+    updateFieldHeading(heading);
   };
   arOrientationHandler = handler;
   if(window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function'){
@@ -1151,10 +1214,9 @@ function setupAROrientation(){
     window.addEventListener('deviceorientation', handler, true);
   }else{
     if(button) button.style.display = 'none';
-    updateARHeading(23);
+    updateFieldHeading(23);
   }
 }
-
 
 function defaultLotThumb(project=''){
   return project.toLowerCase().includes('solaris')

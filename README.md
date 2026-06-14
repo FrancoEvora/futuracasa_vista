@@ -1,31 +1,35 @@
-# Futura Casa v7.1 — Cadastro de Lotes
+# Futura Casa v7.2 — Campo AR Futura Casa
 
-Esta versão mantém todos os recursos da v7.0 AR e adiciona cadastro operacional de lotes pelo menu.
+Esta versão recria a parte de geolocalização, rota, GPS e realidade aumentada do zero, usando o layout e a linguagem visual da Futura Casa.
 
-## Novidades v7.1
+## Premissa
 
-No menu há a função **Cadastrar lote**.
+O GeoVendas foi usado apenas como referência teórica de propósito: orientação em campo, pontos próximos e navegação.
+Não há uso de código, marca, API, backend ou estrutura técnica do GeoVendas.
 
-O cadastro permite:
-- cadastrar empreendimento, lote, metragem, dimensões, valor, status, perfil e descrição;
-- capturar a posição do lote usando GPS;
-- tirar/anexar fotos do lote pelo celular;
-- gravar/anexar vídeos pelo celular;
-- confirmar o cadastro;
-- exibir o novo lote na vitrine;
-- editar/cadastrar posição GPS depois, pela janela de detalhes do lote.
+## Recursos mantidos
+
+- Experiência do comprador;
+- Lotes, casas, combos e simulação;
+- Detalhes dos lotes;
+- Rota via Google Maps;
+- Realidade aumentada/câmera;
+- Cadastro de novos lotes;
+- Fotos e vídeos no cadastro;
+- Edição/cadastro posterior de GPS.
+
+## Recursos v7.2
+
+A tela de realidade aumentada agora usa um módulo próprio chamado **Futura Casa Campo**:
+- visual claro e premium;
+- cards flutuantes no padrão da Futura Casa;
+- câmera do celular como fundo, quando autorizada;
+- fallback com imagem do lote;
+- bússola/orientação;
+- distância até o lote;
+- botão de rota;
+- atualização de GPS.
 
 ## Observação técnica
 
-Este protótipo salva os lotes no `localStorage` do navegador.
-Para produção, os dados e arquivos devem ser enviados para um backend/banco de dados/storage.
-
-## Publicação
-
-Suba tudo na raiz do GitHub/Vercel:
-
-```text
-index.html
-assets/
-README.md
-```
+Este protótipo usa `localStorage` para salvar lotes cadastrados. Em produção, deve ser conectado a banco de dados, storage e backend.
