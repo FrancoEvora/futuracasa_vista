@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v7.3 Campo AR Tempo Real</title>
+<title>Futura Casa | v7.4 Campo AR Orientado</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -151,12 +151,12 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 .fieldFallback img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.92) contrast(.95);opacity:.62}
 .fieldFallback.hidden{display:none}
 .fieldVeil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,253,249,.12) 0%,rgba(255,253,249,.02) 34%,rgba(16,20,29,.25) 100%);pointer-events:none}
-.fieldTop{position:absolute;left:18px;right:18px;top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:rgba(255,253,249,.86);border:1px solid rgba(16,20,29,.08);border-radius:24px;backdrop-filter:blur(18px);box-shadow:0 18px 60px rgba(16,20,29,.12)}
-.fieldTopBrand{display:grid;gap:2px}
+.fieldTop{position:absolute;top:18px;right:18px;display:flex;align-items:center;justify-content:flex-end;z-index:7}
+.fieldTopBrand{display:none}
 .fieldTopBrand small{letter-spacing:.16em;text-transform:uppercase;color:var(--orange);font-weight:950;font-size:11px}
 .fieldTopBrand b{font-size:18px;color:var(--ink)}
-.fieldClose{width:46px;height:46px;border-radius:17px;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:24px;font-weight:950}
-.fieldCompass{position:absolute;left:18px;top:112px;width:92px;border-radius:24px;background:rgba(255,253,249,.88);border:1px solid rgba(16,20,29,.08);padding:12px;display:grid;place-items:center;gap:8px;backdrop-filter:blur(16px);box-shadow:0 18px 60px rgba(16,20,29,.12)}
+.fieldClose{width:58px;height:58px;border-radius:21px;border:1px solid var(--line);background:rgba(255,253,249,.95);color:var(--ink);font-size:34px;font-weight:950;box-shadow:0 18px 40px rgba(16,20,29,.14)}
+.fieldCompass{position:absolute;left:18px;top:92px;width:92px;border-radius:24px;background:rgba(255,253,249,.90);border:1px solid rgba(16,20,29,.08);padding:12px;display:grid;place-items:center;gap:8px;backdrop-filter:blur(16px);box-shadow:0 18px 60px rgba(16,20,29,.12);z-index:6}
 .fieldCompassDial{width:62px;height:62px;border-radius:50%;border:2px solid rgba(243,111,47,.28);display:grid;place-items:center;position:relative;background:#fff}
 .fieldCompassDial span{position:absolute;top:6px;font-size:11px;font-weight:950;color:var(--orange)}
 .fieldNeedle{width:4px;height:32px;border-radius:999px;background:linear-gradient(180deg,var(--orange),var(--orange2));transform-origin:50% 90%;box-shadow:0 0 16px rgba(243,111,47,.3)}
@@ -164,6 +164,8 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 .fieldPin{position:absolute;min-width:132px;max-width:190px;padding:11px 13px;background:rgba(255,253,249,.90);border:1px solid rgba(243,111,47,.24);border-radius:19px;box-shadow:0 20px 60px rgba(16,20,29,.15);backdrop-filter:blur(16px)}
 .fieldPin:after{content:"";position:absolute;left:50%;bottom:-32px;width:2px;height:32px;background:linear-gradient(180deg,rgba(243,111,47,.72),rgba(243,111,47,0))}
 .fieldPinHead{display:flex;align-items:center;gap:8px;font-weight:950;color:var(--ink)}
+.fieldPinDir{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(243,111,47,.10);border:1px solid rgba(243,111,47,.18);color:var(--orange);font-size:15px;line-height:1;flex:0 0 auto}
+.fieldPinDirArrow{display:inline-block;transform:rotate(0deg);transition:transform .18s linear}
 .fieldPinIcon{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:rgba(243,111,47,.14);color:var(--orange);font-size:14px}
 .fieldPin small{display:block;margin-top:4px;color:var(--muted);font-weight:750}
 .fieldPin.p1{left:13%;top:42%}
@@ -219,16 +221,17 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 .fieldPin.nearLot{border-color:rgba(243,111,47,.34)}
 .fieldPin.placePin{border-color:rgba(37,167,101,.28)}
 .fieldPin.placePin .fieldPinIcon{background:rgba(37,167,101,.12);color:#178653}
+.fieldPin.placePin .fieldPinDir{background:rgba(37,167,101,.10);border-color:rgba(37,167,101,.18);color:#178653}
 @media(max-width:700px){
   .modal.fieldMode{padding:max(6px,env(safe-area-inset-top)) 6px max(6px,env(safe-area-inset-bottom))}
   .modal.fieldMode .fieldModalCard{height:calc(100dvh - max(6px,env(safe-area-inset-top)) - max(6px,env(safe-area-inset-bottom)) - 12px);max-height:calc(100dvh - max(6px,env(safe-area-inset-top)) - max(6px,env(safe-area-inset-bottom)) - 12px);border-radius:22px}
   .modal.fieldMode .modalBody{padding:7px}
-  .fieldTop{left:10px;right:10px;top:10px;padding:10px 12px;border-radius:20px}
+  .fieldTop{top:10px;right:10px}
   .fieldTopBrand small{font-size:10px}
   .fieldTopBrand b{font-size:16px;max-width:66vw}
-  .fieldCompass{left:10px;top:88px;width:72px;padding:8px;border-radius:20px}
+  .fieldCompass{left:10px;top:74px;width:76px;padding:8px;border-radius:20px}
   .fieldCompassDial{width:52px;height:52px}
-  .fieldNeedle{height:28px}
+  .fieldNeedle{height:28px;transition:transform .18s linear}
   .fieldPin{min-width:110px;max-width:158px;padding:9px 10px;border-radius:16px}
   .fieldPinHead{font-size:13px}
   .fieldPin small{font-size:12px}
@@ -1024,9 +1027,12 @@ function bindModalActions(){
 }
 
 
+
 let arCameraStream = null;
 let arWatchId = null;
 let arOrientationHandler = null;
+let fieldCurrentHeading = null;
+let fieldCurrentPoints = [];
 
 function lotDestination(lot){
   return lot?.coords && Number.isFinite(Number(lot.coords.lat)) && Number.isFinite(Number(lot.coords.lng))
@@ -1089,9 +1095,12 @@ function stopARResources(){
     arWatchId = null;
   }
   if(arOrientationHandler){
+    window.removeEventListener('deviceorientationabsolute', arOrientationHandler, true);
     window.removeEventListener('deviceorientation', arOrientationHandler, true);
     arOrientationHandler = null;
   }
+  fieldCurrentHeading = null;
+  fieldCurrentPoints = [];
 }
 
 function metersBetween(a,b){
@@ -1126,7 +1135,7 @@ function findNearestLot(current){
     .sort((a,b)=>a.distance-b.distance)[0] || null;
 }
 
-function nearestLotPoints(current, activeLot){
+function nearestLotPoints(current){
   return lotsWithCoords()
     .map(lot=>({kind:'lot', label: lot.name.replace('Parque das Árvores • ', '').replace('Solaris • ', 'Solaris '), distance: metersBetween(current, lotDestination(lot)), bearing: bearingBetween(current, lotDestination(lot)), id: lot.id}))
     .sort((a,b)=>a.distance-b.distance)
@@ -1143,12 +1152,17 @@ function placePointsFromLot(lot){
 
 function buildFieldPoints(activeLot,current=null){
   if(current){
-    const lots = nearestLotPoints(current, activeLot);
+    const lots = nearestLotPoints(current);
     const places = placePointsFromLot(activeLot || lots[0]?.lot).slice(0, Math.max(0, 4-lots.length));
     return [...lots, ...places].slice(0,4);
   }
   const fallbackLots = [{kind:'lot', label: activeLot?.name || 'Lote', distance:6, bearing:0}];
   return [...fallbackLots, ...placePointsFromLot(activeLot)].slice(0,4);
+}
+
+function pointArrowRotation(p){
+  if(fieldCurrentHeading == null || p.bearing == null) return 0;
+  return Math.round((((p.bearing - fieldCurrentHeading) % 360) + 360) % 360);
 }
 
 function fieldPointHtml(points=[]){
@@ -1159,23 +1173,31 @@ function fieldPointHtml(points=[]){
   ];
   return finalPoints.slice(0,4).map((p,i)=>`
     <div class="fieldPin ${p.kind === 'lot' ? 'nearLot' : 'placePin'} p${i+1}">
-      <div class="fieldPinHead"><span class="fieldPinIcon">${p.kind === 'lot' ? '⌖' : '•'}</span><span>${p.label}</span></div>
+      <div class="fieldPinHead"><span class="fieldPinDir"><span class="fieldPinDirArrow" style="transform:rotate(${pointArrowRotation(p)}deg)">↑</span></span><span>${p.label}</span></div>
       <small>${p.distance} m · ${p.bearing}°</small>
     </div>
   `).join('');
 }
 
 function updateFieldPins(points){
+  fieldCurrentPoints = points || [];
   const el = $('#fieldPins');
-  if(el) el.innerHTML = fieldPointHtml(points);
+  if(el) el.innerHTML = fieldPointHtml(fieldCurrentPoints);
+}
+
+function refreshFieldPinDirections(){
+  const arrows = document.querySelectorAll('.fieldPinDirArrow');
+  arrows.forEach((arrow, idx)=>{
+    const point = fieldCurrentPoints[idx];
+    if(!point) return;
+    arrow.style.transform = `rotate(${pointArrowRotation(point)}deg)`;
+  });
 }
 
 function setFieldActiveLot(activeLot, modeLabel='Você está vendo'){
   if(!activeLot) return;
   if($('#fieldStatusLabel')) $('#fieldStatusLabel').textContent = modeLabel;
   if($('#fieldCurrentPoint')) $('#fieldCurrentPoint').textContent = activeLot.name;
-  if($('#fieldTopProject')) $('#fieldTopProject').textContent = activeLot.project;
-  if($('#fieldTopLot')) $('#fieldTopLot').textContent = activeLot.name;
   if($('#fieldInfoProduct')) $('#fieldInfoProduct').textContent = `${activeLot.area} m² · ${activeLot.dims}`;
   if($('#fieldInfoValue')) $('#fieldInfoValue').textContent = fmt(activeLot.price);
   const dest = lotDestination(activeLot);
@@ -1202,7 +1224,6 @@ function openARView(id){
           </div>
           <div class="fieldVeil"></div>
           <div class="fieldTop">
-            <div class="fieldTopBrand"><small>Futura Casa Campo v7.3</small><b id="fieldTopLot">${lot.name}</b><span class="fieldTopProjectLine" id="fieldTopProject">${lot.project}</span></div>
             <button class="fieldClose" data-close-modal>×</button>
           </div>
           <div class="fieldCompass">
@@ -1278,6 +1299,7 @@ function startFieldLocation(selectedLot){
       const inside = nearest && nearest.distance <= threshold;
       setFieldActiveLot(activeLot, inside ? 'Você está em' : 'Lote mais próximo');
       updateFieldPins(buildFieldPoints(activeLot, current));
+      refreshFieldPinDirections();
       if($('#fieldAccuracy')){
         const dist = nearest ? nearest.distance : null;
         $('#fieldAccuracy').textContent = dist !== null
@@ -1288,6 +1310,7 @@ function startFieldLocation(selectedLot){
     ()=>{
       $('#fieldAccuracy').textContent = 'Permita localização para identificar o lote em tempo real.';
       updateFieldPins(buildFieldPoints(selectedLot));
+      refreshFieldPinDirections();
     },
     {enableHighAccuracy:true, maximumAge:2500, timeout:10000}
   );
@@ -1296,21 +1319,37 @@ function startFieldLocation(selectedLot){
 function updateFieldHeading(heading){
   if(heading == null || Number.isNaN(heading)) return;
   const value = Math.round((heading + 360) % 360);
+  fieldCurrentHeading = value;
   const headingEl = $('#fieldHeading');
   const needle = $('#fieldNeedle');
   if(headingEl) headingEl.textContent = `${value}°`;
   if(needle) needle.style.transform = `rotate(${value}deg)`;
+  refreshFieldPinDirections();
 }
 
 function setupFieldOrientation(){
   const button = $('#fieldCompassPermission');
   const handler = (event) => {
-    const heading = event.webkitCompassHeading != null
-      ? event.webkitCompassHeading
-      : (event.alpha != null ? 360 - event.alpha : null);
-    updateFieldHeading(heading);
+    let heading = null;
+    if(typeof event.webkitCompassHeading === 'number'){
+      heading = event.webkitCompassHeading;
+    }else if(typeof event.alpha === 'number'){
+      heading = 360 - event.alpha;
+    }
+    if(heading != null) updateFieldHeading(heading);
   };
   arOrientationHandler = handler;
+
+  const activateListeners = () => {
+    window.addEventListener('deviceorientationabsolute', handler, true);
+    window.addEventListener('deviceorientation', handler, true);
+    if(button){
+      button.textContent = 'Bússola ativa';
+      button.disabled = true;
+    }
+    toast('Bússola ativada.');
+  };
+
   if(window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function'){
     if(button){
       button.style.display = 'inline-flex';
@@ -1318,9 +1357,7 @@ function setupFieldOrientation(){
         try{
           const result = await DeviceOrientationEvent.requestPermission();
           if(result === 'granted'){
-            window.addEventListener('deviceorientation', handler, true);
-            button.textContent = 'Bússola ativa';
-            toast('Bússola ativada.');
+            activateListeners();
           }else{
             toast('Permissão da bússola não autorizada.');
           }
@@ -1331,13 +1368,15 @@ function setupFieldOrientation(){
     }
   }else if(window.DeviceOrientationEvent){
     if(button) button.style.display = 'none';
-    window.addEventListener('deviceorientation', handler, true);
+    activateListeners();
   }else{
-    if(button) button.style.display = 'none';
-    updateFieldHeading(23);
+    if(button){
+      button.style.display = 'none';
+    }
+    const headingEl = $('#fieldHeading');
+    if(headingEl) headingEl.textContent = 'sem sensor';
   }
 }
-
 function defaultLotThumb(project=''){
   return project.toLowerCase().includes('solaris')
     ? 'assets/img/lot-sol45-premium.png'
