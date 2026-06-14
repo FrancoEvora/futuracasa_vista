@@ -1,8 +1,13 @@
-# Futura Casa v7.4 — Campo AR Orientado
+# Futura Casa v7.5 — Permissões AR
 
 Ajustes desta versão:
 
-- Corrigido o layout do topo da janela AR: agora fica apenas o botão de fechar.
-- Mantida a bússola com ativação por permissão do aparelho.
-- Incluídas setas dinâmicas nos lotes/pontos próximos, que giram em tempo real conforme a orientação do celular.
-- Mantida a lógica de identificar o lote atual e o lote mais próximo com GPS em tempo real.
+- O fluxo do modo campo agora solicita permissões em sequência ao abrir a Realidade Aumentada:
+  1. câmera;
+  2. bússola/orientação;
+  3. localização/GPS.
+- A solicitação da bússola é disparada imediatamente ao abrir o modo AR.
+- O botão "Ativar bússola" permanece como fallback quando o navegador exigir toque manual.
+- Mantidas as setas direcionais dos lotes próximos e a identificação do lote em tempo real.
+
+Observação: no iPhone/Safari, o sistema pode exigir confirmação explícita do usuário para liberar sensores de movimento/orientação.

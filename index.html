@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v7.4 Campo AR Orientado</title>
+<title>Futura Casa | v7.5 Permissões AR</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -151,7 +151,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 .fieldFallback img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.92) contrast(.95);opacity:.62}
 .fieldFallback.hidden{display:none}
 .fieldVeil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,253,249,.12) 0%,rgba(255,253,249,.02) 34%,rgba(16,20,29,.25) 100%);pointer-events:none}
-.fieldTop{position:absolute;top:18px;right:18px;display:flex;align-items:center;justify-content:flex-end;z-index:7}
+.fieldTop{position:absolute;left:18px;right:18px;top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:rgba(255,253,249,.86);border:1px solid rgba(16,20,29,.08);border-radius:24px;backdrop-filter:blur(18px);box-shadow:0 18px 60px rgba(16,20,29,.12)}
 .fieldTopBrand{display:none}
 .fieldTopBrand small{letter-spacing:.16em;text-transform:uppercase;color:var(--orange);font-weight:950;font-size:11px}
 .fieldTopBrand b{font-size:18px;color:var(--ink)}
@@ -1233,7 +1233,7 @@ function openARView(id){
           <div id="fieldPins" class="fieldPins">${fieldPointHtml(buildFieldPoints(lot))}</div>
           <div class="fieldStatus">
             <div class="fieldStatusIcon">⌖</div>
-            <div class="fieldStatusText"><small class="dynamicLabel" id="fieldStatusLabel">Você está vendo</small><b id="fieldCurrentPoint">${lot.name}</b><span id="fieldAccuracy">Solicitando GPS em tempo real...</span></div>
+            <div class="fieldStatusText"><small class="dynamicLabel" id="fieldStatusLabel">Você está vendo</small><b id="fieldCurrentPoint">${lot.name}</b><span id="fieldAccuracy">Solicitando câmera, bússola e localização...</span></div>
           </div>
         </div>
         <div class="fieldInfo">
@@ -1250,7 +1250,7 @@ function openARView(id){
       </div>
     </div>
   `, 'fieldModalCard');
-  setTimeout(()=>initFieldExperience(lot.id), 50);
+  initFieldExperience(lot.id);
 }
 
 function initFieldExperience(lotId){
@@ -1258,9 +1258,12 @@ function initFieldExperience(lotId){
   if(!lot) return;
   setFieldActiveLot(lot, 'Você está vendo');
   updateFieldPins(buildFieldPoints(lot));
+
+  // Ordem v7.5: câmera → bússola → localização.
+  // A chamada acontece no mesmo fluxo do clique em “Realidade aumentada”.
   startFieldCamera();
+  setupFieldOrientation({autoRequest:true});
   startFieldLocation(lot);
-  setupFieldOrientation();
 }
 
 function startFieldCamera(){
@@ -1288,7 +1291,7 @@ function startFieldLocation(selectedLot){
     $('#fieldAccuracy').textContent = 'GPS indisponível neste navegador.';
     return;
   }
-  toast('Autorize sua localização para identificar o lote em tempo real.');
+  toast('Depois da câmera e da bússola, autorize sua localização para identificar o lote.');
   arWatchId = navigator.geolocation.watchPosition(
     pos=>{
       const current = {lat: pos.coords.latitude, lng: pos.coords.longitude};
@@ -1327,7 +1330,7 @@ function updateFieldHeading(heading){
   refreshFieldPinDirections();
 }
 
-function setupFieldOrientation(){
+function setupFieldOrientation({autoRequest=false} = {}){
   const button = $('#fieldCompassPermission');
   const handler = (event) => {
     let heading = null;
@@ -1340,7 +1343,13 @@ function setupFieldOrientation(){
   };
   arOrientationHandler = handler;
 
+  let compassActive = false;
+
   const activateListeners = () => {
+    if(compassActive) return;
+    compassActive = true;
+    window.removeEventListener('deviceorientationabsolute', handler, true);
+    window.removeEventListener('deviceorientation', handler, true);
     window.addEventListener('deviceorientationabsolute', handler, true);
     window.addEventListener('deviceorientation', handler, true);
     if(button){
@@ -1350,21 +1359,39 @@ function setupFieldOrientation(){
     toast('Bússola ativada.');
   };
 
+  const requestCompass = async () => {
+    if(button){
+      button.style.display = 'inline-flex';
+      button.textContent = 'Ativando bússola...';
+      button.disabled = true;
+    }
+    try{
+      const result = await DeviceOrientationEvent.requestPermission();
+      if(result === 'granted'){
+        activateListeners();
+      }else{
+        if(button){
+          button.textContent = 'Ativar bússola';
+          button.disabled = false;
+        }
+        toast('Permissão da bússola não autorizada.');
+      }
+    }catch(e){
+      if(button){
+        button.textContent = 'Ativar bússola';
+        button.disabled = false;
+      }
+      toast('Toque em “Ativar bússola” para liberar o sensor.');
+    }
+  };
+
   if(window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function'){
     if(button){
       button.style.display = 'inline-flex';
-      button.onclick = async () => {
-        try{
-          const result = await DeviceOrientationEvent.requestPermission();
-          if(result === 'granted'){
-            activateListeners();
-          }else{
-            toast('Permissão da bússola não autorizada.');
-          }
-        }catch(e){
-          toast('Não foi possível ativar a bússola.');
-        }
-      };
+      button.onclick = requestCompass;
+    }
+    if(autoRequest){
+      requestCompass();
     }
   }else if(window.DeviceOrientationEvent){
     if(button) button.style.display = 'none';
