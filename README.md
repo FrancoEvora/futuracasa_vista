@@ -1,35 +1,17 @@
-# Futura Casa v7.2 — Campo AR Futura Casa
+# Futura Casa v7.3 — Campo AR em Tempo Real
 
-Esta versão recria a parte de geolocalização, rota, GPS e realidade aumentada do zero, usando o layout e a linguagem visual da Futura Casa.
+Esta versão ajusta a janela de Realidade Aumentada para ficar melhor encaixada no celular e identificar o lote em tempo real.
 
-## Premissa
+## Ajustes principais
 
-O GeoVendas foi usado apenas como referência teórica de propósito: orientação em campo, pontos próximos e navegação.
-Não há uso de código, marca, API, backend ou estrutura técnica do GeoVendas.
-
-## Recursos mantidos
-
-- Experiência do comprador;
-- Lotes, casas, combos e simulação;
-- Detalhes dos lotes;
-- Rota via Google Maps;
-- Realidade aumentada/câmera;
-- Cadastro de novos lotes;
-- Fotos e vídeos no cadastro;
-- Edição/cadastro posterior de GPS.
-
-## Recursos v7.2
-
-A tela de realidade aumentada agora usa um módulo próprio chamado **Futura Casa Campo**:
-- visual claro e premium;
-- cards flutuantes no padrão da Futura Casa;
-- câmera do celular como fundo, quando autorizada;
-- fallback com imagem do lote;
-- bússola/orientação;
-- distância até o lote;
-- botão de rota;
-- atualização de GPS.
+- A janela do modo campo agora ocupa a tela de forma mais adequada.
+- Ao abrir a experiência, o GPS identifica em tempo real o lote mais próximo.
+- Se o usuário estiver dentro do raio de precisão do lote, aparece "Você está em".
+- Se estiver fora, aparece "Lote mais próximo".
+- Os marcadores flutuantes passam a indicar lotes próximos e locais relevantes.
+- Câmera, bússola, rota, atualização de GPS e cadastro de lote foram mantidos.
 
 ## Observação técnica
 
-Este protótipo usa `localStorage` para salvar lotes cadastrados. Em produção, deve ser conectado a banco de dados, storage e backend.
+O reconhecimento "em qual lote estou" é feito por proximidade entre a localização atual do usuário e as coordenadas cadastradas dos lotes.
+Em produção, o ideal é evoluir para polígonos de lote/quadra, em vez de apenas coordenada central.

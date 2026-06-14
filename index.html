@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v7.2 Campo AR</title>
+<title>Futura Casa | v7.3 Campo AR Tempo Real</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -195,6 +195,55 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
   .fieldStatusIcon{width:58px;height:58px}
   .fieldStatusText b{font-size:21px}
   .fieldInfo{grid-template-columns:1fr}
+}
+
+
+/* v7.3 — Campo AR em tempo real, encaixado na tela */
+.modal.fieldMode{padding:max(8px,env(safe-area-inset-top)) 8px max(8px,env(safe-area-inset-bottom));background:linear-gradient(180deg,#fbf5ed,#f5efe7);overflow:hidden;place-items:stretch}
+.modal.fieldMode.show{display:block}
+.modal.fieldMode .fieldModalCard{width:100%;height:calc(100dvh - max(8px,env(safe-area-inset-top)) - max(8px,env(safe-area-inset-bottom)) - 16px);max-height:calc(100dvh - max(8px,env(safe-area-inset-top)) - max(8px,env(safe-area-inset-bottom)) - 16px);border-radius:26px;display:flex;flex-direction:column;overflow:hidden}
+.modal.fieldMode .modalHead{display:none}
+.modal.fieldMode .modalBody{flex:1;min-height:0;overflow:hidden;padding:10px;background:transparent}
+.modal.fieldMode .fieldShell{height:100%;display:grid;grid-template-rows:minmax(0,1fr) auto auto;gap:10px}
+.modal.fieldMode .fieldStage{height:auto;min-height:0;border-radius:24px}
+.fieldPins{position:absolute;inset:0;pointer-events:none}
+.fieldTopBrand b{max-width:72vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fieldTopProjectLine{display:block;color:var(--muted);font-weight:800;font-size:12px;margin-top:2px}
+.fieldStatusText small.dynamicLabel{color:var(--orange)}
+.fieldInfo{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.fieldInfo .res{padding:10px 12px;border-radius:14px}
+.fieldInfo .res small{font-size:11px;margin-bottom:3px}
+.fieldInfo .res b{font-size:13px;line-height:1.25}
+.fieldActions{margin-top:0}
+.fieldActions .btn{min-height:46px}
+.fieldPin.nearLot{border-color:rgba(243,111,47,.34)}
+.fieldPin.placePin{border-color:rgba(37,167,101,.28)}
+.fieldPin.placePin .fieldPinIcon{background:rgba(37,167,101,.12);color:#178653}
+@media(max-width:700px){
+  .modal.fieldMode{padding:max(6px,env(safe-area-inset-top)) 6px max(6px,env(safe-area-inset-bottom))}
+  .modal.fieldMode .fieldModalCard{height:calc(100dvh - max(6px,env(safe-area-inset-top)) - max(6px,env(safe-area-inset-bottom)) - 12px);max-height:calc(100dvh - max(6px,env(safe-area-inset-top)) - max(6px,env(safe-area-inset-bottom)) - 12px);border-radius:22px}
+  .modal.fieldMode .modalBody{padding:7px}
+  .fieldTop{left:10px;right:10px;top:10px;padding:10px 12px;border-radius:20px}
+  .fieldTopBrand small{font-size:10px}
+  .fieldTopBrand b{font-size:16px;max-width:66vw}
+  .fieldCompass{left:10px;top:88px;width:72px;padding:8px;border-radius:20px}
+  .fieldCompassDial{width:52px;height:52px}
+  .fieldNeedle{height:28px}
+  .fieldPin{min-width:110px;max-width:158px;padding:9px 10px;border-radius:16px}
+  .fieldPinHead{font-size:13px}
+  .fieldPin small{font-size:12px}
+  .fieldPin.p1{left:8%;top:35%}
+  .fieldPin.p2{right:4%;top:30%}
+  .fieldPin.p3{left:12%;top:54%}
+  .fieldPin.p4{right:7%;top:58%}
+  .fieldStatus{left:10px;right:10px;bottom:10px;padding:12px;border-radius:22px}
+  .fieldStatusIcon{width:50px;height:50px;font-size:24px}
+  .fieldStatusText b{font-size:18px}
+  .fieldStatusText span{font-size:12px}
+  .fieldInfo{grid-template-columns:1fr 1fr}
+  .fieldInfo .res:last-child{grid-column:1/-1}
+  .fieldActions{display:grid;grid-template-columns:1fr 1fr}
+  .fieldActions .btn{width:100%;min-height:44px;padding:0 12px}
 }
 
 </style>
@@ -925,12 +974,13 @@ function openHomeDetails(id){
 
 function openModal(content, extraClass=''){
   const modal = $('#detailModal');
+  modal.classList.toggle('fieldMode', String(extraClass).includes('fieldModalCard'));
   modal.innerHTML = `<div class="modalCard ${extraClass}">${content}</div>`;
   modal.classList.add('show');
   bindModalActions();
 }
 
-function closeModal(){ stopARResources(); $('#detailModal').classList.remove('show'); $('#detailModal').innerHTML=''; }
+function closeModal(){ stopARResources(); const modal=$('#detailModal'); modal.classList.remove('show','fieldMode'); modal.innerHTML=''; }
 
 function bindModalActions(){
   $$('[data-close-modal]').forEach(b=>b.onclick=closeModal);
@@ -1055,20 +1105,81 @@ function metersBetween(a,b){
   return Math.round(2 * R * Math.atan2(Math.sqrt(h), Math.sqrt(1-h)));
 }
 
+function bearingBetween(a,b){
+  const toRad = d => d * Math.PI / 180;
+  const toDeg = r => r * 180 / Math.PI;
+  const lat1 = toRad(a.lat);
+  const lat2 = toRad(b.lat);
+  const dLng = toRad(b.lng-a.lng);
+  const y = Math.sin(dLng) * Math.cos(lat2);
+  const x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLng);
+  return Math.round((toDeg(Math.atan2(y,x)) + 360) % 360);
+}
+
+function lotsWithCoords(){
+  return LOTS.filter(l=>lotDestination(l));
+}
+
+function findNearestLot(current){
+  return lotsWithCoords()
+    .map(lot=>({lot, distance: metersBetween(current, lotDestination(lot)), bearing: bearingBetween(current, lotDestination(lot))}))
+    .sort((a,b)=>a.distance-b.distance)[0] || null;
+}
+
+function nearestLotPoints(current, activeLot){
+  return lotsWithCoords()
+    .map(lot=>({kind:'lot', label: lot.name.replace('Parque das Árvores • ', '').replace('Solaris • ', 'Solaris '), distance: metersBetween(current, lotDestination(lot)), bearing: bearingBetween(current, lotDestination(lot)), id: lot.id}))
+    .sort((a,b)=>a.distance-b.distance)
+    .slice(0,3);
+}
+
+function placePointsFromLot(lot){
+  const points = Array.isArray(lot?.arPoints) ? lot.arPoints : [];
+  return points
+    .filter(p=>!String(p.label || '').toLowerCase().includes('lote'))
+    .slice(0,2)
+    .map(p=>({kind:'place', label:p.label, distance:p.distance, bearing:p.bearing}));
+}
+
+function buildFieldPoints(activeLot,current=null){
+  if(current){
+    const lots = nearestLotPoints(current, activeLot);
+    const places = placePointsFromLot(activeLot || lots[0]?.lot).slice(0, Math.max(0, 4-lots.length));
+    return [...lots, ...places].slice(0,4);
+  }
+  const fallbackLots = [{kind:'lot', label: activeLot?.name || 'Lote', distance:6, bearing:0}];
+  return [...fallbackLots, ...placePointsFromLot(activeLot)].slice(0,4);
+}
+
 function fieldPointHtml(points=[]){
-  const fallback = [
-    {label:'Portaria', distance:49, bearing:309},
-    {label:'Lazer', distance:25, bearing:197},
-    {label:'Acesso', distance:18, bearing:25},
-    {label:'Lote', distance:6, bearing:0}
+  const finalPoints = points.length ? points : [
+    {kind:'place', label:'Portaria', distance:49, bearing:309},
+    {kind:'place', label:'Lazer', distance:25, bearing:197},
+    {kind:'lot', label:'Lote', distance:6, bearing:0}
   ];
-  const finalPoints = points.length ? points : fallback;
   return finalPoints.slice(0,4).map((p,i)=>`
-    <div class="fieldPin p${i+1}">
-      <div class="fieldPinHead"><span class="fieldPinIcon">⌖</span><span>${p.label}</span></div>
+    <div class="fieldPin ${p.kind === 'lot' ? 'nearLot' : 'placePin'} p${i+1}">
+      <div class="fieldPinHead"><span class="fieldPinIcon">${p.kind === 'lot' ? '⌖' : '•'}</span><span>${p.label}</span></div>
       <small>${p.distance} m · ${p.bearing}°</small>
     </div>
   `).join('');
+}
+
+function updateFieldPins(points){
+  const el = $('#fieldPins');
+  if(el) el.innerHTML = fieldPointHtml(points);
+}
+
+function setFieldActiveLot(activeLot, modeLabel='Você está vendo'){
+  if(!activeLot) return;
+  if($('#fieldStatusLabel')) $('#fieldStatusLabel').textContent = modeLabel;
+  if($('#fieldCurrentPoint')) $('#fieldCurrentPoint').textContent = activeLot.name;
+  if($('#fieldTopProject')) $('#fieldTopProject').textContent = activeLot.project;
+  if($('#fieldTopLot')) $('#fieldTopLot').textContent = activeLot.name;
+  if($('#fieldInfoProduct')) $('#fieldInfoProduct').textContent = `${activeLot.area} m² · ${activeLot.dims}`;
+  if($('#fieldInfoValue')) $('#fieldInfoValue').textContent = fmt(activeLot.price);
+  const dest = lotDestination(activeLot);
+  if(dest && $('#fieldInfoCoords')) $('#fieldInfoCoords').textContent = `${dest.lat.toFixed(5)}, ${dest.lng.toFixed(5)}`;
 }
 
 function openARView(id){
@@ -1082,7 +1193,6 @@ function openARView(id){
   const image = lot.thumb || 'assets/img/lot-sol45-premium.png';
   const coords = lotDestination(lot);
   openModal(`
-    <div class="modalHead"><div><span class="tag">Futura Casa Campo</span><h2>${lot.name}</h2><p class="muted">Experiência em campo criada no layout Futura Casa. Use câmera, localização e bússola do aparelho para visualizar referências próximas ao lote.</p></div><button class="btn light small" data-close-modal>Fechar</button></div>
     <div class="modalBody">
       <div class="fieldShell">
         <div class="fieldStage">
@@ -1092,23 +1202,23 @@ function openARView(id){
           </div>
           <div class="fieldVeil"></div>
           <div class="fieldTop">
-            <div class="fieldTopBrand"><small>Modo Campo v7.2</small><b>${lot.project}</b></div>
+            <div class="fieldTopBrand"><small>Futura Casa Campo v7.3</small><b id="fieldTopLot">${lot.name}</b><span class="fieldTopProjectLine" id="fieldTopProject">${lot.project}</span></div>
             <button class="fieldClose" data-close-modal>×</button>
           </div>
           <div class="fieldCompass">
             <div class="fieldCompassDial"><span>N</span><div class="fieldNeedle" id="fieldNeedle"></div></div>
             <strong id="fieldHeading">--°</strong>
           </div>
-          ${fieldPointHtml(lot.arPoints)}
+          <div id="fieldPins" class="fieldPins">${fieldPointHtml(buildFieldPoints(lot))}</div>
           <div class="fieldStatus">
             <div class="fieldStatusIcon">⌖</div>
-            <div class="fieldStatusText"><small>Você está vendo</small><b id="fieldCurrentPoint">${lot.name}</b><span id="fieldAccuracy">Solicitando GPS e câmera...</span></div>
+            <div class="fieldStatusText"><small class="dynamicLabel" id="fieldStatusLabel">Você está vendo</small><b id="fieldCurrentPoint">${lot.name}</b><span id="fieldAccuracy">Solicitando GPS em tempo real...</span></div>
           </div>
         </div>
         <div class="fieldInfo">
-          <div class="res"><small>Destino</small><b>${Number(coords.lat).toFixed(5)}, ${Number(coords.lng).toFixed(5)}</b></div>
-          <div class="res"><small>Produto</small><b>${lot.area} m² · ${lot.dims}</b></div>
-          <div class="res"><small>Valor</small><b>${fmt(lot.price)}</b></div>
+          <div class="res"><small>Coordenada do lote</small><b id="fieldInfoCoords">${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}</b></div>
+          <div class="res"><small>Produto</small><b id="fieldInfoProduct">${lot.area} m² · ${lot.dims}</b></div>
+          <div class="res"><small>Valor</small><b id="fieldInfoValue">${fmt(lot.price)}</b></div>
         </div>
         <div class="fieldActions">
           <button class="btn primary" data-route-lot="${lot.id}">Abrir rota</button>
@@ -1125,6 +1235,8 @@ function openARView(id){
 function initFieldExperience(lotId){
   const lot = LOTS.find(x=>x.id===lotId);
   if(!lot) return;
+  setFieldActiveLot(lot, 'Você está vendo');
+  updateFieldPins(buildFieldPoints(lot));
   startFieldCamera();
   startFieldLocation(lot);
   setupFieldOrientation();
@@ -1150,26 +1262,34 @@ function startFieldCamera(){
     });
 }
 
-function startFieldLocation(lot){
+function startFieldLocation(selectedLot){
   if(!navigator.geolocation){
     $('#fieldAccuracy').textContent = 'GPS indisponível neste navegador.';
     return;
   }
-  toast('Autorize sua localização para calcular distância até o lote.');
-  const destination = lotDestination(lot);
+  toast('Autorize sua localização para identificar o lote em tempo real.');
   arWatchId = navigator.geolocation.watchPosition(
     pos=>{
       const current = {lat: pos.coords.latitude, lng: pos.coords.longitude};
-      const distance = destination ? metersBetween(current, destination) : null;
-      $('#fieldCurrentPoint').textContent = distance !== null && distance <= 18 ? lot.name : 'Próximo ao lote';
-      $('#fieldAccuracy').textContent = distance !== null
-        ? `${distance} m do lote · GPS ± ${Math.round(pos.coords.accuracy || 0)} m`
-        : `GPS ± ${Math.round(pos.coords.accuracy || 0)} m`;
+      const accuracy = Math.round(pos.coords.accuracy || 0);
+      const nearest = findNearestLot(current);
+      const threshold = Math.max(35, accuracy * 1.8);
+      const activeLot = nearest?.lot || selectedLot;
+      const inside = nearest && nearest.distance <= threshold;
+      setFieldActiveLot(activeLot, inside ? 'Você está em' : 'Lote mais próximo');
+      updateFieldPins(buildFieldPoints(activeLot, current));
+      if($('#fieldAccuracy')){
+        const dist = nearest ? nearest.distance : null;
+        $('#fieldAccuracy').textContent = dist !== null
+          ? `${dist} m do lote · GPS ± ${accuracy} m · atualização em tempo real`
+          : `GPS ± ${accuracy} m · atualização em tempo real`;
+      }
     },
     ()=>{
-      $('#fieldAccuracy').textContent = 'Permita localização para medir distância real.';
+      $('#fieldAccuracy').textContent = 'Permita localização para identificar o lote em tempo real.';
+      updateFieldPins(buildFieldPoints(selectedLot));
     },
-    {enableHighAccuracy:true, maximumAge:5000, timeout:10000}
+    {enableHighAccuracy:true, maximumAge:2500, timeout:10000}
   );
 }
 
