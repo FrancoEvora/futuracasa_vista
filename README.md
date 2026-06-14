@@ -1,17 +1,24 @@
-# Futura Casa v7.0 — Realidade Aumentada
+# Futura Casa v7.1 — Cadastro de Lotes
 
-Esta versão mantém os recursos da experiência do comprador e adiciona recursos v7.0 na tela de detalhes do lote.
+Esta versão mantém todos os recursos da v7.0 AR e adiciona cadastro operacional de lotes pelo menu.
 
-## Novidades
+## Novidades v7.1
 
-Na janela de detalhes do lote:
-- Botão **Rota**: solicita permissão de localização do usuário e abre o Google Maps para traçar rota até o lote.
-- Botão **Realidade aumentada**: solicita câmera, localização e bússola/orientação do aparelho para criar uma visualização AR com pontos de referência.
+No menu há a função **Cadastrar lote**.
 
-## Observação importante
+O cadastro permite:
+- cadastrar empreendimento, lote, metragem, dimensões, valor, status, perfil e descrição;
+- capturar a posição do lote usando GPS;
+- tirar/anexar fotos do lote pelo celular;
+- gravar/anexar vídeos pelo celular;
+- confirmar o cadastro;
+- exibir o novo lote na vitrine;
+- editar/cadastrar posição GPS depois, pela janela de detalhes do lote.
 
-As coordenadas dos lotes estão cadastradas como coordenadas demonstrativas no array `LOTS`.
-Para produção, substitua `coords.lat` e `coords.lng` pelos pontos oficiais de cada lote.
+## Observação técnica
+
+Este protótipo salva os lotes no `localStorage` do navegador.
+Para produção, os dados e arquivos devem ser enviados para um backend/banco de dados/storage.
 
 ## Publicação
 
