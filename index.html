@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v9.0 Mapa Limpo</title>
+<title>Futura Casa | v9.2 Condições Financeiras</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -653,7 +653,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 
 
 
-/* v9.0 — marcador com etiqueta translúcida de quadra e lote */
+/* v9.2 — marcador com etiqueta translúcida de quadra e lote */
 .mapSelectedMarker{
   transform:translate(-50%,-58%)!important;
 }
@@ -695,6 +695,41 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
   .mapSelectedMarker .pinPoint{width:22px!important;height:22px!important}
 }
 
+
+/* v9.1 — Ver no mapa com rolagem direta e robusta */
+.mapLotRowActions .btn.primary.small{
+  min-height:48px;
+  font-size:15px;
+}
+.mapLotRowActions .btn.primary.small:after{
+  content:" ↑";
+  font-weight:950;
+}
+.mapViewport{
+  scroll-margin-top:120px;
+}
+#mapa{
+  scroll-margin-top:110px;
+}
+
+
+/* v9.2 — configuração de juros remuneratórios e correção */
+.financeConfigSummary{
+  display:grid;
+  gap:10px;
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:16px;
+  background:linear-gradient(180deg,#fffdf9,#fbf5ed);
+}
+.financeConfigSummary b{font-size:22px}
+.financeConfigSummary p{margin:0;color:var(--muted);line-height:1.45}
+.financeConfigGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.financeConfigGrid .full{grid-column:1/-1}
+.financeConfigHelp{padding:14px 16px;border-radius:18px;background:#fff7ec;border:1px solid #ead7be;color:#765733;line-height:1.45}
+.financeConfigHelp b{color:#4c3824}
+@media(max-width:700px){.financeConfigGrid{grid-template-columns:1fr}.financeConfigGrid .full{grid-column:auto}}
+
 </style>
 </head>
 <body>
@@ -704,13 +739,13 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
       <img class="brandMain" src="assets/img/img-002-2bbccd1661190fb9.png" alt="Futura Casa">
     </a>
     <nav class="nav">
-      <a href="#mapa" class="active">Mapa</a><a href="#mapa">Mapa</a><a href="#lotes">Lotes</a><a href="#casas">Casas</a><a href="#combos">Combos</a><a href="#adicionais">Adicionais</a><a href="#bandeja">Simulação</a><a href="#atendimento">Atendimento</a><a href="#" id="openLotRegistryMenu">Cadastrar lote</a>
+      <a href="#mapa" class="active">Mapa</a><a href="#lotes">Lotes</a><a href="#casas">Casas</a><a href="#combos">Combos</a><a href="#adicionais">Adicionais</a><a href="#bandeja">Simulação</a><a href="#atendimento">Atendimento</a><a href="#" id="openLotRegistryMenu">Cadastrar lote</a>
     </nav>
     <a class="btn primary" href="#bandeja">Ver minha escolha</a>
     <button class="hamb" id="hamb">☰</button>
   </div>
   <nav class="mobile" id="mobile">
-    <a href="#lotes">Lotes</a><a href="#casas">Casas</a><a href="#combos">Combos</a><a href="#adicionais">Adicionais</a><a href="#bandeja">Simulação</a><a href="#atendimento">Atendimento</a><a href="#" id="openLotRegistryMobile">Cadastrar lote</a>
+    <a href="#mapa">Mapa</a><a href="#lotes">Lotes</a><a href="#casas">Casas</a><a href="#combos">Combos</a><a href="#adicionais">Adicionais</a><a href="#bandeja">Simulação</a><a href="#atendimento">Atendimento</a><a href="#" id="openLotRegistryMobile">Cadastrar lote</a>
   </nav>
 </header>
 
@@ -839,7 +874,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
   </section>
 
   <section class="wrap section" id="bandeja">
-    <div class="sectionHead"><div><div class="eyebrow">Simulação editável</div><h2>Minha bandeja e proposta.</h2><p class="muted">Valores, entrada, percentual, pagamento da entrada no cartão em 1, 2 ou 3 parcelas, prazo e sistema podem ser ajustados diretamente.</p></div></div>
+    <div class="sectionHead"><div><div class="eyebrow">Simulação editável</div><h2>Minha bandeja e proposta.</h2><p class="muted">Valores, entrada, percentual, pagamento da entrada no cartão em 1, 2 ou 3 parcelas, prazo, sistema, juros remuneratórios e correção podem ser ajustados diretamente.</p></div><div class="actions"><button class="btn primary" id="openFinanceSettings" type="button">Configurar juros e correção</button></div></div>
     <div class="grid2">
       <div class="tray">
         <h2>Minha escolha</h2><p class="muted">Selecione lote, casa e adicionais. Depois ajuste os campos financeiros.</p>
@@ -881,6 +916,8 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
           <div class="res"><small>Parcela estimada</small><b id="resPayment">R$ 0</b></div>
           <div class="res"><small>Entrada em %</small><b id="resRatio">0%</b></div>
           <div class="res"><small>Sistema</small><b id="resSystem">PRICE</b></div>
+          <div class="res"><small>Juros remuneratórios</small><b id="resInterestRate">0,98% a.m.</b></div>
+          <div class="res"><small>Índice de correção</small><b id="resCorrectionIndex">IPCA • 0,35% a.m.</b></div>
         </div>
         <div class="actions">
           <button class="btn primary" id="saveChoice">Salvar proposta</button>
@@ -1027,6 +1064,173 @@ const state = {
   customLotPrice: LOTS[2].price,
   customHomePrice: HOMES[2].price
 };
+
+
+const DEFAULT_FINANCE_SETTINGS = {
+  interestMonthly: 0.98,
+  correctionIndex: 'IPCA',
+  correctionMonthly: 0.35,
+  notes: 'Condições estimadas para simulação comercial. Sujeitas à política comercial vigente.'
+};
+
+function normalizeFinanceSettings(settings={}){
+  const interestMonthly = Math.max(0, Number(settings.interestMonthly ?? DEFAULT_FINANCE_SETTINGS.interestMonthly) || 0);
+  const correctionIndex = settings.correctionIndex || DEFAULT_FINANCE_SETTINGS.correctionIndex;
+  const correctionMonthly = correctionIndex === 'none'
+    ? 0
+    : Math.max(0, Number(settings.correctionMonthly ?? DEFAULT_FINANCE_SETTINGS.correctionMonthly) || 0);
+  return {
+    interestMonthly,
+    correctionIndex,
+    correctionMonthly,
+    notes: settings.notes || DEFAULT_FINANCE_SETTINGS.notes
+  };
+}
+
+function loadFinanceSettings(){
+  try{
+    const saved = JSON.parse(localStorage.getItem('fc_finance_settings_v92') || '{}');
+    return normalizeFinanceSettings({...DEFAULT_FINANCE_SETTINGS, ...saved});
+  }catch(e){
+    return normalizeFinanceSettings(DEFAULT_FINANCE_SETTINGS);
+  }
+}
+
+let financeSettings = loadFinanceSettings();
+
+function saveFinanceSettings(){
+  financeSettings = normalizeFinanceSettings(financeSettings);
+  localStorage.setItem('fc_finance_settings_v92', JSON.stringify(financeSettings));
+}
+
+function financeIndexLabel(index){
+  const labels = {
+    IPCA:'IPCA',
+    INCC:'INCC',
+    IGP:'IGP-M',
+    CDI:'CDI',
+    fixed:'Correção fixa',
+    none:'Sem correção',
+    custom:'Índice personalizado'
+  };
+  return labels[index] || index || 'Correção';
+}
+
+function pctLabel(value){
+  return `${Number(value || 0).toFixed(2).replace('.',',')}%`;
+}
+
+function financeRateInfo(mode='combo'){
+  const interest = Math.max(0, Number(financeSettings.interestMonthly || 0));
+  const correction = financeSettings.correctionIndex === 'none'
+    ? 0
+    : Math.max(0, Number(financeSettings.correctionMonthly || 0));
+  const monthlyRate = (interest + correction) / 100;
+  return {
+    monthlyRate,
+    interestMonthly: interest,
+    correctionMonthly: correction,
+    interestText: `${pctLabel(interest)} a.m.`,
+    correctionText: financeSettings.correctionIndex === 'none'
+      ? 'Sem correção'
+      : `${financeIndexLabel(financeSettings.correctionIndex)} • ${pctLabel(correction)} a.m.`,
+    effectiveText: `${pctLabel(interest + correction)} a.m.`,
+    notes: financeSettings.notes || ''
+  };
+}
+
+function updateFinanceCorrectionInputState(){
+  const index = $('#financeCorrectionIndex')?.value;
+  const input = $('#financeCorrectionMonthly');
+  if(!input) return;
+  const disabled = index === 'none';
+  input.disabled = disabled;
+  if(disabled) input.value = 0;
+}
+
+function openFinanceSettingsModal(){
+  const s = normalizeFinanceSettings(financeSettings);
+  openModal(`
+    <div class="modalHead">
+      <div>
+        <span class="tag">Condições financeiras</span>
+        <h2>Juros remuneratórios e índice de correção</h2>
+        <p class="muted">Cadastre os parâmetros que serão aplicados na parcela estimada do simulador financeiro.</p>
+      </div>
+      <button class="btn light small" data-close-modal>Fechar</button>
+    </div>
+    <div class="modalBody">
+      <div class="financeConfigSummary">
+        <b>Taxa mensal considerada: ${pctLabel(s.interestMonthly + (s.correctionIndex === 'none' ? 0 : s.correctionMonthly))} a.m.</b>
+        <p>Esta taxa soma os juros remuneratórios e a correção mensal estimada. O resultado é usado para calcular a parcela em PRICE ou SAC.</p>
+      </div>
+
+      <div class="financeConfigGrid">
+        <div class="modalField">
+          <label>Juros remuneratórios (% a.m.)</label>
+          <input type="number" id="financeInterestMonthly" step="0.01" min="0" value="${s.interestMonthly}">
+        </div>
+        <div class="modalField">
+          <label>Índice de correção</label>
+          <select id="financeCorrectionIndex">
+            <option value="IPCA" ${s.correctionIndex==='IPCA'?'selected':''}>IPCA</option>
+            <option value="INCC" ${s.correctionIndex==='INCC'?'selected':''}>INCC</option>
+            <option value="IGP" ${s.correctionIndex==='IGP'?'selected':''}>IGP-M</option>
+            <option value="CDI" ${s.correctionIndex==='CDI'?'selected':''}>CDI</option>
+            <option value="fixed" ${s.correctionIndex==='fixed'?'selected':''}>Correção fixa</option>
+            <option value="custom" ${s.correctionIndex==='custom'?'selected':''}>Índice personalizado</option>
+            <option value="none" ${s.correctionIndex==='none'?'selected':''}>Sem correção</option>
+          </select>
+        </div>
+        <div class="modalField">
+          <label>Correção estimada (% a.m.)</label>
+          <input type="number" id="financeCorrectionMonthly" step="0.01" min="0" value="${s.correctionMonthly}">
+        </div>
+        <div class="modalField">
+          <label>Aplicação no simulador</label>
+          <input type="text" value="Somada à taxa mensal da simulação" readonly>
+        </div>
+        <div class="modalField full">
+          <label>Observação / política comercial</label>
+          <textarea id="financeNotes" placeholder="Ex.: Condições sujeitas à aprovação comercial.">${s.notes || ''}</textarea>
+        </div>
+      </div>
+
+      <div class="financeConfigHelp">
+        <b>Importante:</b> esta configuração altera a parcela estimada do simulador. Ela não representa aprovação de crédito nem proposta definitiva.
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" id="saveFinanceSettings" type="button">Salvar condições</button>
+        <button class="btn light" id="resetFinanceSettings" type="button">Restaurar padrão</button>
+        <button class="btn light" data-close-modal type="button">Cancelar</button>
+      </div>
+    </div>
+  `);
+  updateFinanceCorrectionInputState();
+}
+
+function saveFinanceSettingsFromModal(){
+  financeSettings = normalizeFinanceSettings({
+    interestMonthly: Number($('#financeInterestMonthly')?.value || 0),
+    correctionIndex: $('#financeCorrectionIndex')?.value || 'IPCA',
+    correctionMonthly: Number($('#financeCorrectionMonthly')?.value || 0),
+    notes: $('#financeNotes')?.value || ''
+  });
+  saveFinanceSettings();
+  closeModal();
+  renderTray();
+  toast('Condições financeiras salvas e aplicadas à simulação.');
+}
+
+function resetFinanceSettingsFromModal(){
+  financeSettings = normalizeFinanceSettings(DEFAULT_FINANCE_SETTINGS);
+  saveFinanceSettings();
+  closeModal();
+  renderTray();
+  toast('Condições financeiras restauradas.');
+}
+
 
 const comboSelections = {};
 
@@ -1342,9 +1546,13 @@ function getTotals(changedField=''){
   const financed = Math.max(total - entryValue,0);
   const term = Number($('#term')?.value || 240);
   const system = $('#system')?.value || 'PRICE';
-  const r = mode === 'lot' ? 0.009 : mode === 'home' ? 0.0105 : 0.0098;
-  const payment = system === 'PRICE' ? financed * (r / (1 - Math.pow(1+r,-term))) : (financed / term) + financed * r;
-  return {mode,addons,lot,home,total,entryPercent,entryValue,installments,entryInstallment,financed,payment,system,term};
+  const rateInfo = financeRateInfo(mode);
+  const r = rateInfo.monthlyRate;
+  const baseAmortization = term ? financed / term : financed;
+  const payment = system === 'PRICE'
+    ? (r > 0 ? financed * (r / (1 - Math.pow(1+r,-term))) : baseAmortization)
+    : baseAmortization + financed * r;
+  return {mode,addons,lot,home,total,entryPercent,entryValue,installments,entryInstallment,financed,payment,system,term,rateInfo};
 }
 
 function renderTray(changedField=''){
@@ -1387,6 +1595,8 @@ function renderTray(changedField=''){
   $('#resPayment').textContent = fmt(t.payment);
   $('#resRatio').textContent = t.entryPercent.toFixed(1).replace('.',',') + '%';
   $('#resSystem').textContent = t.system;
+  if($('#resInterestRate')) $('#resInterestRate').textContent = t.rateInfo?.interestText || '-';
+  if($('#resCorrectionIndex')) $('#resCorrectionIndex').textContent = t.rateInfo?.correctionText || '-';
 
   const healthy = t.entryPercent >= 30;
   const attention = t.entryPercent >= 20 && t.entryPercent < 30;
@@ -1543,6 +1753,9 @@ function bindModalActions(){
   if($('#captureEditGps')) $('#captureEditGps').onclick = ()=>captureGpsInto('#editLotLat','#editLotLng','#editGpsStatus');
   $$('[data-edit-gps-lot]').forEach(btn=>btn.onclick=()=>openGpsEditModal(btn.dataset.editGpsLot));
   $$('[data-save-gps-lot]').forEach(btn=>btn.onclick=()=>saveGpsForLot(btn.dataset.saveGpsLot));
+  if($('#financeCorrectionIndex')) $('#financeCorrectionIndex').onchange = updateFinanceCorrectionInputState;
+  if($('#saveFinanceSettings')) $('#saveFinanceSettings').onclick = saveFinanceSettingsFromModal;
+  if($('#resetFinanceSettings')) $('#resetFinanceSettings').onclick = resetFinanceSettingsFromModal;
   if($('#scheduleSubmit')) $('#scheduleSubmit').onclick = submitSchedule;
 }
 
@@ -2306,6 +2519,9 @@ Parcelamento da entrada: ${t.installments}X no cartão de ${fmt(t.entryInstallme
 Valor financiado: ${fmt(t.financed)}
 Prazo: ${t.term} meses
 Sistema: ${t.system}
+Juros remuneratórios: ${t.rateInfo?.interestText || '-'}
+Índice de correção: ${t.rateInfo?.correctionText || '-'}
+Taxa mensal considerada: ${t.rateInfo?.effectiveText || '-'}
 Parcela estimada: ${fmt(t.payment)}
 Entrada em %: ${t.entryPercent.toFixed(1)}%
 
@@ -2355,11 +2571,13 @@ $('#copyChoice').onclick=()=>{navigator.clipboard?.writeText(proposalText()); to
 $('#sendConsultant').onclick=sendToConsultant;
 $('#sendConsultantBottom').onclick=sendToConsultant;
 $('#openScheduleModal').onclick=openScheduleModal;
+if($('#openFinanceSettings')) $('#openFinanceSettings').onclick=openFinanceSettingsModal;
 if($('#openLotRegistryMenu')) $('#openLotRegistryMenu').onclick=(event)=>{event.preventDefault();openLotRegistrationModal();};
 if($('#openLotRegistryMobile')) $('#openLotRegistryMobile').onclick=(event)=>{event.preventDefault();$('#mobile')?.classList.remove('open');openLotRegistrationModal();};
 
 function aiAnswer(q){
   const t=q.toLowerCase(); const totals=getTotals();
+  if(t.includes('juros') || t.includes('correção') || t.includes('indice') || t.includes('índice')) return 'Use o botão “Configurar juros e correção” para cadastrar juros remuneratórios e índice de correção. Esses parâmetros passam a compor a taxa mensal usada no simulador.';
   if(t.includes('entrada')) return 'Você pode editar a entrada em valor ou percentual. A entrada pode ser paga no cartão de crédito em 1, 2 ou 3 parcelas, e a simulação mostra o valor de cada parcela.';
   if(t.includes('lote')) return 'Para simular apenas o lote, clique em “Simular valor” no card ou selecione “Somente lote” na bandeja.';
   if(t.includes('casa')) return 'Para simular apenas a casa, clique em “Simular valor” no card ou selecione “Somente casa” na bandeja.';
@@ -3882,6 +4100,57 @@ function bindFieldMediaModalV80(){
     const mediaBtn = document.getElementById('openFieldMediaRegister');
     if(mediaBtn) mediaBtn.onclick = openFieldMediaRegister;
   };
+})();
+
+
+/* v9.1 — botão Ver no mapa realmente leva para o mapa visual */
+function scrollToMapVisualV91(){
+  const target = document.querySelector('#mapa .mapViewport') || document.querySelector('#mapa .mapExperience') || document.querySelector('#mapa');
+  if(!target) return;
+  const header = document.querySelector('.top');
+  const offset = (header ? header.getBoundingClientRect().height : 0) + 12;
+  const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+  window.scrollTo({top: Math.max(0, top), behavior:'smooth'});
+}
+
+function viewMapLotV91(id){
+  selectedMapLotId = id;
+  renderMapLots();
+  renderMapSelection();
+  renderMapFinder();
+  requestAnimationFrame(()=>setTimeout(scrollToMapVisualV91, 90));
+  toast('Lote marcado no mapa visual.');
+}
+
+(function(){
+  const previousRenderMapFinder = renderMapFinder;
+  renderMapFinder = function(){
+    previousRenderMapFinder();
+    document.querySelectorAll('[data-view-map-lot]').forEach(btn=>{
+      btn.onclick = (event)=>{
+        event.preventDefault();
+        event.stopPropagation();
+        viewMapLotV91(btn.dataset.viewMapLot);
+      };
+    });
+    document.querySelectorAll('[data-view-map-lot-card]').forEach(row=>{
+      row.onclick = (event)=>{
+        if(event.target.closest('button')) return;
+        viewMapLotV91(row.dataset.viewMapLotCard);
+      };
+    });
+  };
+
+  const previousSelectMapLot = selectMapLot;
+  selectMapLot = function(id, options = {}){
+    if(options.scrollToMap){
+      viewMapLotV91(id);
+      return;
+    }
+    previousSelectMapLot(id, options);
+  };
+
+  renderMapFinder();
 })();
 
 </script>
