@@ -365,6 +365,27 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
   .fieldMediaGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
+
+/* v8.0 — AR translúcida + pins clicáveis + mídia simplificada */
+.fieldPins{pointer-events:auto}
+.fieldPin,.fieldCompass,.fieldStatus{background:rgba(255,253,249,.70)!important;backdrop-filter:blur(18px) saturate(1.1)!important;-webkit-backdrop-filter:blur(18px) saturate(1.1)!important}
+.fieldPin{cursor:pointer;transition:transform .16s ease, box-shadow .16s ease, background .16s ease}
+.fieldPin:hover,.fieldPin:active{transform:translateY(-2px);box-shadow:0 18px 44px rgba(16,20,29,.18);background:rgba(255,253,249,.80)!important}
+.fieldPinHead{pointer-events:none}
+.fieldPin small{pointer-events:none}
+.fieldClose{width:50px!important;height:50px!important;border-radius:18px!important;font-size:28px!important;line-height:1!important}
+@media(max-width:700px){.fieldClose{width:44px!important;height:44px!important;border-radius:16px!important;font-size:24px!important}}
+.fieldStatus{cursor:pointer}
+.fieldMediaCard.compact .fieldMediaHead{align-items:center}
+.fieldMediaCompactIntro{margin:0 0 14px;color:var(--muted)}
+.mediaUnifiedList{display:grid;gap:8px;margin-top:10px}
+.mediaUnifiedList div{padding:10px 12px;border-radius:14px;background:#f7f1e9;border:1px solid var(--line);font-weight:700;color:var(--ink);font-size:14px}
+.arPointModal .modalBody{display:grid;gap:16px}
+.arPointHero{display:flex;gap:14px;align-items:center;padding:16px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,rgba(255,253,249,.96),rgba(247,241,233,.92))}
+.arPointIcon{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:rgba(243,111,47,.12);color:var(--orange);border:1px solid rgba(243,111,47,.20);font-size:26px;flex:0 0 auto}
+.arPointHero h3{margin:0 0 4px;font-size:22px}
+.arPointHero p{margin:0;color:var(--muted)}
+
 </style>
 </head>
 <body>
@@ -2880,6 +2901,194 @@ function bindFieldMediaModalV79(){
       }
     });
   }
+})();
+
+
+/* v8.0 — refinamentos da experiência AR */
+function pointIconGlyphV80(point){
+  const txt = String(point?.label || '').toLowerCase();
+  if(point?.kind === 'lot') return '⬚';
+  if(txt.includes('portaria') || txt.includes('acesso')) return '⌂';
+  if(txt.includes('verde') || txt.includes('praça') || txt.includes('lazer') || txt.includes('clube')) return '✦';
+  return '⌖';
+}
+
+function fieldPointHtml(points=[]){
+  const finalPoints = points.length ? points : [
+    {kind:'place', label:'Portaria', distance:49, bearing:309},
+    {kind:'place', label:'Lazer', distance:25, bearing:197},
+    {kind:'lot', label:'Lote', distance:6, bearing:0}
+  ];
+  return finalPoints.slice(0,4).map((p,i)=>`
+    <button type="button" class="fieldPin ${p.kind === 'lot' ? 'nearLot' : 'placePin'} p${i+1}" data-ar-point-index="${i}" data-ar-point-kind="${p.kind || ''}" data-ar-point-id="${p.id || ''}" data-ar-point-label="${esc(String(p.label || ''))}">
+      <div class="fieldPinHead">
+        <span class="fieldPinDir" aria-hidden="true"><span class="fieldPinDirArrow" style="transform:rotate(${pointArrowRotation(p)}deg)">${fieldDirectionArrowSvg()}</span></span>
+        <div class="fieldPinLabel">
+          <span class="fieldPinIcon" aria-hidden="true">${fieldPointIconSvg(p)}</span>
+          <span class="fieldPinLabelText">${p.label}</span>
+        </div>
+      </div>
+      <small><span>${p.distance} m</span><b>•</b><span class="fieldBearingValue">${relativeBearingText(p)}°</span></small>
+    </button>
+  `).join('');
+}
+
+function openFieldPointDetailsV80(point){
+  if(!point) return;
+  if(point.kind === 'lot' && point.id){
+    openLotDetails(point.id);
+    return;
+  }
+  const lot = LOTS.find(l=>l.id===fieldActiveLotId) || fieldCurrentLotV79() || LOTS[0];
+  const icon = pointIconGlyphV80(point);
+  const descMap = {
+    'portaria':'Ponto de acesso principal do empreendimento, útil para orientação e chegada do cliente.',
+    'acesso':'Referência viária próxima ao lote, importante para leitura de localização em campo.',
+    'área verde':'Área verde e espaço de contemplação associado ao empreendimento.',
+    'praça':'Praça ou área de convivência próxima ao lote.',
+    'lazer':'Equipamento de lazer próximo ao lote.',
+    'clube':'Clube, lazer ou estrutura social do condomínio.'
+  };
+  const key = String(point.label || '').toLowerCase();
+  let desc = descMap[key] || `Referência em campo vinculada ao empreendimento ${lot.project}.`;
+  const media = fieldMediaForTargetV79(mediaTargetLotKeyV79(lot.id));
+  openModal(`
+    <div class="modalHead"><div><span class="tag">Ponto em realidade aumentada</span><h2>${esc(point.label)}</h2><p class="muted">${esc(lot.project)}</p></div><button class="btn light small" data-close-modal>Fechar</button></div>
+    <div class="modalBody arPointModal">
+      <div class="arPointHero">
+        <div class="arPointIcon">${icon}</div>
+        <div><h3>${esc(point.label)}</h3><p>${esc(desc)}</p></div>
+      </div>
+      <div class="featureList"><span>${Math.round(point.distance || 0)} m</span><span>${Math.round(point.bearing || 0)}°</span><span>${esc(lot.name)}</span></div>
+      <p>Este ponto está sendo usado como referência visual em campo. Você pode usar as mídias vinculadas ao lote para documentar fotos, vídeos e arquivos relacionados a essa posição.</p>
+      ${media.length ? `<div class="arHelpBox"><b>Mídias vinculadas ao lote:</b> ${media.length} item(ns) disponíveis na galeria.</div>` : ''}
+      <div class="actions">
+        <button class="btn primary" data-route-lot="${lot.id}">Abrir rota</button>
+        <button class="btn primary" data-ar-lot="${lot.id}">Voltar para AR</button>
+        <button class="btn primary" id="openFieldMediaRegister" data-media-lot="${lot.id}">Adicionar mídia</button>
+      </div>
+    </div>
+  `);
+}
+
+function bindARPointClicksV80(){
+  document.querySelectorAll('[data-ar-point-index]').forEach(btn=>{
+    btn.onclick = ()=>{
+      const idx = Number(btn.dataset.arPointIndex || -1);
+      const point = fieldCurrentPoints[idx];
+      if(point) openFieldPointDetailsV80(point);
+    };
+  });
+  const status = document.querySelector('.fieldStatus');
+  if(status){
+    status.onclick = ()=>{
+      const lot = LOTS.find(l=>l.id===fieldActiveLotId) || fieldCurrentLotV79() || LOTS[0];
+      if(lot) openLotDetails(lot.id);
+    };
+  }
+}
+
+const _updateFieldPins_v80 = updateFieldPins;
+updateFieldPins = function(points){
+  _updateFieldPins_v80(points);
+  bindARPointClicksV80();
+};
+
+const _openARView_v80 = openARView;
+openARView = function(id){
+  _openARView_v80(id);
+  bindARPointClicksV80();
+};
+
+function renderUnifiedFileListV80(){
+  const list = document.getElementById('mediaUnifiedListV80');
+  const input = document.getElementById('mediaUnifiedV80');
+  if(!list || !input) return;
+  const files = Array.from(input.files || []);
+  list.innerHTML = files.length ? files.map(file=>`<div>${esc(file.name)} <small>· ${((file.size||0)/1024/1024).toFixed(1)} MB</small></div>`).join('') : '<div>Nenhum arquivo selecionado.</div>';
+}
+
+openFieldMediaRegister = function(){
+  const lot = fieldCurrentLotV79();
+  const targetKey = mediaTargetLotKeyV79(lot.id);
+  const modal = document.getElementById('fieldMediaModal');
+  if(!modal){ toast('Janela de mídia não encontrada.'); return; }
+  modal.innerHTML = `
+    <div class="fieldMediaCard compact">
+      <div class="fieldMediaHead">
+        <div><span class="tag">Cadastro de mídia</span><h2>Adicionar mídia ao lote</h2></div>
+        <button class="btn light small" data-close-field-media>Fechar</button>
+      </div>
+      <div class="fieldMediaBody">
+        <div class="confirmBox" style="margin-bottom:14px">
+          <h3>${lot.name}</h3>
+          <p>As mídias serão vinculadas ao lote atual e aparecerão automaticamente na galeria.</p>
+        </div>
+        <p class="fieldMediaCompactIntro">Use um único envio para fotos, vídeos ou arquivos. Em dispositivos móveis, o seletor também pode abrir a câmera.</p>
+        <div class="modalFormGrid">
+          <div class="modalField full"><label>Mídias e arquivos</label><input type="file" id="mediaUnifiedV80" accept="image/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.zip,.rar,.txt" multiple></div>
+          <div class="modalField full"><label>Link do Google Drive (opcional)</label><input type="url" id="mediaDriveV80" placeholder="https://drive.google.com/..."></div>
+          <div class="modalField full"><label>Observação</label><textarea id="mediaNoteV80" placeholder="Ex.: foto da testada, vídeo do entorno, documento, levantamento de campo..."></textarea></div>
+        </div>
+        <div id="mediaUnifiedListV80" class="mediaUnifiedList"><div>Nenhum arquivo selecionado.</div></div>
+        <div class="actions"><button class="btn primary" id="saveFieldMediaV80" data-target-key="${targetKey}">Salvar mídia</button><button class="btn light" data-open-media-gallery-v79="${targetKey}">Ver galeria</button></div>
+      </div>
+    </div>`;
+  modal.classList.add('show');
+  bindFieldMediaModalV80();
+};
+
+async function saveFieldMediaFromModalV80(){
+  const lot = fieldCurrentLotV79();
+  const targetKey = mediaTargetLotKeyV79(lot.id);
+  const note = (document.getElementById('mediaNoteV80')?.value || '').trim();
+  const items = readFieldMediaV79();
+  const now = new Date().toISOString();
+  const files = Array.from(document.getElementById('mediaUnifiedV80')?.files || []);
+  for(const file of files.slice(0,20)){
+    if((file.type || '').startsWith('image/')){
+      const src = await fileToCompressedImage(file, 1400, .82);
+      if(src) items.push({id:`media-${Date.now()}-${Math.random().toString(16).slice(2)}`, targetKey, type:'image', src, name:file.name, note, createdAt:now});
+    }else if((file.type || '').startsWith('video/')){
+      const id = `media-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      const url = URL.createObjectURL(file);
+      fieldSessionFilesV79[id] = url;
+      items.push({id,targetKey,type:'video',name:file.name,mime:file.type,size:file.size,note,createdAt:now,sessionUrl:url});
+    }else{
+      items.push({id:`media-${Date.now()}-${Math.random().toString(16).slice(2)}`, targetKey, type:'file', name:file.name, mime:file.type, size:file.size, note, createdAt:now});
+    }
+  }
+  const drive = (document.getElementById('mediaDriveV80')?.value || '').trim();
+  if(drive) items.push({id:`media-${Date.now()}-drive`,targetKey,type:'drive',name:'Google Drive',url:drive,note,createdAt:now});
+  saveFieldMediaV79(items);
+  toast('Mídia vinculada ao lote.');
+  const modal = document.getElementById('fieldMediaModal');
+  modal.classList.remove('show');
+  modal.innerHTML = '';
+}
+
+function bindFieldMediaModalV80(){
+  bindFieldMediaModalV79();
+  const unified = document.getElementById('mediaUnifiedV80');
+  if(unified) unified.onchange = renderUnifiedFileListV80;
+  const saveBtn = document.getElementById('saveFieldMediaV80');
+  if(saveBtn) saveBtn.onclick = saveFieldMediaFromModalV80;
+}
+
+(function(){
+  const previousBind = bindModalActions;
+  bindModalActions = function(){
+    previousBind();
+    document.querySelectorAll('[data-ar-point-index]').forEach(btn=>{
+      btn.onclick = ()=>{
+        const idx = Number(btn.dataset.arPointIndex || -1);
+        const point = fieldCurrentPoints[idx];
+        if(point) openFieldPointDetailsV80(point);
+      };
+    });
+    const mediaBtn = document.getElementById('openFieldMediaRegister');
+    if(mediaBtn) mediaBtn.onclick = openFieldMediaRegister;
+  };
 })();
 
 </script>
