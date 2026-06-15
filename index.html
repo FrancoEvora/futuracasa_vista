@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v8.4 Mapa Híbrido</title>
+<title>Futura Casa | v8.5 Mapa com Filtros</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -409,7 +409,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 @media(max-width:760px){.houseSimToolbar{display:grid;grid-template-columns:1fr}}
 
 
-/* v8.4 — Mapa interativo Futura Casa */
+/* v8.5 — Mapa interativo Futura Casa */
 .mapSection{padding-top:18px}
 .mapExperience{position:relative;border-radius:34px;background:linear-gradient(180deg,#121824,#0e1420);box-shadow:var(--shadow2);overflow:hidden;border:1px solid rgba(16,20,29,.10)}
 .mapHeaderBar{position:absolute;z-index:8;left:18px;right:18px;top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:none}
@@ -518,6 +518,68 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
   .mapLotRow h4{font-size:17px}
 }
 
+
+/* v8.5 — correções de zoom, campos visíveis e subjanela de lotes */
+.mapFinder .field label{color:var(--ink)!important;font-weight:900;opacity:1}
+.mapFinder .field select,
+.mapFinder .field input{
+  width:100%;
+  color:var(--ink)!important;
+  background:#fffdf9!important;
+  border:1px solid var(--line)!important;
+  border-radius:16px!important;
+  min-height:50px;
+  padding:0 14px;
+  font-weight:800;
+  font-size:15px;
+  opacity:1!important;
+  -webkit-text-fill-color:var(--ink)!important;
+}
+.mapFinder .field input::placeholder{color:#9aa0aa!important;-webkit-text-fill-color:#9aa0aa!important}
+.mapListWindow{
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:rgba(255,253,249,.72);
+  padding:10px;
+  max-height:min(520px,48vh);
+  overflow:auto;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
+  overscroll-behavior:contain;
+}
+.mapListWindow .mapConventionalList{max-height:none!important;overflow:visible!important;padding-right:0}
+.mapControls{pointer-events:auto!important;z-index:20!important}
+.mapControls button{cursor:pointer;touch-action:manipulation;user-select:none;-webkit-tap-highlight-color:transparent}
+.mapViewport{touch-action:pan-y}
+.mapInner{will-change:transform}
+.mapZoomBadge{
+  position:absolute;
+  z-index:10;
+  left:22px;
+  bottom:235px;
+  background:rgba(17,23,33,.82);
+  color:#fff;
+  border-radius:999px;
+  padding:8px 11px;
+  font-size:12px;
+  font-weight:900;
+  opacity:0;
+  transform:translateY(6px);
+  transition:.18s ease;
+  pointer-events:none;
+}
+.mapZoomBadge.show{opacity:1;transform:translateY(0)}
+.mapFiltersGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:960px){
+  .mapListWindow{max-height:min(500px,46vh)}
+  .mapConventionalList{max-height:none!important}
+}
+@media(max-width:700px){
+  .mapFiltersGrid{grid-template-columns:1fr 1fr}
+  .mapFiltersGrid .full{grid-column:1/-1}
+  .mapListWindow{max-height:440px}
+  .mapZoomBadge{left:14px;bottom:212px}
+}
+
 </style>
 </head>
 <body>
@@ -593,6 +655,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
             <button type="button" id="mapZoomIn" aria-label="Aproximar mapa">+</button>
             <button type="button" id="mapZoomOut" aria-label="Afastar mapa">−</button>
           </div>
+          <div class="mapZoomBadge" id="mapZoomBadge">100%</div>
 
           <div class="mapCompass"><span>N</span><b>▲</b></div>
 
@@ -618,10 +681,16 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
             <div class="mapFiltersGrid">
               <div class="field"><label>Quadra</label><select id="mapQuadraFilter"></select></div>
               <div class="field"><label>Disponibilidade</label><select id="mapStatusFilter"><option value="available">Disponíveis</option><option value="reserved">Reservados</option><option value="sold">Vendidos</option><option value="all">Todos</option></select></div>
+              <div class="field"><label>Área mínima</label><input id="mapAreaMin" type="number" inputmode="numeric" placeholder="m² mín."></div>
+              <div class="field"><label>Área máxima</label><input id="mapAreaMax" type="number" inputmode="numeric" placeholder="m² máx."></div>
+              <div class="field"><label>Valor mínimo</label><input id="mapPriceMin" type="number" inputmode="numeric" placeholder="R$ mín."></div>
+              <div class="field"><label>Valor máximo</label><input id="mapPriceMax" type="number" inputmode="numeric" placeholder="R$ máx."></div>
               <div class="field full"><label>Buscar lote</label><input id="mapSearchInput" type="search" placeholder="Ex.: 12, Quadra C, represa..."></div>
             </div>
             <div class="mapListCount" id="mapListCount"></div>
-            <div class="mapConventionalList" id="mapConventionalList"></div>
+            <div class="mapListWindow">
+              <div class="mapConventionalList" id="mapConventionalList"></div>
+            </div>
           </div>
         </aside>
       </div>
@@ -2742,20 +2811,32 @@ function statusLabel(status){
   return status === 'reserved' ? 'Reservado' : status === 'sold' ? 'Vendido' : 'Disponível';
 }
 
-const mapFilterState = {status:'available', quadra:'all', query:''};
+const mapFilterState = {status:'available', quadra:'all', query:'', areaMin:'', areaMax:'', priceMin:'', priceMax:''};
 
 function mapStatusLabel(status){
   return status === 'reserved' ? 'Reservado' : status === 'sold' ? 'Vendido' : 'Disponível';
 }
 
+function mapNumber(value){
+  const n = Number(value);
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
 function mapFilteredLots(){
   const q = (mapFilterState.query || '').trim().toLowerCase();
+  const areaMin = mapNumber(mapFilterState.areaMin);
+  const areaMax = mapNumber(mapFilterState.areaMax);
+  const priceMin = mapNumber(mapFilterState.priceMin);
+  const priceMax = mapNumber(mapFilterState.priceMax);
+
   return MAP_LOTS.filter(l=>{
     const statusOk = mapFilterState.status === 'all' || l.status === mapFilterState.status;
     const quadraOk = mapFilterState.quadra === 'all' || l.quadra === mapFilterState.quadra;
-    const text = `${l.number} ${l.quadra} ${l.name} ${l.details} ${l.tag} ${l.taste}`.toLowerCase();
+    const areaOk = (!areaMin || l.area >= areaMin) && (!areaMax || l.area <= areaMax);
+    const priceOk = (!priceMin || l.price >= priceMin) && (!priceMax || l.price <= priceMax);
+    const text = `${l.number} ${l.quadra} ${l.name} ${l.details} ${l.tag} ${l.taste} ${l.area} ${l.price}`.toLowerCase();
     const qOk = !q || text.includes(q);
-    return statusOk && quadraOk && qOk;
+    return statusOk && quadraOk && areaOk && priceOk && qOk;
   });
 }
 
@@ -2763,6 +2844,10 @@ function renderMapLots(){
   const layer = document.getElementById('mapLotsLayer');
   if(!layer) return;
   const l = selectedMapLot();
+  if(!l){
+    layer.innerHTML = '';
+    return;
+  }
   layer.innerHTML = `<div class="mapSelectedMarker" style="--x:${l.x}%;--y:${l.y}%">
     <div class="pinBubble"><small>Quadra ${l.quadra}</small>Lote ${l.number}</div>
     <div class="pinPoint"></div>
@@ -2773,6 +2858,10 @@ function renderMapSelection(){
   const card = document.getElementById('mapSelectionCard');
   if(!card) return;
   const l = selectedMapLot();
+  if(!l){
+    card.innerHTML = `<div class="mapCard"><span class="tag">Sem resultado</span><h3>Nenhum lote encontrado</h3><p class="muted">Ajuste os filtros para visualizar um lote no mapa.</p></div>`;
+    return;
+  }
   ensureMapLotInLots(l);
   card.innerHTML = `
     <div class="mapCard">
@@ -2804,6 +2893,10 @@ function renderMapFinder(){
   const quadraSelect = document.getElementById('mapQuadraFilter');
   const statusSelect = document.getElementById('mapStatusFilter');
   const searchInput = document.getElementById('mapSearchInput');
+  const areaMinInput = document.getElementById('mapAreaMin');
+  const areaMaxInput = document.getElementById('mapAreaMax');
+  const priceMinInput = document.getElementById('mapPriceMin');
+  const priceMaxInput = document.getElementById('mapPriceMax');
 
   if(quadraSelect && !quadraSelect.dataset.ready){
     const quadras = ['all', ...Array.from(new Set(MAP_LOTS.map(l=>l.quadra))).sort()];
@@ -2814,12 +2907,16 @@ function renderMapFinder(){
   if(quadraSelect) quadraSelect.value = mapFilterState.quadra;
   if(statusSelect) statusSelect.value = mapFilterState.status;
   if(searchInput && document.activeElement !== searchInput) searchInput.value = mapFilterState.query;
+  if(areaMinInput && document.activeElement !== areaMinInput) areaMinInput.value = mapFilterState.areaMin;
+  if(areaMaxInput && document.activeElement !== areaMaxInput) areaMaxInput.value = mapFilterState.areaMax;
+  if(priceMinInput && document.activeElement !== priceMinInput) priceMinInput.value = mapFilterState.priceMin;
+  if(priceMaxInput && document.activeElement !== priceMaxInput) priceMaxInput.value = mapFilterState.priceMax;
 
   const lots = mapFilteredLots();
 
   if(count){
     count.textContent = lots.length
-      ? `${lots.length} lote(s) encontrado(s). Selecione um para marcar no mapa.`
+      ? `${lots.length} lote(s) encontrado(s). A lista rola dentro desta janela.`
       : 'Nenhum lote encontrado com estes filtros.';
   }
 
@@ -2840,6 +2937,16 @@ function renderMapFinder(){
   });
 }
 
+function selectFirstFilteredLotIfNeeded({force=false} = {}){
+  const lots = mapFilteredLots();
+  if(!lots.length) return false;
+  if(force || !lots.some(l=>l.id === selectedMapLotId)){
+    selectedMapLotId = lots[0].id;
+    return true;
+  }
+  return false;
+}
+
 function selectMapLot(id,{silent=false} = {}){
   selectedMapLotId = id;
   renderMapLots();
@@ -2848,18 +2955,25 @@ function selectMapLot(id,{silent=false} = {}){
   if(!silent) toast('Lote marcado no mapa visual.');
 }
 
-function ensureSelectedLotMatchesFilter(){
-  const lots = mapFilteredLots();
-  if(lots.length && !lots.some(l=>l.id === selectedMapLotId)){
-    selectedMapLotId = lots[0].id;
-  }
-}
-
 function setMapStatusFilter(status){
   mapFilterState.status = status;
-  const statusSelect = document.getElementById('mapStatusFilter');
-  if(statusSelect) statusSelect.value = status;
-  ensureSelectedLotMatchesFilter();
+  document.querySelectorAll('[data-map-filter]').forEach(b=>b.classList.toggle('active', b.dataset.mapFilter === status));
+  selectFirstFilteredLotIfNeeded({force:true});
+  renderMapLots();
+  renderMapSelection();
+  renderMapFinder();
+}
+
+function updateMapFiltersFromInputs(){
+  mapFilterState.quadra = document.getElementById('mapQuadraFilter')?.value || 'all';
+  mapFilterState.status = document.getElementById('mapStatusFilter')?.value || 'available';
+  mapFilterState.query = document.getElementById('mapSearchInput')?.value || '';
+  mapFilterState.areaMin = document.getElementById('mapAreaMin')?.value || '';
+  mapFilterState.areaMax = document.getElementById('mapAreaMax')?.value || '';
+  mapFilterState.priceMin = document.getElementById('mapPriceMin')?.value || '';
+  mapFilterState.priceMax = document.getElementById('mapPriceMax')?.value || '';
+  document.querySelectorAll('[data-map-filter]').forEach(b=>b.classList.toggle('active', b.dataset.mapFilter === mapFilterState.status));
+  selectFirstFilteredLotIfNeeded();
   renderMapLots();
   renderMapSelection();
   renderMapFinder();
@@ -2888,50 +3002,58 @@ function bindMapSelectionActions(){
   });
 }
 
+function showMapZoomBadge(){
+  const badge = document.getElementById('mapZoomBadge');
+  if(!badge) return;
+  badge.textContent = `${Math.round(mapZoom * 100)}%`;
+  badge.classList.add('show');
+  clearTimeout(showMapZoomBadge._timer);
+  showMapZoomBadge._timer = setTimeout(()=>badge.classList.remove('show'), 850);
+}
+
+function applyMapZoom(){
+  const inner = document.getElementById('mapInner');
+  if(inner){
+    inner.style.setProperty('--mapZoom', mapZoom);
+    inner.style.transform = `scale(${mapZoom})`;
+  }
+  showMapZoomBadge();
+}
+
 function initInteractiveMap(){
   ensureMapLotInLots(selectedMapLot());
+  selectFirstFilteredLotIfNeeded({force:true});
   renderMapLots();
   renderMapSelection();
   renderMapFinder();
 
   document.querySelectorAll('[data-map-filter]').forEach(btn=>{
-    btn.onclick = ()=>{
-      document.querySelectorAll('[data-map-filter]').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
+    btn.onclick = (event)=>{
+      event.preventDefault();
       setMapStatusFilter(btn.dataset.mapFilter);
     };
   });
 
-  const quadraSelect = document.getElementById('mapQuadraFilter');
-  const statusSelect = document.getElementById('mapStatusFilter');
-  const searchInput = document.getElementById('mapSearchInput');
+  ['mapQuadraFilter','mapStatusFilter','mapSearchInput','mapAreaMin','mapAreaMax','mapPriceMin','mapPriceMax'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    const eventName = el.tagName === 'SELECT' ? 'change' : 'input';
+    el.addEventListener(eventName, updateMapFiltersFromInputs);
+  });
 
-  if(quadraSelect) quadraSelect.onchange = ()=>{
-    mapFilterState.quadra = quadraSelect.value;
-    ensureSelectedLotMatchesFilter();
-    selectMapLot(selectedMapLotId,{silent:true});
-  };
-
-  if(statusSelect) statusSelect.onchange = ()=>{
-    mapFilterState.status = statusSelect.value;
-    document.querySelectorAll('[data-map-filter]').forEach(b=>b.classList.toggle('active', b.dataset.mapFilter === mapFilterState.status));
-    ensureSelectedLotMatchesFilter();
-    selectMapLot(selectedMapLotId,{silent:true});
-  };
-
-  if(searchInput) searchInput.oninput = ()=>{
-    mapFilterState.query = searchInput.value;
-    ensureSelectedLotMatchesFilter();
-    renderMapLots();
-    renderMapSelection();
-    renderMapFinder();
-  };
-
-  const applyZoom = ()=>{ const inner = document.getElementById('mapInner'); if(inner) inner.style.setProperty('--mapZoom', mapZoom); };
   const zoomIn = document.getElementById('mapZoomIn');
   const zoomOut = document.getElementById('mapZoomOut');
-  if(zoomIn) zoomIn.onclick = ()=>{ mapZoom = Math.min(1.45, +(mapZoom + .12).toFixed(2)); applyZoom(); };
-  if(zoomOut) zoomOut.onclick = ()=>{ mapZoom = Math.max(1, +(mapZoom - .12).toFixed(2)); applyZoom(); };
+  const doZoomIn = (event)=>{ event?.preventDefault?.(); mapZoom = Math.min(2.1, +(mapZoom + .25).toFixed(2)); applyMapZoom(); };
+  const doZoomOut = (event)=>{ event?.preventDefault?.(); mapZoom = Math.max(1, +(mapZoom - .25).toFixed(2)); applyMapZoom(); };
+  if(zoomIn){
+    zoomIn.onclick = doZoomIn;
+    zoomIn.onpointerdown = doZoomIn;
+  }
+  if(zoomOut){
+    zoomOut.onclick = doZoomOut;
+    zoomOut.onpointerdown = doZoomOut;
+  }
+  applyMapZoom();
 }
 
 applyStoredFieldMedia();
