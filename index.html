@@ -366,7 +366,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 }
 
 
-/* v8.1 — AR translúcida + pins clicáveis + mídia simplificada */
+/* v8.2 — AR translúcida + pins clicáveis + mídia simplificada */
 .fieldPins{pointer-events:auto}
 .fieldPin,.fieldCompass,.fieldStatus{background:rgba(255,253,249,.70)!important;backdrop-filter:blur(18px) saturate(1.1)!important;-webkit-backdrop-filter:blur(18px) saturate(1.1)!important}
 .fieldPin{cursor:pointer;transition:transform .16s ease, box-shadow .16s ease, background .16s ease}
@@ -401,6 +401,12 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
   line-height:1.35;
   margin-top:-2px;
 }
+
+
+/* v8.2 — atalho IA nos cards e salvamento manual na galeria */
+.houseSimToolbar{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 4px}
+.houseSimToolbar .btn{flex:1 1 240px}
+@media(max-width:760px){.houseSimToolbar{display:grid;grid-template-columns:1fr}}
 
 </style>
 </head>
@@ -742,6 +748,7 @@ function renderLots(filter='all'){
         <p class="muted">${l.details}</p>
         <div class="cardActions">
           <button class="btn primary small" data-detail-lot="${l.id}">Detalhes</button>
+          <button class="btn primary small" data-house-sim-lot="${l.id}">Gerar imagens por IA</button>
           <button class="btn primary small" data-sim-lot="${l.id}">Simular valor</button>
           <button class="btn dark small" data-combo-lot="${l.id}">Usar no combo</button>
         </div>
@@ -759,6 +766,7 @@ function renderLots(filter='all'){
     toast('Lote selecionado para simular valor.');
     document.querySelector('#bandeja').scrollIntoView({behavior:'smooth'});
   });
+  $$('[data-house-sim-lot]').forEach(btn => btn.onclick = () => openHouseSimulation(btn.dataset.houseSimLot));
   $$('[data-combo-lot]').forEach(btn => btn.onclick = () => {
     state.lot = LOTS.find(l => l.id === btn.dataset.comboLot);
     state.customLotPrice = state.lot.price;
@@ -2671,6 +2679,32 @@ function openFinancialSimulatorFromGeneratedHouse(lotId, style=''){
   setTimeout(()=>document.querySelector('#bandeja')?.scrollIntoView({behavior:'smooth'}), 120);
 }
 
+
+function saveGeneratedHouseImagesToGallery(lot, images=[]){
+  if(!lot || !Array.isArray(images) || !images.length) return 0;
+  const targetKey = mediaTargetLotKeyV79(lot.id);
+  const items = readFieldMediaV79();
+  let saved = 0;
+  images.forEach((item, idx)=>{
+    if(!item || !item.src) return;
+    const exists = items.some(media => media.targetKey === targetKey && media.type === 'image' && media.src === item.src);
+    if(exists) return;
+    items.push({
+      id:`media-ai-${Date.now()}-${idx}-${Math.random().toString(16).slice(2)}`,
+      targetKey,
+      type:'image',
+      src:item.src,
+      name:`simulacao-ia-${(item.style || 'casa').toLowerCase().replace(/[^a-z0-9]+/gi,'-')}.png`,
+      note:`Imagem gerada por IA para ${lot.name} · ${item.style || 'estilo selecionado'}`,
+      createdAt:new Date().toISOString(),
+      generatedBy:'chatgpt-house-api'
+    });
+    saved += 1;
+  });
+  if(saved) saveFieldMediaV79(items);
+  return saved;
+}
+
 function openHouseSimulation(lotId){
   const lot = LOTS.find(l=>l.id===lotId);
   if(!lot) return;
@@ -2681,7 +2715,7 @@ function openHouseSimulation(lotId){
   modal.innerHTML = `
     <div class="houseSimCard">
       <div class="houseSimHead">
-        <div><span class="tag">Simular Casa</span><h2>${lot.name}</h2><p class="muted">Selecione até 3 estilos para gerar prévias da casa sobre a foto do lote. A chamada à IA do ChatGPT está preparada via API, com fallback visual para protótipo.</p></div>
+        <div><span class="tag">Simular Casa</span><h2>${lot.name}</h2><p class="muted">Selecione até 3 estilos para gerar prévias da casa sobre a foto do lote. Depois você poderá salvar as imagens na galeria do lote e abrir o simulador financeiro já com o lote e a casa correspondente.</p></div>
         <button class="btn light small" data-close-house-sim>Fechar</button>
       </div>
       <div class="houseSimBody">
@@ -2710,18 +2744,38 @@ function openHouseSimulation(lotId){
     const results = document.getElementById('houseSimResults');
     results.innerHTML = '<div class="houseLoading">Gerando propostas visuais do lote com os estilos escolhidos...</div>';
     const images = await requestChatGptHouseApi(lot, styles);
-    results.innerHTML = images.map((item, idx)=>`
+    results.innerHTML = `
+      <div class="houseSimToolbar">
+        <button class="btn primary" type="button" id="saveGeneratedAiImagesToGallery">Salvar imagens na galeria</button>
+        <button class="btn light" type="button" id="openGeneratedAiGallery">Ver galeria do lote</button>
+      </div>
+      ${images.map((item, idx)=>`
       <div class="houseResultCard">
         <img src="${item.src}" alt="${item.style}" data-zoom-src="${item.src}">
         <div class="houseResultMeta"><h4>${item.style}</h4><span class="tag">${item.source==='api'?'API ChatGPT':'prévia'}</span></div>
         <p>Simulação visual da implantação da casa no lote, considerando o estilo arquitetônico selecionado.</p>
         <button class="btn primary houseFinancialCta" type="button" data-open-financial-sim="${lot.id}" data-house-style="${item.style}">Abrir simulador financeiro</button>
-        <div class="houseResultNote">Usa este lote e um modelo de casa compatível com o estilo escolhido.</div>
-      </div>`).join('');
+        <div class="houseResultNote">Este botão leva o lote atual e a casa correspondente ao estilo escolhido para o simulador financeiro.</div>
+      </div>`).join('')}`;
     results.querySelectorAll('[data-zoom-src]').forEach(img=>img.onclick=()=>openImagePreview(img.dataset.zoomSrc, img.alt || 'Simulação de casa'));
     results.querySelectorAll('[data-open-financial-sim]').forEach(btn=>{
       btn.onclick = ()=>openFinancialSimulatorFromGeneratedHouse(btn.dataset.openFinancialSim, btn.dataset.houseStyle || '');
     });
+    const saveAiBtn = document.getElementById('saveGeneratedAiImagesToGallery');
+    if(saveAiBtn){
+      saveAiBtn.onclick = ()=>{
+        const added = saveGeneratedHouseImagesToGallery(lot, images);
+        if(added){
+          toast(`${added} imagem(ns) salvas na galeria de ${lot.name}.`);
+        }else{
+          toast('Essas imagens já estão salvas na galeria deste lote.');
+        }
+      };
+    }
+    const openAiGalleryBtn = document.getElementById('openGeneratedAiGallery');
+    if(openAiGalleryBtn){
+      openAiGalleryBtn.onclick = ()=>openFieldMediaGalleryV79(mediaTargetLotKeyV79(lot.id), `Galeria de ${lot.name}`);
+    }
   };
 }
 
