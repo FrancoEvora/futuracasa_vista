@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v7.7 AR Mídias e Camadas</title>
+<title>Futura Casa | v7.6 AR Refinada</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -302,40 +302,33 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 }
 
 
-/* v7.7 — camadas AR, mídia vinculada e galeria ampliável */
-.fieldPins{pointer-events:none}
-.fieldPin{pointer-events:auto;cursor:pointer}
-.fieldLayerControls{position:absolute;left:128px;right:92px;top:18px;display:flex;gap:8px;justify-content:flex-end;z-index:8;pointer-events:auto}
-.fieldLayerButton{min-height:42px;border:1px solid rgba(16,20,29,.08);border-radius:999px;background:rgba(255,253,249,.92);color:var(--ink);font-size:12px;font-weight:950;padding:0 12px;box-shadow:0 16px 40px rgba(16,20,29,.10);backdrop-filter:blur(14px)}
-.fieldLayerButton.active{background:linear-gradient(180deg,var(--orange2),var(--orange));color:#fff;border-color:rgba(243,111,47,.24)}
-.fieldLayerButton.media{background:rgba(255,253,249,.96);color:var(--orange)}
-.fieldBearing{font-variant-numeric:tabular-nums}
-.fieldPin .mediaDot{width:7px;height:7px;border-radius:50%;background:var(--orange);display:inline-block;margin-left:4px;box-shadow:0 0 0 3px rgba(243,111,47,.12)}
-.fieldMediaOverlay{z-index:260;background:rgba(17,23,33,.46);backdrop-filter:blur(10px);padding:16px}
-.fieldMediaOverlay.show{display:grid;place-items:center}
-.fieldMediaCard{width:min(760px,100%);max-height:min(92vh,calc(100dvh - 28px));overflow:auto;background:#fffdf9;border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow2)}
-.fieldMediaHead{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;padding:20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fffdf9;z-index:2}
-.fieldMediaHead h2{margin:0;font-size:26px;letter-spacing:-.04em}
-.fieldMediaBody{padding:20px}
-.fieldMediaGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.fieldMediaGrid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:16px;border:1px solid var(--line);cursor:pointer;background:#f7f1e9}
-.mediaList{display:grid;gap:8px;margin-top:12px}
-.mediaList a,.mediaList span{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 14px;border-radius:16px;background:#f7f1e9;border:1px solid var(--line);color:var(--ink);font-weight:800}
-.mediaList small{color:var(--muted);font-weight:700}
-.mediaEmpty{padding:18px;border:1px dashed var(--line);border-radius:18px;color:var(--muted);background:#fff}
-.zoomModalImage{display:block;max-width:100%;max-height:74vh;margin:auto;border-radius:20px;object-fit:contain;background:#111}
-.zoomCard{width:min(980px,100%);background:#111721;border-radius:28px;overflow:hidden;box-shadow:var(--shadow2)}
-.zoomHead{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;color:#fff;background:#111721}
-.zoomHead b{font-size:16px}
-.zoomBody{padding:10px;background:#111721}
-.zoomableImage{cursor:zoom-in}
-@media(max-width:700px){
-  .fieldLayerControls{left:100px;right:84px;top:12px;gap:6px;overflow-x:auto;justify-content:flex-start;padding-bottom:2px}
-  .fieldLayerButton{min-height:38px;font-size:11px;padding:0 10px;white-space:nowrap}
-  .fieldMediaOverlay{padding:8px}
-  .fieldMediaCard{border-radius:22px;max-height:calc(100dvh - 16px)}
-  .fieldMediaHead,.fieldMediaBody{padding:14px}
-  .fieldMediaGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+/* v7.8 — refinamento dos botões AR e Simular Casa */
+.fieldInfo.compact{grid-template-columns:1fr 1fr}
+.fieldActions.v78{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.fieldActions.v78 .btn{min-height:58px;padding:0 14px}
+.fieldPins.hidden{display:none}
+.houseSimCard{width:min(980px,100%);max-height:min(92vh,calc(100dvh - 24px));overflow:auto;background:#fffdf9;border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow2)}
+.houseSimHead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fffdf9;z-index:2}
+.houseSimHead h2{margin:0;font-size:30px;letter-spacing:-.04em}
+.houseSimBody{padding:20px;display:grid;grid-template-columns:minmax(280px,360px) 1fr;gap:18px}
+.houseSimPreview{border:1px solid var(--line);border-radius:24px;background:#f7f1e9;padding:12px}
+.houseSimPreview img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px;display:block}
+.houseStyleGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.houseStyleOption{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--line);border-radius:18px;background:#fff;font-weight:800;color:var(--ink)}
+.houseStyleOption input{accent-color:var(--orange);width:18px;height:18px}
+.houseSimGenerate{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.houseSimResults{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+.houseResultCard{border:1px solid var(--line);border-radius:22px;background:#fff;padding:12px;display:grid;gap:10px}
+.houseResultCard img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:16px;background:#f4efe8;cursor:zoom-in}
+.houseResultCard h4{margin:0;font-size:20px}
+.houseResultCard p{margin:0;color:var(--muted);font-size:14px;line-height:1.45}
+.houseResultMeta{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.houseLoading{padding:18px;border-radius:20px;border:1px dashed var(--line);background:#fff;color:var(--muted);font-weight:700}
+.hiddenGps{display:none !important}
+@media(max-width:820px){
+  .houseSimBody{grid-template-columns:1fr}
+  .houseStyleGrid,.houseSimResults{grid-template-columns:1fr}
+  .fieldActions.v78{grid-template-columns:1fr 1fr}
 }
 
 </style>
@@ -482,7 +475,6 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 </main>
 
 <div class="modal" id="detailModal"></div>
-<div class="modal fieldMediaOverlay" id="fieldMediaModal"></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -2142,105 +2134,53 @@ function openARView(id){
 }
 
 
-/* v7.7 — mídia vinculada, camadas e graus relativos em tempo real */
-var FIELD_MEDIA_STORAGE_KEY = 'fc_field_media_v77';
-var fieldLayerPrefs = {lots:true, places:true};
-var fieldActiveTarget = {key:'', type:'lot', label:'', lotId:''};
-var fieldSessionFiles = {};
 
-function mediaTargetLotKey(lotId){ return `lot:${lotId}`; }
-function mediaTargetPlaceKey(lotId,label){ return `place:${lotId}:${String(label||'local').toLowerCase().replace(/\s+/g,'-')}`; }
+/* v7.8 — mídia de campo, pins ocultáveis e graus relativos em tempo real */
+const FIELD_MEDIA_KEY_V77 = 'fc_field_media_v77';
+let fieldActiveLotId = null;
+let fieldActiveLocationLabel = '';
 
-function readFieldMedia(){
-  try{
-    const raw = JSON.parse(localStorage.getItem(FIELD_MEDIA_STORAGE_KEY) || '[]');
-    return Array.isArray(raw) ? raw : [];
-  }catch(e){
-    return [];
-  }
+function getFieldMediaStore(){
+  try{return JSON.parse(localStorage.getItem(FIELD_MEDIA_KEY_V77) || '{}') || {};}catch(e){return {};}
 }
-
-function saveFieldMedia(items){
-  localStorage.setItem(FIELD_MEDIA_STORAGE_KEY, JSON.stringify(items));
+function saveFieldMediaStore(store){localStorage.setItem(FIELD_MEDIA_KEY_V77, JSON.stringify(store));}
+function mediaForLot(lotId){
+  const store=getFieldMediaStore();
+  const media = store[lotId] || {};
+  media.images = Array.isArray(media.images) ? media.images : [];
+  media.videos = Array.isArray(media.videos) ? media.videos : [];
+  media.files = Array.isArray(media.files) ? media.files : [];
+  media.driveLinks = Array.isArray(media.driveLinks) ? media.driveLinks : [];
+  return media;
 }
+function saveMediaForLot(lotId, media){const store=getFieldMediaStore(); store[lotId]=media; saveFieldMediaStore(store); return media;}
+function uniqueBySrc(items){const seen=new Set(); return (items||[]).filter(item=>{const key=item.src || item.url || item.name; if(!key || seen.has(key)) return false; seen.add(key); return true;});}
 
-function fieldMediaForTarget(key){
-  return readFieldMedia().filter(item=>item.targetKey === key);
-}
-
-function fieldMediaImagesForTarget(key){
-  return fieldMediaForTarget(key).filter(item=>item.type === 'image' && item.src).map(item=>item.src);
-}
-
-function lotMediaImages(lotId){
-  return fieldMediaImagesForTarget(mediaTargetLotKey(lotId));
-}
-
-function hasMediaForTarget(key){
-  return fieldMediaForTarget(key).length > 0;
-}
-
-function fieldTargetTitle(key){
-  if(!key) return 'Ponto atual';
-  if(key.startsWith('lot:')){
-    const lot = LOTS.find(l=>l.id === key.split(':')[1]);
-    return lot?.name || 'Lote';
-  }
-  if(key.startsWith('place:')){
-    const parts = key.split(':');
-    const lot = LOTS.find(l=>l.id === parts[1]);
-    const label = decodeURIComponent(parts.slice(2).join(':')).replace(/-/g,' ');
-    return `${label.charAt(0).toUpperCase()+label.slice(1)} · ${lot?.project || 'Empreendimento'}`;
-  }
-  return 'Ponto atual';
-}
-
-function setFieldTargetFromPoint(point){
-  if(!point) return;
-  if(point.kind === 'lot' && point.id){
-    fieldActiveTarget = {key:mediaTargetLotKey(point.id), type:'lot', label:point.label, lotId:point.id};
-  }else{
-    const currentLotId = fieldActiveTarget?.lotId || state.lot?.id || LOTS[0]?.id;
-    const key = mediaTargetPlaceKey(currentLotId, point.label);
-    fieldActiveTarget = {key, type:'place', label:point.label, lotId:currentLotId};
-  }
-}
-
-function fieldDirectionArrowSvg(){
-  return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 20 21 12 17.3 4 21 12 3Z"></path></svg>`;
-}
-
-function fieldPointIconSvg(point){
-  const label = String(point?.label || '').toLowerCase();
-  if(point?.kind === 'lot'){
-    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5 12 4l8 4.5v7L12 20l-8-4.5v-7Z"></path><path d="M12 4v16"></path><path d="M4 8.5 12 13l8-4.5"></path></svg>`;
-  }
-  if(label.includes('portaria')){
-    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V7"></path><path d="M20 20V7"></path><path d="M4 7h16"></path><path d="M9 7v13"></path><path d="M15 7v13"></path></svg>`;
-  }
-  if(label.includes('acesso')){
-    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18h10"></path><path d="M10 6h10"></path><path d="m11 15 3 3 6-6"></path></svg>`;
-  }
-  if(label.includes('verde')){
-    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c5-2 8-6.5 8-12-5.5 0-10 2.8-12 8"></path><path d="M12 20c-4.5-1.8-7-5.7-8-10 4.4-.2 7.8 1.3 10 4.6"></path></svg>`;
-  }
-  if(label.includes('lazer')){
-    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19h14"></path><path d="M12 19V9"></path><path d="M12 9c2.2-2.5 4.8-3.5 7-3.5 0 3.3-2 5.7-7 5.7-4.9 0-7-2.4-7-5.7 2.2 0 4.8 1 7 3.5Z"></path></svg>`;
-  }
-  return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.5 6-10a6 6 0 1 0-12 0c0 4.5 6 10 6 10Z"></path><path d="M12 13.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z"></path></svg>`;
+function applyStoredFieldMedia(){
+  const store = getFieldMediaStore();
+  LOTS.forEach(lot=>{
+    const media = store[lot.id];
+    if(!media) return;
+    const images = uniqueBySrc(media.images||[]).map(x=>x.src).filter(Boolean);
+    lot.gallery = Array.from(new Set([...(lot.gallery||[]), ...images]));
+    lot.fieldVideos = [...(lot.fieldVideos||[]), ...(media.videos||[])];
+    lot.fieldFiles = [...(lot.fieldFiles||[]), ...(media.files||[])];
+    lot.driveLinks = [...(lot.driveLinks||[]), ...(media.driveLinks||[])];
+  });
 }
 
 function lotGallery(l){
+  const media = mediaForLot(l.id);
+  const mediaImages = (media.images||[]).map(x=>x.src).filter(Boolean);
   const gallery = Array.isArray(l.gallery) ? l.gallery.filter(Boolean) : [];
-  const media = lotMediaImages(l.id);
   const base = l.thumb || makeSvgDataUri(l.name, 'Vista geral do lote e contexto urbano', '#466a43', '#c2ca8e');
   return [
-    ...media,
+    ...mediaImages,
     ...gallery,
     base,
     makeSvgDataUri(l.project, 'Perspectiva de implantação e frente do lote', '#5f7c4c', '#d6a76e'),
     makeSvgDataUri((l.area || '-') + ' m²', 'Leitura de potencial construtivo e posição', '#2a4e5f', '#7fa5b8')
-  ].filter((src, index, arr)=>src && arr.indexOf(src)===index);
+  ].filter((src,index,arr)=>src && arr.indexOf(src)===index);
 }
 
 function renderGallery(images, galleryId='galleryViewport'){
@@ -2248,48 +2188,75 @@ function renderGallery(images, galleryId='galleryViewport'){
     <div class="galleryShell">
       <button class="galleryArrow prev" type="button" data-gallery-nav="prev" data-gallery-target="${galleryId}" aria-label="Imagem anterior">‹</button>
       <div class="galleryViewport" id="${galleryId}">
-        ${images.map((src,i)=>`<div class="gallerySlide"><img class="zoomableImage" data-zoom-src="${src}" src="${src}" alt="Imagem ${i+1}"></div>`).join('')}
+        ${images.map((src,i)=>`<div class="gallerySlide"><img src="${src}" alt="Imagem ${i+1}" data-expand-image="${src}"></div>`).join('')}
       </div>
       <button class="galleryArrow next" type="button" data-gallery-nav="next" data-gallery-target="${galleryId}" aria-label="Próxima imagem">›</button>
     </div>
   `;
 }
 
-function nearestLotPoints(current){
-  if(!fieldLayerPrefs.lots) return [];
-  return lotsWithCoords()
-    .map(lot=>({kind:'lot', label: lot.name.replace('Parque das Árvores • ', '').replace('Solaris • ', 'Solaris '), distance: metersBetween(current, lotDestination(lot)), bearing: bearingBetween(current, lotDestination(lot)), id: lot.id, targetKey: mediaTargetLotKey(lot.id)}))
-    .sort((a,b)=>a.distance-b.distance)
-    .slice(0,3);
+function fieldMediaMarkup(l){
+  const media = mediaForLot(l.id);
+  const videos = [...(l.fieldVideos||[]), ...(l.videos||[]), ...(media.videos||[])];
+  const files = [...(l.fieldFiles||[]), ...(media.files||[])];
+  const drive = [...(l.driveLinks||[]), ...(media.driveLinks||[])];
+  const rows = [];
+  videos.forEach(v=>rows.push(`<span><span>Vídeo: ${esc(v.name || 'vídeo cadastrado')}</span><small>${esc(v.locationLabel || '')}</small></span>`));
+  files.forEach(f=>rows.push(`<span><span>Arquivo: ${esc(f.name || 'arquivo cadastrado')}</span><small>${esc(f.locationLabel || '')}</small></span>`));
+  drive.forEach(d=>rows.push(`<a href="${esc(d.url)}" target="_blank" rel="noopener"><span>Google Drive: ${esc(d.name || d.url)}</span><small>${esc(d.locationLabel || '')}</small></a>`));
+  if(!rows.length) return '';
+  return `<div class="mediaMarkup"><h4>Mídias vinculadas ao lote/local</h4><div class="mediaRows">${rows.join('')}</div></div>`;
 }
 
-function placePointsFromLot(lot){
-  if(!fieldLayerPrefs.places) return [];
-  const points = Array.isArray(lot?.arPoints) ? lot.arPoints : [];
-  return points
-    .filter(p=>!String(p.label || '').toLowerCase().includes('lote'))
-    .slice(0,2)
-    .map(p=>({kind:'place', label:p.label, distance:p.distance, bearing:p.bearing, targetKey: mediaTargetPlaceKey(lot.id, p.label)}));
+function openLotDetails(id){
+  const l = LOTS.find(x=>x.id===id);
+  const images = lotGallery(l);
+  const hasCoords = !!(l?.coords && Number.isFinite(Number(l.coords.lat)) && Number.isFinite(Number(l.coords.lng)));
+  const gpsBlock = hasCoords
+    ? `<div class="pendingGps"><b>GPS cadastrado:</b> ${Number(l.coords.lat).toFixed(6)}, ${Number(l.coords.lng).toFixed(6)} ${l.gpsAccuracy ? `· precisão ± ${Math.round(l.gpsAccuracy)} m` : ''}<br><button class="btn light small" data-edit-gps-lot="${l.id}" style="margin-top:10px">Editar GPS</button></div>`
+    : `<div class="pendingGps"><b>Coordenadas pendentes.</b> Este lote ainda não possui posição de GPS. Cadastre a posição usando o GPS do aparelho para liberar rota precisa e AR georreferenciado.<br><button class="btn primary small" data-edit-gps-lot="${l.id}" style="margin-top:10px">Cadastrar posição via GPS</button></div>`;
+  openModal(`
+    <div class="modalHead"><div><span class="tag">${l.project}</span><h2>${l.name}</h2><div class="modalBrand">${getProjectLogo(l.project)}</div><p class="muted">${l.details}</p></div><button class="btn light small" data-close-modal>Fechar</button></div>
+    <div class="modalBody">
+      ${renderGallery(images,'lotGalleryViewport')}
+      <div class="featureList">${l.features.map(f=>`<span>${f}</span>`).join('')}</div>
+      <p><b>Valor estimado:</b> ${fmt(l.price)}<br><b>Dimensões:</b> ${l.dims}<br><b>Perfil:</b> ${l.taste} • ${l.tag}</p>
+      ${gpsBlock}
+      ${fieldMediaMarkup(l)}
+      <div class="arHelpBox"><b>Recursos Futura Casa v7.7:</b> use <b>Rota</b>, <b>Realidade aumentada</b> e cadastre mídias vinculadas ao lote/local em campo.</div>
+      <div class="actions">
+        <button class="btn primary" data-route-lot="${l.id}">Rota</button>
+        <button class="btn primary" data-ar-lot="${l.id}">Realidade aumentada</button>
+        <button class="btn primary" data-modal-sim-lot="${l.id}">Simular valor</button>
+        <button class="btn dark" data-modal-combo-lot="${l.id}">Usar no combo</button>
+      </div>
+    </div>
+  `);
+}
+
+function relativeBearingText(p){
+  if(fieldCurrentHeading == null || p.bearing == null) return Math.round(p.bearing || 0);
+  return pointArrowRotation(p);
 }
 
 function fieldPointHtml(points=[]){
-  const finalPoints = points.length ? points : [];
-  return finalPoints.slice(0,4).map((p,i)=>{
-    const rel = pointArrowRotation(p);
-    const mediaDot = hasMediaForTarget(p.targetKey) ? '<span class="mediaDot" title="Mídia vinculada"></span>' : '';
-    return `
-      <div class="fieldPin ${p.kind === 'lot' ? 'nearLot' : 'placePin'} p${i+1}" data-field-target-key="${p.targetKey || ''}" data-field-point-index="${i}">
-        <div class="fieldPinHead">
-          <span class="fieldPinDir" aria-hidden="true"><span class="fieldPinDirArrow" style="transform:rotate(${rel}deg)">${fieldDirectionArrowSvg()}</span></span>
-          <div class="fieldPinLabel">
-            <span class="fieldPinIcon" aria-hidden="true">${fieldPointIconSvg(p)}</span>
-            <span class="fieldPinLabelText">${p.label}</span>${mediaDot}
-          </div>
+  const finalPoints = points.length ? points : [
+    {kind:'place', label:'Portaria', distance:49, bearing:309},
+    {kind:'place', label:'Lazer', distance:25, bearing:197},
+    {kind:'lot', label:'Lote', distance:6, bearing:0}
+  ];
+  return finalPoints.slice(0,4).map((p,i)=>`
+    <div class="fieldPin ${p.kind === 'lot' ? 'nearLot' : 'placePin'} p${i+1}">
+      <div class="fieldPinHead">
+        <span class="fieldPinDir" aria-hidden="true"><span class="fieldPinDirArrow" style="transform:rotate(${pointArrowRotation(p)}deg)">${fieldDirectionArrowSvg()}</span></span>
+        <div class="fieldPinLabel">
+          <span class="fieldPinIcon" aria-hidden="true">${fieldPointIconSvg(p)}</span>
+          <span class="fieldPinLabelText">${p.label}</span>
         </div>
-        <small><span>${p.distance} m</span><b>•</b><span class="fieldBearing" data-bearing="${p.bearing || 0}">${rel}°</span></small>
       </div>
-    `;
-  }).join('');
+      <small><span>${p.distance} m</span><b>•</b><span class="fieldBearingValue">${relativeBearingText(p)}°</span></small>
+    </div>
+  `).join('');
 }
 
 function updateFieldPins(points){
@@ -2297,65 +2264,101 @@ function updateFieldPins(points){
   const el = $('#fieldPins');
   if(el) el.innerHTML = fieldPointHtml(fieldCurrentPoints);
   refreshFieldPinDirections();
-  bindFieldPinClicks();
 }
 
 function refreshFieldPinDirections(){
   const arrows = document.querySelectorAll('.fieldPinDirArrow');
-  const bearings = document.querySelectorAll('.fieldBearing');
+  const bearings = document.querySelectorAll('.fieldBearingValue');
   arrows.forEach((arrow, idx)=>{
     const point = fieldCurrentPoints[idx];
     if(!point) return;
     arrow.style.transform = `rotate(${pointArrowRotation(point)}deg)`;
+    if(bearings[idx]) bearings[idx].textContent = `${relativeBearingText(point)}°`;
   });
-  bearings.forEach((span, idx)=>{
-    const point = fieldCurrentPoints[idx];
-    if(!point) return;
-    span.textContent = `${pointArrowRotation(point)}°`;
-  });
-}
-
-function bindFieldPinClicks(){
-  document.querySelectorAll('[data-field-point-index]').forEach(pin=>{
-    pin.onclick = () => {
-      const idx = Number(pin.dataset.fieldPointIndex || -1);
-      const point = fieldCurrentPoints[idx];
-      if(!point) return;
-      setFieldTargetFromPoint(point);
-      openFieldMediaGallery(fieldActiveTarget.key, fieldTargetTitle(fieldActiveTarget.key));
-    };
-  });
-}
-
-function updateFieldLayerButtons(){
-  const lotBtn = $('#toggleLotsLayer');
-  const placeBtn = $('#togglePlacesLayer');
-  if(lotBtn){
-    lotBtn.classList.toggle('active', fieldLayerPrefs.lots);
-    lotBtn.textContent = fieldLayerPrefs.lots ? 'Ocultar lotes' : 'Ver lotes';
-  }
-  if(placeBtn){
-    placeBtn.classList.toggle('active', fieldLayerPrefs.places);
-    placeBtn.textContent = fieldLayerPrefs.places ? 'Ocultar locais' : 'Ver locais';
-  }
-}
-
-function toggleFieldLayer(type){
-  fieldLayerPrefs[type] = !fieldLayerPrefs[type];
-  updateFieldLayerButtons();
-  updateFieldPins(buildFieldPoints(state.lot || LOTS[0]));
 }
 
 function setFieldActiveLot(activeLot, modeLabel='Você está vendo'){
   if(!activeLot) return;
-  fieldActiveTarget = {key:mediaTargetLotKey(activeLot.id), type:'lot', label:activeLot.name, lotId:activeLot.id};
+  fieldActiveLotId = activeLot.id;
+  fieldActiveLocationLabel = activeLot.name;
   if($('#fieldStatusLabel')) $('#fieldStatusLabel').textContent = modeLabel;
   if($('#fieldCurrentPoint')) $('#fieldCurrentPoint').textContent = activeLot.name;
   if($('#fieldInfoProduct')) $('#fieldInfoProduct').textContent = `${activeLot.area} m² · ${activeLot.dims}`;
   if($('#fieldInfoValue')) $('#fieldInfoValue').textContent = fmt(activeLot.price);
   const dest = lotDestination(activeLot);
   if(dest && $('#fieldInfoCoords')) $('#fieldInfoCoords').textContent = `${dest.lat.toFixed(5)}, ${dest.lng.toFixed(5)}`;
+  if($('#fieldMediaTarget')) $('#fieldMediaTarget').textContent = `Vinculado a: ${activeLot.name}`;
 }
+
+function toggleFieldPins(){
+  const stage = document.querySelector('.fieldStage');
+  const btn = $('#fieldTogglePins');
+  if(!stage || !btn) return;
+  const hidden = stage.classList.toggle('pinsHidden');
+  btn.querySelector('span:last-child').textContent = hidden ? 'Visualizar pontos' : 'Ocultar pontos';
+}
+
+function openFieldMediaPanel(){
+  const panel = $('#fieldMediaPanel');
+  if(!panel) return;
+  panel.classList.remove('hidden');
+  if($('#fieldMediaTarget')) $('#fieldMediaTarget').textContent = `Vinculado a: ${fieldActiveLocationLabel || 'lote atual'}`;
+}
+function closeFieldMediaPanel(){ const panel=$('#fieldMediaPanel'); if(panel) panel.classList.add('hidden'); }
+
+async function previewFieldMediaPhotos(){
+  const preview = $('#fieldMediaPreview');
+  if(!preview) return;
+  preview.innerHTML = '';
+  const files = [...Array.from($('#fieldMediaPhotos')?.files || []), ...Array.from($('#fieldMediaCamera')?.files || [])];
+  for(const file of files.slice(0,8)){
+    const data = await fileToCompressedImage(file, 420, .7);
+    if(data) preview.insertAdjacentHTML('beforeend', `<img src="${data}" alt="${esc(file.name)}" data-expand-image="${data}">`);
+  }
+}
+
+function fieldFileMeta(file){return {name:file.name, type:file.type || 'arquivo', size:file.size, locationLabel:fieldActiveLocationLabel, createdAt:new Date().toISOString()};}
+
+async function saveFieldMedia(){
+  const lotId = fieldActiveLotId;
+  const lot = LOTS.find(l=>l.id===lotId);
+  if(!lot){ toast('Não foi possível identificar o lote atual.'); return; }
+  const media = mediaForLot(lotId);
+  const photoFiles = [...Array.from($('#fieldMediaPhotos')?.files || []), ...Array.from($('#fieldMediaCamera')?.files || [])];
+  for(const file of photoFiles.slice(0,10)){
+    const src = await fileToCompressedImage(file, 1280, .78);
+    if(src) media.images.push({src, name:file.name, locationLabel:fieldActiveLocationLabel, createdAt:new Date().toISOString()});
+  }
+  Array.from($('#fieldMediaVideos')?.files || []).forEach(file=>media.videos.push(fieldFileMeta(file)));
+  Array.from($('#fieldMediaFiles')?.files || []).forEach(file=>media.files.push(fieldFileMeta(file)));
+  const drive = ($('#fieldMediaDrive')?.value || '').trim();
+  if(drive) media.driveLinks.push({url:drive, name:'Link do Google Drive', locationLabel:fieldActiveLocationLabel, createdAt:new Date().toISOString()});
+  media.images = uniqueBySrc(media.images);
+  saveMediaForLot(lotId, media);
+  applyStoredFieldMedia();
+  renderAll();
+  toast('Mídia vinculada ao lote/local.');
+  closeFieldMediaPanel();
+}
+
+function showImageLightbox(src){
+  let box = $('#imageLightbox');
+  if(!box){
+    box = document.createElement('div');
+    box.id = 'imageLightbox';
+    box.className = 'imageLightbox hidden';
+    box.innerHTML = `<button type="button" aria-label="Fechar imagem">×</button><img alt="Imagem ampliada">`;
+    document.body.appendChild(box);
+    box.addEventListener('click', e=>{ if(e.target===box || e.target.tagName==='BUTTON') box.classList.add('hidden'); });
+  }
+  box.querySelector('img').src = src;
+  box.classList.remove('hidden');
+}
+
+document.addEventListener('click', e=>{
+  const img = e.target.closest('[data-expand-image]');
+  if(img){ e.preventDefault(); showImageLightbox(img.dataset.expandImage || img.src); }
+});
 
 function openARView(id){
   const lot = LOTS.find(x=>x.id===id);
@@ -2372,9 +2375,100 @@ function openARView(id){
       <div class="fieldShell">
         <div class="fieldStage">
           <video id="fieldVideo" autoplay playsinline muted></video>
-          <div class="fieldFallback" id="fieldFallback">
-            <img src="${image}" alt="${lot.name}">
+          <div class="fieldFallback" id="fieldFallback"><img src="${image}" alt="${lot.name}"></div>
+          <div class="fieldVeil"></div>
+          <div class="fieldTop">
+            <div class="fieldCompass" aria-label="Bússola">
+              <div class="fieldCompassDial">
+                <div class="fieldCompassRose"></div><span class="fieldNorthLabel">N</span>
+                <div class="fieldNeedleWrap" id="fieldNeedleWrap"><div class="fieldNeedle" id="fieldNeedle"></div></div>
+                <div class="fieldCompassCenter"></div>
+              </div>
+              <div class="fieldCompassMeta"><strong id="fieldHeading">--°</strong><small>bússola</small></div>
+            </div>
+            <button class="fieldClose" data-close-modal aria-label="Fechar">×</button>
           </div>
+          <div id="fieldPins" class="fieldPins">${fieldPointHtml(buildFieldPoints(lot))}</div>
+          <div class="fieldStatus">
+            <div class="fieldStatusIcon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.5 6-10a6 6 0 1 0-12 0c0 4.5 6 10 6 10Z"></path><path d="M12 13.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z"></path></svg></div>
+            <div class="fieldStatusText"><small class="dynamicLabel" id="fieldStatusLabel">Você está vendo</small><b id="fieldCurrentPoint">${lot.name}</b><span id="fieldAccuracy">Solicitando câmera, bússola e localização...</span></div>
+          </div>
+          <div class="fieldMediaPanel hidden" id="fieldMediaPanel">
+            <div class="fieldMediaPanelHead"><div><h3>Cadastrar mídia</h3><p id="fieldMediaTarget">Vinculado a: ${lot.name}</p></div><button class="fieldMediaClose" id="fieldMediaClose" type="button">×</button></div>
+            <div class="fieldMediaGrid">
+              <div class="modalField"><label>Fotos já tiradas</label><input type="file" id="fieldMediaPhotos" accept="image/*" multiple></div>
+              <div class="modalField"><label>Tirar foto agora</label><input type="file" id="fieldMediaCamera" accept="image/*" capture="environment"></div>
+              <div class="modalField"><label>Vídeos</label><input type="file" id="fieldMediaVideos" accept="video/*" capture="environment" multiple></div>
+              <div class="modalField"><label>Arquivos</label><input type="file" id="fieldMediaFiles" multiple></div>
+              <div class="modalField full"><label>Link do Google Drive</label><input type="url" id="fieldMediaDrive" placeholder="Cole o link do Drive"></div>
+            </div>
+            <div class="fieldMediaPreview" id="fieldMediaPreview"></div>
+            <div class="fieldMediaSaved">As imagens serão vinculadas ao lote/local detectado e aparecerão na galeria do lote.</div>
+            <div class="fieldMediaActions"><button class="btn primary" id="fieldMediaSave" type="button">Salvar mídia</button><button class="btn light" id="fieldMediaCancel" type="button">Cancelar</button></div>
+          </div>
+        </div>
+        <div class="fieldInfo">
+          <div class="res"><small>Coordenada do lote</small><b id="fieldInfoCoords">${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}</b></div>
+          <div class="res"><small>Produto</small><b id="fieldInfoProduct">${lot.area} m² · ${lot.dims}</b></div>
+          <div class="res"><small>Valor</small><b id="fieldInfoValue">${fmt(lot.price)}</b></div>
+        </div>
+        <div class="fieldActions">
+          <button class="btn primary" data-route-lot="${lot.id}"><span class="actionIcon">↗</span><span>Abrir rota</span></button>
+          <button class="btn light" data-edit-gps-lot="${lot.id}"><span class="actionIcon">◎</span><span>Atualizar GPS</span></button>
+          <button class="btn light" id="fieldTogglePins" type="button"><span class="actionIcon">◌</span><span>Ocultar pontos</span></button>
+          <button class="btn light" id="fieldMediaButton" type="button"><span class="actionIcon">＋</span><span>Cadastrar mídia</span></button>
+          <button class="fieldActionHidden" id="fieldCompassPermission" type="button" aria-hidden="true" tabindex="-1">Ativar bússola</button>
+        </div>
+      </div>
+    </div>
+  `, 'fieldModalCard');
+  initFieldExperience(lot.id);
+  if($('#fieldTogglePins')) $('#fieldTogglePins').onclick = toggleFieldPins;
+  if($('#fieldMediaButton')) $('#fieldMediaButton').onclick = openFieldMediaPanel;
+  if($('#fieldMediaClose')) $('#fieldMediaClose').onclick = closeFieldMediaPanel;
+  if($('#fieldMediaCancel')) $('#fieldMediaCancel').onclick = closeFieldMediaPanel;
+  if($('#fieldMediaSave')) $('#fieldMediaSave').onclick = saveFieldMedia;
+  if($('#fieldMediaPhotos')) $('#fieldMediaPhotos').onchange = previewFieldMediaPhotos;
+  if($('#fieldMediaCamera')) $('#fieldMediaCamera').onchange = previewFieldMediaPhotos;
+}
+
+applyStoredFieldMedia();
+renderAll();
+
+
+/* v7.8 — ocultar/visualizar único + simular casa */
+var fieldPointsVisible = true;
+var HOUSE_STYLE_LIBRARY = [
+  {id:'contemporanea', name:'Contemporânea', desc:'Linhas retas, volumetria limpa e grandes esquadrias.'},
+  {id:'terrea-premium', name:'Térrea Premium', desc:'Conforto no térreo, varanda ampla e fachada sofisticada.'},
+  {id:'biofilica', name:'Biofílica', desc:'Materiais naturais, integração com paisagismo e luz abundante.'},
+  {id:'minimalista', name:'Minimalista', desc:'Composição elegante, tons neutros e desenho enxuto.'},
+  {id:'resort', name:'Resort Living', desc:'Fachada de alto padrão com clima de casa de resort.'},
+  {id:'mediterranea', name:'Mediterrânea', desc:'Telhados leves, volumes acolhedores e atmosfera solar.'}
+];
+function updateFieldPointToggleButton(){
+  const btn = document.querySelector('[data-toggle-field-points]');
+  const pins = document.getElementById('fieldPins');
+  if(pins) pins.classList.toggle('hidden', !fieldPointsVisible);
+  if(btn) btn.textContent = fieldPointsVisible ? 'Ocultar pontos' : 'Visualizar pontos';
+}
+function toggleFieldPointVisibility(){ fieldPointsVisible = !fieldPointsVisible; updateFieldPointToggleButton(); }
+
+function openARView(id){
+  const lot = LOTS.find(x=>x.id===id);
+  if(!lot) return;
+  if(!lotDestination(lot)){
+    toast('Cadastre a posição GPS deste lote antes de usar AR.');
+    openGpsEditModal(id);
+    return;
+  }
+  const image = lot.thumb || makeSvgDataUri(lot.name, 'Vista geral do lote e contexto urbano', '#466a43', '#c2ca8e');
+  openModal(`
+    <div class="modalBody">
+      <div class="fieldShell">
+        <div class="fieldStage">
+          <video id="fieldVideo" autoplay playsinline muted></video>
+          <div class="fieldFallback" id="fieldFallback"><img src="${image}" alt="${lot.name}"></div>
           <div class="fieldVeil"></div>
           <div class="fieldTop">
             <div class="fieldCompass" aria-label="Bússola">
@@ -2388,152 +2482,147 @@ function openARView(id){
             </div>
             <button class="fieldClose" data-close-modal aria-label="Fechar">×</button>
           </div>
-          <div class="fieldLayerControls">
-            <button class="fieldLayerButton active" id="toggleLotsLayer" type="button" data-field-toggle="lots">Ocultar lotes</button>
-            <button class="fieldLayerButton active" id="togglePlacesLayer" type="button" data-field-toggle="places">Ocultar locais</button>
-            <button class="fieldLayerButton media" type="button" id="openFieldMediaRegister">+ Mídia</button>
-          </div>
           <div id="fieldPins" class="fieldPins">${fieldPointHtml(buildFieldPoints(lot))}</div>
           <div class="fieldStatus">
             <div class="fieldStatusIcon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.5 6-10a6 6 0 1 0-12 0c0 4.5 6 10 6 10Z"></path><path d="M12 13.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z"></path></svg></div>
             <div class="fieldStatusText"><small class="dynamicLabel" id="fieldStatusLabel">Você está vendo</small><b id="fieldCurrentPoint">${lot.name}</b><span id="fieldAccuracy">Solicitando câmera, bússola e localização...</span></div>
           </div>
         </div>
-        <div class="fieldInfo">
-          <div class="res"><small>Coordenada do lote</small><b id="fieldInfoCoords">${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}</b></div>
+        <div class="fieldInfo compact">
           <div class="res"><small>Produto</small><b id="fieldInfoProduct">${lot.area} m² · ${lot.dims}</b></div>
           <div class="res"><small>Valor</small><b id="fieldInfoValue">${fmt(lot.price)}</b></div>
+          <div class="res hiddenGps"><small>Coordenada do lote</small><b id="fieldInfoCoords"></b></div>
         </div>
-        <div class="fieldActions">
+        <div class="fieldActions v78">
           <button class="btn primary" data-route-lot="${lot.id}"><span class="actionIcon">↗</span><span>Abrir rota</span></button>
-          <button class="btn light" data-edit-gps-lot="${lot.id}"><span class="actionIcon">◎</span><span>Atualizar GPS</span></button>
+          <button class="btn light" data-house-sim-lot="${lot.id}"><span class="actionIcon">⌂</span><span>Simular Casa</span></button>
+          <button class="btn light" data-toggle-field-points><span>Ocultar pontos</span></button>
+          <button class="btn light" id="openFieldMediaRegister"><span>Adicionar mídia</span></button>
           <button class="fieldActionHidden" id="fieldCompassPermission" type="button" aria-hidden="true" tabindex="-1">Ativar bússola</button>
         </div>
       </div>
     </div>
   `, 'fieldModalCard');
+  fieldPointsVisible = true;
   initFieldExperience(lot.id);
-  updateFieldLayerButtons();
+  updateFieldPointToggleButton();
 }
 
-function openFieldMediaRegister(){
-  const currentKey = fieldActiveTarget?.key || mediaTargetLotKey(state.lot?.id || LOTS[0].id);
-  const currentLotId = fieldActiveTarget?.lotId || state.lot?.id || LOTS[0].id;
-  const lot = LOTS.find(l=>l.id === currentLotId) || LOTS[0];
-  const places = placePointsFromLot(lot);
-  const options = [
-    `<option value="${mediaTargetLotKey(lot.id)}">${lot.name}</option>`,
-    ...places.map(p=>`<option value="${p.targetKey}">${p.label} · ${lot.project}</option>`)
-  ].join('');
-  const modal = $('#fieldMediaModal');
+function houseMockImage(lot, styleName){
+  const base = lot.thumb || makeSvgDataUri(lot.name, 'Lote base para simulação', '#d8d2ca', '#efe8de');
+  const svg = `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900">
+    <defs>
+      <linearGradient id="fade" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="rgba(10,16,30,0.05)"/><stop offset="100%" stop-color="rgba(10,16,30,0.45)"/></linearGradient>
+      <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="18" stdDeviation="28" flood-color="rgba(0,0,0,0.25)"/></filter>
+    </defs>
+    <image href="${base}" x="0" y="0" width="1200" height="900" preserveAspectRatio="xMidYMid slice"/>
+    <rect width="1200" height="900" fill="url(#fade)"/>
+    <rect x="54" y="54" width="1092" height="792" rx="34" fill="rgba(255,253,249,0.04)" stroke="rgba(255,255,255,0.28)"/>
+    <rect x="110" y="610" width="980" height="110" rx="22" fill="rgba(93,84,70,0.88)"/>
+    <rect x="180" y="470" width="420" height="160" rx="20" fill="rgba(238,234,228,0.95)" filter="url(#shadow)"/>
+    <rect x="540" y="420" width="320" height="210" rx="18" fill="rgba(225,215,200,0.95)" filter="url(#shadow)"/>
+    <rect x="830" y="495" width="160" height="135" rx="18" fill="rgba(205,180,154,0.98)" filter="url(#shadow)"/>
+    <rect x="145" y="438" width="510" height="34" rx="17" fill="rgba(89,80,68,0.96)"/>
+    <rect x="508" y="390" width="402" height="36" rx="18" fill="rgba(74,65,57,0.96)"/>
+    <rect x="232" y="528" width="130" height="70" rx="8" fill="rgba(159,191,214,0.65)"/>
+    <rect x="388" y="528" width="160" height="70" rx="8" fill="rgba(159,191,214,0.65)"/>
+    <rect x="612" y="500" width="186" height="96" rx="10" fill="rgba(164,193,212,0.62)"/>
+    <rect x="875" y="530" width="88" height="64" rx="8" fill="rgba(164,193,212,0.58)"/>
+    <circle cx="970" cy="170" r="86" fill="rgba(243,111,47,0.18)"/>
+    <circle cx="995" cy="192" r="46" fill="rgba(255,255,255,0.20)"/>
+    <text x="110" y="145" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">Simulação IA · ${styleName}</text>
+    <text x="110" y="185" fill="rgba(255,255,255,0.82)" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="800">${lot.name}</text>
+    <text x="110" y="235" fill="rgba(255,255,255,0.84)" font-family="Arial, Helvetica, sans-serif" font-size="30">Prévia conceitual gerada sobre a foto do lote</text>
+  </svg>`;
+  return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
+}
+
+async function requestChatGptHouseApi(lot, styles){
+  const payload = {lotId: lot.id, lotName: lot.name, lotImage: lot.thumb || '', coordinates: lot.coords || null, styles};
+  try{
+    const resp = await fetch('/api/chatgpt-house', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+    if(!resp.ok) throw new Error('api');
+    const data = await resp.json();
+    if(data && Array.isArray(data.images) && data.images.length){
+      return data.images.map((src, i)=>({style:styles[i] || `Opção ${i+1}`, src, source:'api'}));
+    }
+  }catch(e){}
+  return styles.map(style=>({style, src: houseMockImage(lot, style), source:'fallback'}));
+}
+
+function selectedHouseStyles(){
+  return Array.from(document.querySelectorAll('[data-house-style]:checked')).map(x=>x.value).slice(0,3);
+}
+function enforceHouseStyleLimit(changed){
+  const checked = selectedHouseStyles();
+  if(checked.length > 3 && changed){ changed.checked = false; toast('Selecione até 3 estilos.'); }
+}
+
+function openHouseSimulation(lotId){
+  const lot = LOTS.find(l=>l.id===lotId);
+  if(!lot) return;
+  const modal = document.getElementById('houseSimModal');
+  const styleOptions = HOUSE_STYLE_LIBRARY.map((item, idx)=>`
+    <label class="houseStyleOption"><input type="checkbox" data-house-style value="${item.name}" ${idx<3?'checked':''}><span><b>${item.name}</b><br><small>${item.desc}</small></span></label>
+  `).join('');
   modal.innerHTML = `
-    <div class="fieldMediaCard">
-      <div class="fieldMediaHead">
-        <div><span class="tag">Cadastro de mídia</span><h2>Vincular fotos, vídeos e arquivos</h2><p class="muted">As imagens entram na galeria do lote ou do local selecionado.</p></div>
-        <button class="btn light small" data-close-field-media>Fechar</button>
+    <div class="houseSimCard">
+      <div class="houseSimHead">
+        <div><span class="tag">Simular Casa</span><h2>${lot.name}</h2><p class="muted">Selecione até 3 estilos para gerar prévias da casa sobre a foto do lote. A chamada à IA do ChatGPT está preparada via API, com fallback visual para protótipo.</p></div>
+        <button class="btn light small" data-close-house-sim>Fechar</button>
       </div>
-      <div class="fieldMediaBody">
-        <div class="modalFormGrid">
-          <div class="modalField full"><label>Vincular a</label><select id="mediaTargetSelect">${options}</select></div>
-          <div class="modalField full"><label>Fotos já tiradas</label><input type="file" id="mediaImages" accept="image/*" multiple></div>
-          <div class="modalField full"><label>Tirar foto agora</label><input type="file" id="mediaCamera" accept="image/*" capture="environment"></div>
-          <div class="modalField full"><label>Vídeos</label><input type="file" id="mediaVideos" accept="video/*" capture="environment" multiple></div>
-          <div class="modalField full"><label>Arquivos</label><input type="file" id="mediaFiles" multiple></div>
-          <div class="modalField full"><label>Link do Google Drive</label><input type="url" id="mediaDrive" placeholder="https://drive.google.com/..."></div>
-          <div class="modalField full"><label>Observação</label><textarea id="mediaNote" placeholder="Ex.: foto da esquina, vista, marcação de quadra, documento do lote..."></textarea></div>
+      <div class="houseSimBody">
+        <div class="houseSimPreview">
+          <img src="${lot.thumb || makeSvgDataUri(lot.name, 'Foto base do lote', '#d9d2c8', '#efe8de')}" alt="${lot.name}">
+          <div class="res" style="margin-top:12px"><small>Base do lote</small><b>${lot.area} m² · ${lot.dims}</b></div>
+          <div class="res" style="margin-top:10px"><small>Empreendimento</small><b>${lot.project}</b></div>
         </div>
-        <div class="actions"><button class="btn primary" id="saveFieldMedia">Salvar mídia</button><button class="btn light" data-open-field-media-gallery="${currentKey}">Ver galeria</button></div>
+        <div>
+          <div class="houseStyleGrid">${styleOptions}</div>
+          <div class="houseSimGenerate">
+            <button class="btn primary" id="generateHouseSimulation">Gerar simulações</button>
+            <button class="btn light" data-close-house-sim>Cancelar</button>
+          </div>
+          <div id="houseSimResults" class="houseSimResults"><div class="houseLoading">Escolha até 3 estilos e clique em “Gerar simulações”.</div></div>
+        </div>
       </div>
     </div>`;
   modal.classList.add('show');
-  $('#mediaTargetSelect').value = currentKey;
-  bindFieldMediaModal();
-}
-
-async function saveFieldMediaFromModal(){
-  const targetKey = $('#mediaTargetSelect')?.value || fieldActiveTarget?.key;
-  if(!targetKey){ toast('Selecione onde vincular a mídia.'); return; }
-  const note = ($('#mediaNote')?.value || '').trim();
-  const items = readFieldMedia();
-  const now = new Date().toISOString();
-  const addImageFile = async (file) => {
-    const src = await fileToCompressedImage(file, 1400, .82);
-    if(src) items.push({id:`media-${Date.now()}-${Math.random().toString(16).slice(2)}`, targetKey, type:'image', src, name:file.name, note, createdAt:now});
+  modal.querySelectorAll('[data-house-style]').forEach(chk=>chk.addEventListener('change', ()=>enforceHouseStyleLimit(chk)));
+  modal.querySelectorAll('[data-close-house-sim]').forEach(btn=>btn.onclick=()=>{ modal.classList.remove('show'); modal.innerHTML='';});
+  const generateBtn = document.getElementById('generateHouseSimulation');
+  generateBtn.onclick = async ()=>{
+    const styles = selectedHouseStyles();
+    if(!styles.length){ toast('Selecione pelo menos um estilo.'); return; }
+    const results = document.getElementById('houseSimResults');
+    results.innerHTML = '<div class="houseLoading">Gerando propostas visuais do lote com os estilos escolhidos...</div>';
+    const images = await requestChatGptHouseApi(lot, styles);
+    results.innerHTML = images.map((item, idx)=>`
+      <div class="houseResultCard">
+        <img src="${item.src}" alt="${item.style}" data-zoom-src="${item.src}">
+        <div class="houseResultMeta"><h4>${item.style}</h4><span class="tag">${item.source==='api'?'API ChatGPT':'prévia'}</span></div>
+        <p>Simulação visual da implantação da casa no lote, considerando o estilo arquitetônico selecionado.</p>
+      </div>`).join('');
+    results.querySelectorAll('[data-zoom-src]').forEach(img=>img.onclick=()=>openImagePreview(img.dataset.zoomSrc, img.alt || 'Simulação de casa'));
   };
-  const imageFiles = [...Array.from($('#mediaImages')?.files || []), ...Array.from($('#mediaCamera')?.files || [])];
-  for(const file of imageFiles.slice(0,8)) await addImageFile(file);
-  Array.from($('#mediaVideos')?.files || []).slice(0,6).forEach(file=>{
-    const url = URL.createObjectURL(file);
-    const id = `media-${Date.now()}-${Math.random().toString(16).slice(2)}`;
-    fieldSessionFiles[id] = url;
-    items.push({id,targetKey,type:'video',name:file.name,mime:file.type,size:file.size,note,createdAt:now,sessionUrl:url});
-  });
-  Array.from($('#mediaFiles')?.files || []).slice(0,12).forEach(file=>{
-    const id = `media-${Date.now()}-${Math.random().toString(16).slice(2)}`;
-    items.push({id,targetKey,type:'file',name:file.name,mime:file.type,size:file.size,note,createdAt:now});
-  });
-  const drive = ($('#mediaDrive')?.value || '').trim();
-  if(drive) items.push({id:`media-${Date.now()}-drive`,targetKey,type:'drive',name:'Google Drive',url:drive,note,createdAt:now});
-  saveFieldMedia(items);
-  toast('Mídia vinculada com sucesso.');
-  const modal = $('#fieldMediaModal');
-  modal.classList.remove('show');
-  modal.innerHTML = '';
-  if(fieldCurrentPoints?.length) updateFieldPins(fieldCurrentPoints);
 }
 
-function openFieldMediaGallery(targetKey, title='Galeria'){
-  const media = fieldMediaForTarget(targetKey);
-  const images = media.filter(m=>m.type==='image' && m.src);
-  const videos = media.filter(m=>m.type==='video');
-  const files = media.filter(m=>m.type==='file' || m.type==='drive');
-  const modal = $('#fieldMediaModal');
-  modal.innerHTML = `
-    <div class="fieldMediaCard">
-      <div class="fieldMediaHead">
-        <div><span class="tag">Galeria vinculada</span><h2>${title}</h2><p class="muted">${media.length ? `${media.length} item(ns) cadastrados.` : 'Nenhuma mídia cadastrada para este ponto.'}</p></div>
-        <button class="btn light small" data-close-field-media>Fechar</button>
-      </div>
-      <div class="fieldMediaBody">
-        ${images.length ? `<div class="fieldMediaGrid">${images.map(img=>`<img class="zoomableImage" data-zoom-src="${img}" src="${img}" alt="${title}">`).join('')}</div>` : `<div class="mediaEmpty">Nenhuma imagem cadastrada. Use “+ Mídia” no modo campo.</div>`}
-        ${videos.length ? `<div class="mediaList"><b>Vídeos</b>${videos.map(v=>v.sessionUrl ? `<a href="${v.sessionUrl}" target="_blank">${v.name}<small>abrir</small></a>` : `<span>${v.name}<small>registrado</small></span>`).join('')}</div>` : ''}
-        ${files.length ? `<div class="mediaList"><b>Arquivos e Drive</b>${files.map(f=>f.type==='drive' ? `<a href="${f.url}" target="_blank">${f.name}<small>Google Drive</small></a>` : `<span>${f.name}<small>${((f.size||0)/1024/1024).toFixed(1)} MB</small></span>`).join('')}</div>` : ''}
-        <div class="actions" style="margin-top:16px"><button class="btn primary" id="openFieldMediaRegisterFromGallery">Cadastrar mídia</button></div>
-      </div>
-    </div>`;
-  modal.classList.add('show');
-  bindFieldMediaModal();
-  $('#openFieldMediaRegisterFromGallery').onclick = openFieldMediaRegister;
-}
-
-function openImagePreview(src,title='Imagem'){
-  const modal = $('#fieldMediaModal');
-  modal.innerHTML = `
-    <div class="zoomCard">
-      <div class="zoomHead"><b>${title}</b><button class="btn light small" data-close-field-media>Fechar</button></div>
-      <div class="zoomBody"><img class="zoomModalImage" src="${src}" alt="${title}"></div>
-    </div>`;
-  modal.classList.add('show');
-  bindFieldMediaModal();
-}
-
-function bindFieldMediaModal(){
-  $$('[data-close-field-media]').forEach(btn=>btn.onclick=()=>{const modal=$('#fieldMediaModal');modal.classList.remove('show');modal.innerHTML='';});
-  $('#saveFieldMedia') && ($('#saveFieldMedia').onclick = saveFieldMediaFromModal);
-  $$('[data-open-field-media-gallery]').forEach(btn=>btn.onclick=()=>openFieldMediaGallery(btn.dataset.openFieldMediaGallery, fieldTargetTitle(btn.dataset.openFieldMediaGallery)));
-  $$('[data-zoom-src]').forEach(img=>img.onclick=()=>openImagePreview(img.dataset.zoomSrc, img.alt || 'Imagem'));
-}
-
-const bindModalActionsBaseV77 = bindModalActions;
-bindModalActions = function(){
-  bindModalActionsBaseV77();
-  $$('[data-zoom-src]').forEach(img=>img.onclick=()=>openImagePreview(img.dataset.zoomSrc, img.alt || 'Imagem'));
-  $$('[data-field-toggle]').forEach(btn=>btn.onclick=()=>toggleFieldLayer(btn.dataset.fieldToggle));
-  $('#openFieldMediaRegister') && ($('#openFieldMediaRegister').onclick = openFieldMediaRegister);
-  bindFieldPinClicks();
-};
-
-$('#fieldMediaModal')?.addEventListener('click', e=>{ if(e.target.id === 'fieldMediaModal'){ e.currentTarget.classList.remove('show'); e.currentTarget.innerHTML=''; }});
+(function(){
+  const originalBind = bindModalActions;
+  bindModalActions = function(){
+    originalBind();
+    document.querySelectorAll('[data-toggle-field-points]').forEach(btn=>btn.onclick=toggleFieldPointVisibility);
+    document.querySelectorAll('[data-house-sim-lot]').forEach(btn=>btn.onclick=()=>openHouseSimulation(btn.dataset.houseSimLot));
+    const mediaBtn = document.getElementById('openFieldMediaRegister');
+    if(mediaBtn) mediaBtn.onclick = openFieldMediaRegister;
+    updateFieldPointToggleButton();
+  };
+  const houseModal = document.getElementById('houseSimModal');
+  if(houseModal){
+    houseModal.addEventListener('click', (e)=>{ if(e.target.id === 'houseSimModal'){ houseModal.classList.remove('show'); houseModal.innerHTML=''; } });
+  }
+})();
 
 </script>
 </body>
