@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v8.7 Ver no Mapa</title>
+<title>Futura Casa | v8.8 Ver no Mapa Único</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -409,7 +409,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 @media(max-width:760px){.houseSimToolbar{display:grid;grid-template-columns:1fr}}
 
 
-/* v8.7 — Mapa interativo Futura Casa */
+/* v8.8 — Mapa interativo Futura Casa */
 .mapSection{padding-top:18px}
 .mapExperience{position:relative;border-radius:34px;background:linear-gradient(180deg,#121824,#0e1420);box-shadow:var(--shadow2);overflow:hidden;border:1px solid rgba(16,20,29,.10)}
 .mapHeaderBar{position:absolute;z-index:8;left:18px;right:18px;top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:none}
@@ -588,6 +588,12 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 @media(max-width:700px){
   .mapLotRowActions{grid-template-columns:1fr}
 }
+
+
+/* v8.8 — lista convencional com apenas Ver no mapa */
+.mapLotRowActions{display:grid!important;grid-template-columns:1fr!important;gap:8px;margin-top:2px}
+.mapLotRow{cursor:pointer}
+.mapLotRow .btn.primary.small{min-height:44px}
 
 </style>
 </head>
@@ -2925,13 +2931,13 @@ function renderMapFinder(){
 
   if(count){
     count.textContent = lots.length
-      ? `${lots.length} lote(s) encontrado(s). A lista rola dentro desta janela.`
+      ? `${lots.length} lote(s) encontrado(s). Toque no card ou em “Ver no mapa”.`
       : 'Nenhum lote encontrado com estes filtros.';
   }
 
   if(!list) return;
   list.innerHTML = lots.map(l=>`
-    <article class="mapLotRow ${l.id===selectedMapLotId?'selected':''}" data-select-map-lot="${l.id}">
+    <article class="mapLotRow ${l.id===selectedMapLotId?'selected':''}" data-view-map-lot-card="${l.id}">
       <div class="mapLotRowTop">
         <h4>Quadra ${l.quadra} • Lote ${l.number}</h4>
         <span class="statusBadge ${l.status}">${mapStatusLabel(l.status)}</span>
@@ -2939,20 +2945,16 @@ function renderMapFinder(){
       <div class="rowMeta"><span>${Math.round(l.area)} m²</span><span>${l.dims}</span><span>${fmt(l.price)}</span><span>${l.taste}</span></div>
       <p class="muted" style="margin:0">${l.details}</p>
       <div class="mapLotRowActions">
-        <button class="btn light small" type="button" data-select-only-map-lot="${l.id}">Selecionar</button>
         <button class="btn primary small" type="button" data-view-map-lot="${l.id}">Ver no mapa</button>
       </div>
     </article>
   `).join('');
 
-  list.querySelectorAll('[data-select-map-lot]').forEach(row=>{
+  list.querySelectorAll('[data-view-map-lot-card]').forEach(row=>{
     row.onclick = (event)=>{
       if(event.target.closest('button')) return;
-      selectMapLot(row.dataset.selectMapLot,{scrollToMap:false});
+      selectMapLot(row.dataset.viewMapLotCard,{scrollToMap:true});
     };
-  });
-  list.querySelectorAll('[data-select-only-map-lot]').forEach(btn=>{
-    btn.onclick = ()=>selectMapLot(btn.dataset.selectOnlyMapLot,{scrollToMap:false});
   });
   list.querySelectorAll('[data-view-map-lot]').forEach(btn=>{
     btn.onclick = ()=>selectMapLot(btn.dataset.viewMapLot,{scrollToMap:true});
