@@ -1,8 +1,11 @@
-Futura Casa v7.8
+# Futura Casa v7.9 — Correção dos botões AR
 
-- botão único para ocultar/visualizar pontos no AR;
-- botão Atualizar GPS removido da janela AR;
-- botão Simular Casa adicionado;
-- botão Adicionar mídia reposicionado;
-- coordenadas de GPS ocultadas da interface AR;
-- modal Simular Casa com seleção de até 3 estilos e chamada preparada para API do ChatGPT, com fallback visual local.
+Correções:
+- Botões do setor AR estão todos em laranja.
+- Botão Simular Casa funcional.
+- Botão Adicionar mídia funcional.
+- Janelas auxiliares de mídia e simulação de casa foram adicionadas.
+- Imagens adicionadas ao lote aparecem na galeria do lote.
+- Clique em imagens abre visualização ampliada.
+
+Observação: a geração de casa por IA está preparada para endpoint `/api/chatgpt-house`. Sem backend conectado, a plataforma usa fallback visual local.

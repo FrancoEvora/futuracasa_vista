@@ -331,6 +331,40 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
   .fieldActions.v78{grid-template-columns:1fr 1fr}
 }
 
+
+/* v7.9 — correção dos botões AR e mídias funcionais */
+.fieldActions.v78 .btn.primary{
+  background:linear-gradient(180deg,var(--orange2),var(--orange));
+  color:#fff;
+  border-color:rgba(243,111,47,.28);
+  box-shadow:0 12px 28px rgba(243,111,47,.22);
+}
+.fieldActions.v78 .btn.primary:hover{filter:brightness(.98)}
+.fieldMediaOverlay{z-index:260;background:rgba(17,23,33,.46);backdrop-filter:blur(10px);padding:16px}
+.fieldMediaOverlay.show{display:grid;place-items:center}
+.fieldMediaCard{width:min(760px,100%);max-height:min(92vh,calc(100dvh - 28px));overflow:auto;background:#fffdf9;border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow2)}
+.fieldMediaHead{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;padding:20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fffdf9;z-index:2}
+.fieldMediaHead h2{margin:0;font-size:26px;letter-spacing:-.04em}
+.fieldMediaBody{padding:20px}
+.fieldMediaGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.fieldMediaGrid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:16px;border:1px solid var(--line);cursor:pointer;background:#f7f1e9}
+.mediaList{display:grid;gap:8px;margin-top:12px}
+.mediaList a,.mediaList span{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 14px;border-radius:16px;background:#f7f1e9;border:1px solid var(--line);color:var(--ink);font-weight:800}
+.mediaList small{color:var(--muted);font-weight:700}
+.mediaEmpty{padding:18px;border:1px dashed var(--line);border-radius:18px;color:var(--muted);background:#fff}
+.zoomModalImage{display:block;max-width:100%;max-height:74vh;margin:auto;border-radius:20px;object-fit:contain;background:#111}
+.zoomCard{width:min(980px,100%);background:#111721;border-radius:28px;overflow:hidden;box-shadow:var(--shadow2)}
+.zoomHead{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;color:#fff;background:#111721}
+.zoomHead b{font-size:16px}
+.zoomBody{padding:10px;background:#111721}
+.zoomableImage{cursor:zoom-in}
+@media(max-width:700px){
+  .fieldMediaOverlay{padding:8px}
+  .fieldMediaCard{border-radius:22px;max-height:calc(100dvh - 16px)}
+  .fieldMediaHead,.fieldMediaBody{padding:14px}
+  .fieldMediaGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
 </style>
 </head>
 <body>
@@ -475,6 +509,8 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 </main>
 
 <div class="modal" id="detailModal"></div>
+<div class="modal fieldMediaOverlay" id="fieldMediaModal"></div>
+<div class="modal fieldMediaOverlay" id="houseSimModal"></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -2495,9 +2531,9 @@ function openARView(id){
         </div>
         <div class="fieldActions v78">
           <button class="btn primary" data-route-lot="${lot.id}"><span class="actionIcon">↗</span><span>Abrir rota</span></button>
-          <button class="btn light" data-house-sim-lot="${lot.id}"><span class="actionIcon">⌂</span><span>Simular Casa</span></button>
-          <button class="btn light" data-toggle-field-points><span>Ocultar pontos</span></button>
-          <button class="btn light" id="openFieldMediaRegister"><span>Adicionar mídia</span></button>
+          <button class="btn primary" data-house-sim-lot="${lot.id}"><span class="actionIcon">⌂</span><span>Simular Casa</span></button>
+          <button class="btn primary" data-toggle-field-points><span>Ocultar pontos</span></button>
+          <button class="btn primary" id="openFieldMediaRegister" data-media-lot="${lot.id}"><span>Adicionar mídia</span></button>
           <button class="fieldActionHidden" id="fieldCompassPermission" type="button" aria-hidden="true" tabindex="-1">Ativar bússola</button>
         </div>
       </div>
@@ -2621,6 +2657,228 @@ function openHouseSimulation(lotId){
   const houseModal = document.getElementById('houseSimModal');
   if(houseModal){
     houseModal.addEventListener('click', (e)=>{ if(e.target.id === 'houseSimModal'){ houseModal.classList.remove('show'); houseModal.innerHTML=''; } });
+  }
+})();
+
+
+/* v7.9 — botões AR funcionais e mídia vinculada */
+var FIELD_MEDIA_STORAGE_KEY_V79 = 'fc_field_media_v79';
+var fieldSessionFilesV79 = {};
+
+function mediaTargetLotKeyV79(lotId){ return `lot:${lotId}`; }
+
+function readFieldMediaV79(){
+  try{
+    const raw = JSON.parse(localStorage.getItem(FIELD_MEDIA_STORAGE_KEY_V79) || '[]');
+    return Array.isArray(raw) ? raw : [];
+  }catch(e){
+    return [];
+  }
+}
+
+function saveFieldMediaV79(items){
+  localStorage.setItem(FIELD_MEDIA_STORAGE_KEY_V79, JSON.stringify(items));
+}
+
+function fieldMediaForTargetV79(key){
+  return readFieldMediaV79().filter(item=>item.targetKey === key);
+}
+
+function lotMediaImagesV79(lotId){
+  return fieldMediaForTargetV79(mediaTargetLotKeyV79(lotId))
+    .filter(item=>item.type === 'image' && item.src)
+    .map(item=>item.src);
+}
+
+function fieldCurrentLotIdV79(){
+  const btn = document.getElementById('openFieldMediaRegister');
+  return btn?.dataset?.mediaLot || state.lot?.id || LOTS[0]?.id;
+}
+
+function fieldCurrentLotV79(){
+  return LOTS.find(l=>l.id === fieldCurrentLotIdV79()) || state.lot || LOTS[0];
+}
+
+function lotGallery(l){
+  const media = lotMediaImagesV79(l.id);
+  const gallery = Array.isArray(l.gallery) ? l.gallery.filter(Boolean) : [];
+  const base = l.thumb || makeSvgDataUri(l.name, 'Vista geral do lote e contexto urbano', '#466a43', '#c2ca8e');
+  return [
+    ...media,
+    ...gallery,
+    base,
+    makeSvgDataUri(l.project, 'Perspectiva de implantação e frente do lote', '#5f7c4c', '#d6a76e'),
+    makeSvgDataUri((l.area || '-') + ' m²', 'Leitura de potencial construtivo e posição', '#2a4e5f', '#7fa5b8')
+  ].filter((src, index, arr)=>src && arr.indexOf(src)===index);
+}
+
+function renderGallery(images, galleryId='galleryViewport'){
+  return `
+    <div class="galleryShell">
+      <button class="galleryArrow prev" type="button" data-gallery-nav="prev" data-gallery-target="${galleryId}" aria-label="Imagem anterior">‹</button>
+      <div class="galleryViewport" id="${galleryId}">
+        ${images.map((src,i)=>`<div class="gallerySlide"><img class="zoomableImage" data-zoom-src="${src}" src="${src}" alt="Imagem ${i+1}"></div>`).join('')}
+      </div>
+      <button class="galleryArrow next" type="button" data-gallery-nav="next" data-gallery-target="${galleryId}" aria-label="Próxima imagem">›</button>
+    </div>
+  `;
+}
+
+function openImagePreview(src,title='Imagem'){
+  const modal = document.getElementById('fieldMediaModal');
+  if(!modal) return;
+  modal.innerHTML = `
+    <div class="zoomCard">
+      <div class="zoomHead"><b>${title}</b><button class="btn light small" data-close-field-media>Fechar</button></div>
+      <div class="zoomBody"><img class="zoomModalImage" src="${src}" alt="${title}"></div>
+    </div>`;
+  modal.classList.add('show');
+  bindFieldMediaModalV79();
+}
+
+function openFieldMediaRegister(){
+  const lot = fieldCurrentLotV79();
+  const targetKey = mediaTargetLotKeyV79(lot.id);
+  const modal = document.getElementById('fieldMediaModal');
+  if(!modal){
+    toast('Janela de mídia não encontrada.');
+    return;
+  }
+  modal.innerHTML = `
+    <div class="fieldMediaCard">
+      <div class="fieldMediaHead">
+        <div><span class="tag">Cadastro de mídia</span><h2>Adicionar mídia ao lote</h2><p class="muted">As imagens entram automaticamente na galeria do lote.</p></div>
+        <button class="btn light small" data-close-field-media>Fechar</button>
+      </div>
+      <div class="fieldMediaBody">
+        <div class="confirmBox" style="margin-bottom:14px">
+          <h3>${lot.name}</h3>
+          <p>Vinculando mídia ao lote atual da experiência em campo.</p>
+        </div>
+        <div class="modalFormGrid">
+          <div class="modalField full"><label>Fotos já tiradas</label><input type="file" id="mediaImagesV79" accept="image/*" multiple></div>
+          <div class="modalField full"><label>Tirar foto agora</label><input type="file" id="mediaCameraV79" accept="image/*" capture="environment"></div>
+          <div class="modalField full"><label>Vídeos</label><input type="file" id="mediaVideosV79" accept="video/*" capture="environment" multiple></div>
+          <div class="modalField full"><label>Arquivos</label><input type="file" id="mediaFilesV79" multiple></div>
+          <div class="modalField full"><label>Link do Google Drive</label><input type="url" id="mediaDriveV79" placeholder="https://drive.google.com/..."></div>
+          <div class="modalField full"><label>Observação</label><textarea id="mediaNoteV79" placeholder="Ex.: foto da testada, esquina, vista, documento do lote..."></textarea></div>
+        </div>
+        <div class="actions"><button class="btn primary" id="saveFieldMediaV79" data-target-key="${targetKey}">Salvar mídia</button><button class="btn light" data-open-media-gallery-v79="${targetKey}">Ver galeria</button></div>
+      </div>
+    </div>`;
+  modal.classList.add('show');
+  bindFieldMediaModalV79();
+}
+
+async function saveFieldMediaFromModalV79(){
+  const lot = fieldCurrentLotV79();
+  const targetKey = mediaTargetLotKeyV79(lot.id);
+  const note = (document.getElementById('mediaNoteV79')?.value || '').trim();
+  const items = readFieldMediaV79();
+  const now = new Date().toISOString();
+
+  const addImageFile = async (file) => {
+    const src = await fileToCompressedImage(file, 1400, .82);
+    if(src){
+      items.push({id:`media-${Date.now()}-${Math.random().toString(16).slice(2)}`, targetKey, type:'image', src, name:file.name, note, createdAt:now});
+    }
+  };
+
+  const images = [
+    ...Array.from(document.getElementById('mediaImagesV79')?.files || []),
+    ...Array.from(document.getElementById('mediaCameraV79')?.files || [])
+  ];
+  for(const file of images.slice(0,8)) await addImageFile(file);
+
+  Array.from(document.getElementById('mediaVideosV79')?.files || []).slice(0,6).forEach(file=>{
+    const id = `media-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    const url = URL.createObjectURL(file);
+    fieldSessionFilesV79[id] = url;
+    items.push({id,targetKey,type:'video',name:file.name,mime:file.type,size:file.size,note,createdAt:now,sessionUrl:url});
+  });
+
+  Array.from(document.getElementById('mediaFilesV79')?.files || []).slice(0,12).forEach(file=>{
+    const id = `media-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    items.push({id,targetKey,type:'file',name:file.name,mime:file.type,size:file.size,note,createdAt:now});
+  });
+
+  const drive = (document.getElementById('mediaDriveV79')?.value || '').trim();
+  if(drive){
+    items.push({id:`media-${Date.now()}-drive`,targetKey,type:'drive',name:'Google Drive',url:drive,note,createdAt:now});
+  }
+
+  saveFieldMediaV79(items);
+  toast('Mídia vinculada ao lote.');
+  const modal = document.getElementById('fieldMediaModal');
+  modal.classList.remove('show');
+  modal.innerHTML = '';
+}
+
+function openFieldMediaGalleryV79(targetKey, title='Galeria'){
+  const media = fieldMediaForTargetV79(targetKey);
+  const images = media.filter(m=>m.type==='image' && m.src);
+  const videos = media.filter(m=>m.type==='video');
+  const files = media.filter(m=>m.type==='file' || m.type==='drive');
+  const modal = document.getElementById('fieldMediaModal');
+  if(!modal) return;
+  modal.innerHTML = `
+    <div class="fieldMediaCard">
+      <div class="fieldMediaHead">
+        <div><span class="tag">Galeria vinculada</span><h2>${title}</h2><p class="muted">${media.length ? `${media.length} item(ns) cadastrados.` : 'Nenhuma mídia cadastrada para este lote.'}</p></div>
+        <button class="btn light small" data-close-field-media>Fechar</button>
+      </div>
+      <div class="fieldMediaBody">
+        ${images.length ? `<div class="fieldMediaGrid">${images.map(img=>`<img class="zoomableImage" data-zoom-src="${img}" src="${img}" alt="${title}">`).join('')}</div>` : `<div class="mediaEmpty">Nenhuma imagem cadastrada. Use “Adicionar mídia”.</div>`}
+        ${videos.length ? `<div class="mediaList"><b>Vídeos</b>${videos.map(v=>v.sessionUrl ? `<a href="${v.sessionUrl}" target="_blank">${v.name}<small>abrir</small></a>` : `<span>${v.name}<small>registrado</small></span>`).join('')}</div>` : ''}
+        ${files.length ? `<div class="mediaList"><b>Arquivos e Drive</b>${files.map(f=>f.type==='drive' ? `<a href="${f.url}" target="_blank">${f.name}<small>Google Drive</small></a>` : `<span>${f.name}<small>${((f.size||0)/1024/1024).toFixed(1)} MB</small></span>`).join('')}</div>` : ''}
+        <div class="actions" style="margin-top:16px"><button class="btn primary" id="openFieldMediaRegisterFromGalleryV79">Adicionar mídia</button></div>
+      </div>
+    </div>`;
+  modal.classList.add('show');
+  bindFieldMediaModalV79();
+}
+
+function bindFieldMediaModalV79(){
+  document.querySelectorAll('[data-close-field-media]').forEach(btn=>btn.onclick=()=>{
+    const modal=document.getElementById('fieldMediaModal');
+    modal.classList.remove('show');
+    modal.innerHTML='';
+  });
+  const saveBtn = document.getElementById('saveFieldMediaV79');
+  if(saveBtn) saveBtn.onclick = saveFieldMediaFromModalV79;
+  document.querySelectorAll('[data-open-media-gallery-v79]').forEach(btn=>btn.onclick=()=>openFieldMediaGalleryV79(btn.dataset.openMediaGalleryV79, fieldCurrentLotV79().name));
+  const addFromGallery = document.getElementById('openFieldMediaRegisterFromGalleryV79');
+  if(addFromGallery) addFromGallery.onclick = openFieldMediaRegister;
+  document.querySelectorAll('[data-zoom-src]').forEach(img=>img.onclick=()=>openImagePreview(img.dataset.zoomSrc, img.alt || 'Imagem'));
+}
+
+(function(){
+  const previousBind = bindModalActions;
+  bindModalActions = function(){
+    previousBind();
+    document.querySelectorAll('[data-house-sim-lot]').forEach(btn=>btn.onclick=()=>openHouseSimulation(btn.dataset.houseSimLot));
+    document.querySelectorAll('[data-toggle-field-points]').forEach(btn=>btn.onclick=toggleFieldPointVisibility);
+    const mediaBtn = document.getElementById('openFieldMediaRegister');
+    if(mediaBtn) mediaBtn.onclick = openFieldMediaRegister;
+    document.querySelectorAll('[data-zoom-src]').forEach(img=>img.onclick=()=>openImagePreview(img.dataset.zoomSrc, img.alt || 'Imagem'));
+  };
+  const mediaModal = document.getElementById('fieldMediaModal');
+  if(mediaModal){
+    mediaModal.addEventListener('click', e=>{
+      if(e.target.id === 'fieldMediaModal'){
+        mediaModal.classList.remove('show');
+        mediaModal.innerHTML='';
+      }
+    });
+  }
+  const houseModal = document.getElementById('houseSimModal');
+  if(houseModal){
+    houseModal.addEventListener('click', e=>{
+      if(e.target.id === 'houseSimModal'){
+        houseModal.classList.remove('show');
+        houseModal.innerHTML='';
+      }
+    });
   }
 })();
 
