@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v8.3 Mapa Interativo</title>
+<title>Futura Casa | v8.4 Mapa Híbrido</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -409,7 +409,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 @media(max-width:760px){.houseSimToolbar{display:grid;grid-template-columns:1fr}}
 
 
-/* v8.3 — Mapa interativo Futura Casa */
+/* v8.4 — Mapa interativo Futura Casa */
 .mapSection{padding-top:18px}
 .mapExperience{position:relative;border-radius:34px;background:linear-gradient(180deg,#121824,#0e1420);box-shadow:var(--shadow2);overflow:hidden;border:1px solid rgba(16,20,29,.10)}
 .mapHeaderBar{position:absolute;z-index:8;left:18px;right:18px;top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:none}
@@ -474,6 +474,50 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
   .mapActions{grid-template-columns:1fr}
 }
 
+
+/* v8.4 — Mapa híbrido: imagem verdadeira + mapa convencional filtrável */
+.mapSection .sectionHead h2{max-width:760px}
+.mapSelection.mapHybridPanel{display:grid;align-content:start;gap:16px;overflow:auto}
+.mapSelection.mapHybridPanel #mapSelectionCard{display:block}
+.mapFinder{width:100%;background:rgba(255,253,249,.94);border:1px solid var(--line);border-radius:28px;padding:18px;box-shadow:0 14px 42px rgba(16,20,29,.08)}
+.mapFinderHead{display:grid;gap:6px;margin-bottom:14px}
+.mapFinderHead h3{margin:0;font-size:25px;letter-spacing:-.04em}
+.mapFinderHead p{margin:0}
+.mapFiltersGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.mapFiltersGrid .full{grid-column:1/-1}
+.mapListCount{font-size:13px;font-weight:850;color:var(--muted);margin:4px 0 10px}
+.mapConventionalList{display:grid;gap:10px;max-height:440px;overflow:auto;padding-right:3px}
+.mapLotRow{width:100%;border:1px solid var(--line);background:#fffdf9;border-radius:18px;padding:12px;text-align:left;display:grid;gap:9px;cursor:pointer;color:var(--ink);transition:transform .16s ease, border-color .16s ease, box-shadow .16s ease, background .16s ease}
+.mapLotRow:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(16,20,29,.08)}
+.mapLotRow.selected{border-color:rgba(243,111,47,.45);background:#fff6ef;box-shadow:0 14px 34px rgba(243,111,47,.14)}
+.mapLotRowTop{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.mapLotRow h4{margin:0;font-size:18px;line-height:1.1}
+.mapLotRow .rowMeta{display:flex;gap:6px;flex-wrap:wrap}
+.mapLotRow .rowMeta span{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:6px 9px;color:var(--muted);font-weight:800;font-size:12px;background:#f8f2ea}
+.statusBadge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:950;border-radius:999px;padding:7px 9px;border:1px solid var(--line);white-space:nowrap}
+.statusBadge:before{content:"";width:9px;height:9px;border-radius:50%;background:var(--orange)}
+.statusBadge.available{color:#166534;background:#f0fbef}.statusBadge.available:before{background:#7aa22e}
+.statusBadge.reserved{color:#9a4b13;background:#fff2e7}.statusBadge.reserved:before{background:var(--orange)}
+.statusBadge.sold{color:#5b6472;background:#f1f1f1}.statusBadge.sold:before{background:#9ca3af}
+.mapLotsLayer{pointer-events:none}
+.mapSelectedMarker{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-100%);z-index:7;display:grid;place-items:center;pointer-events:none}
+.mapSelectedMarker .pinBubble{min-width:92px;border-radius:18px;background:linear-gradient(180deg,var(--orange2),var(--orange));color:#fff;font-weight:950;padding:10px 12px;box-shadow:0 18px 54px rgba(243,111,47,.32);border:1px solid rgba(255,255,255,.38);text-align:center}
+.mapSelectedMarker .pinBubble small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.88}
+.mapSelectedMarker .pinPoint{width:18px;height:18px;border-radius:50%;background:#fff;border:5px solid var(--orange);box-shadow:0 0 0 9px rgba(243,111,47,.18);margin-top:-1px}
+.mapImageHint{position:absolute;z-index:8;left:18px;top:78px;background:rgba(255,253,249,.88);border:1px solid rgba(16,20,29,.08);border-radius:18px;padding:10px 12px;color:var(--muted);font-weight:850;box-shadow:0 14px 38px rgba(16,20,29,.10);backdrop-filter:blur(12px)}
+.mapImageHint b{color:var(--orange)}
+.mapLotButton{display:none!important}
+@media(max-width:960px){
+  .mapConventionalList{max-height:none}
+}
+@media(max-width:700px){
+  .mapImageHint{top:60px;left:12px;right:84px;font-size:12px}
+  .mapFiltersGrid{grid-template-columns:1fr}
+  .mapFiltersGrid .full{grid-column:auto}
+  .mapFinder{border-radius:22px;padding:14px}
+  .mapLotRow h4{font-size:17px}
+}
+
 </style>
 </head>
 <body>
@@ -500,7 +544,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
         <div class="eyebrow">Novo conceito de compra</div>
         <h1>Monte sua casa como quem escolhe um cardápio.</h1>
         <p>Escolha a base da sua vida — o lote. Depois escolha a casa. Se preferir, monte um combo pronto com adicionais, simulação editável e encaminhamento direto para um consultor.</p>
-        <div class="heroActions"><a class="btn primary" href="#mapa">Abrir mapa interativo</a><a class="btn ghost" href="#lotes">Ver lotes</a><a class="btn ghost" href="#combos">Montar combo</a></div>
+        <div class="heroActions"><a class="btn primary" href="#mapa">Abrir mapa interativo</a><a class="btn ghost" href="#lotes">Ver lotes</a><a class="btn ghost" href="#casas">Ver casas</a><a class="btn ghost" href="#combos">Montar combo</a></div>
       </div>
       <aside class="trayHero">
         <div class="eyebrow">Cardápio Futura Casa</div><h3>Escolha em 4 passos</h3>
@@ -526,10 +570,10 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
     <div class="sectionHead">
       <div>
         <div class="eyebrow">Mapa interativo</div>
-        <h2>Escolha o lote diretamente no mapa.</h2>
-        <p class="muted">Toque em um lote disponível para abrir a ficha comercial, simular valor, gerar imagens por IA, usar rota ou realidade aumentada.</p>
+        <h2>Escolha pelo mapa visual e pela lista técnica.</h2>
+        <p class="muted">Use os filtros por quadra e disponibilidade. Ao selecionar um lote na lista, ele é marcado no mapa verdadeiro do empreendimento.</p>
       </div>
-      <div class="modebar"><button class="mode active" data-map-filter="available">Disponíveis</button><button class="mode" data-map-filter="reserved">Reservados</button><button class="mode" data-map-filter="sold">Vendidos</button></div>
+      <div class="modebar"><button class="mode active" data-map-filter="available">Disponíveis</button><button class="mode" data-map-filter="reserved">Reservados</button><button class="mode" data-map-filter="sold">Vendidos</button><button class="mode" data-map-filter="all">Todos</button></div>
     </div>
 
     <div class="mapExperience">
@@ -552,6 +596,8 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 
           <div class="mapCompass"><span>N</span><b>▲</b></div>
 
+          <div class="mapImageHint">Lote selecionado em <b>laranja</b>. Use a lista abaixo para escolher.</div>
+
           <div class="mapLegendChips">
             <span><i class="available"></i>Disponíveis</span>
             <span><i class="reserved"></i>Reservados</span>
@@ -561,7 +607,23 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
           </div>
         </div>
 
-        <aside class="mapSelection" id="mapSelectionCard" aria-live="polite"></aside>
+        <aside class="mapSelection mapHybridPanel" aria-live="polite">
+          <div id="mapSelectionCard"></div>
+          <div class="mapFinder" id="mapFinder">
+            <div class="mapFinderHead">
+              <span class="tag">Mapa convencional</span>
+              <h3>Explorar lotes por quadra</h3>
+              <p class="muted">A lista abaixo controla a seleção no mapa visual. É o modelo mais estável para mobile e para gestão de estoque.</p>
+            </div>
+            <div class="mapFiltersGrid">
+              <div class="field"><label>Quadra</label><select id="mapQuadraFilter"></select></div>
+              <div class="field"><label>Disponibilidade</label><select id="mapStatusFilter"><option value="available">Disponíveis</option><option value="reserved">Reservados</option><option value="sold">Vendidos</option><option value="all">Todos</option></select></div>
+              <div class="field full"><label>Buscar lote</label><input id="mapSearchInput" type="search" placeholder="Ex.: 12, Quadra C, represa..."></div>
+            </div>
+            <div class="mapListCount" id="mapListCount"></div>
+            <div class="mapConventionalList" id="mapConventionalList"></div>
+          </div>
+        </aside>
       </div>
     </div>
   </section>
@@ -2632,7 +2694,7 @@ const MAP_LOTS = [
   {id:'map-sol-45', number:'45', quadra:'C', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 45', area:458.16, dims:'15 x 30 m', price:470000, status:'available', x:56.8, y:35.8, taste:'Prático', tag:'implantação fácil', details:'Lote com boa leitura de quadra e acesso simples ao sistema viário interno.', coords:{lat:-18.7319,lng:-47.4925}},
   {id:'map-sol-81', number:'81', quadra:'F', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 81', area:470.94, dims:'15 x 31 m', price:512000, status:'available', x:66.8, y:40.5, taste:'Premium', tag:'próximo à área verde', details:'Lote com proximidade visual a áreas verdes e boa posição para projeto de presença.', coords:{lat:-18.7322,lng:-47.49348}},
   {id:'map-sol-104', number:'104', quadra:'E', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 104', area:456.05, dims:'15 x 30 m', price:455000, status:'available', x:73.5, y:57.6, taste:'Funcional', tag:'quadra organizada', details:'Lote em quadra vertical, com ótima clareza de acesso e potencial para moradia planejada.', coords:{lat:-18.7329,lng:-47.4921}},
-  {id:'map-sol-124', number:'124', quadra:'E', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 124', area:470.59, dims:'15 x 31 m', price:468000, status:'available', x:80.1, y:77.5, taste:'Reservado', tag:'fim de quadra', details:'Lote em posição mais reservada, indicado para quem valoriza privacidade e menor fluxo.', coords:{lat:-18.7337,lng:-47.4917}},
+  {id:'map-sol-124', number:'124', quadra:'E', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 124', area:470.59, dims:'15 x 31 m', price:468000, status:'available', x:80.1, y:77.5, taste:'Privativo', tag:'fim de quadra', details:'Lote em posição mais reservada, indicado para quem valoriza privacidade e menor fluxo.', coords:{lat:-18.7337,lng:-47.4917}},
   {id:'map-sol-137', number:'137', quadra:'J', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 137', area:428.03, dims:'12 x 35 m', price:398000, status:'reserved', x:54.7, y:85.5, taste:'Oportunidade', tag:'entrada de valor', details:'Lote de perfil objetivo para entrada na jornada Solaris com menor valor total.', coords:{lat:-18.7341,lng:-47.4931}},
   {id:'map-sol-157', number:'157', quadra:'B', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 157', area:477.04, dims:'15 x 31 m', price:485000, status:'available', x:29.2, y:54.2, taste:'Paisagem', tag:'próximo à represa', details:'Lote com forte apelo paisagístico por proximidade com a represa e áreas verdes.', coords:{lat:-18.733,lng:-47.4945}},
   {id:'map-sol-165', number:'165', quadra:'B', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 165', area:476.79, dims:'15 x 31 m', price:492000, status:'available', x:22.1, y:62.4, taste:'Vista', tag:'represa', details:'Lote em setor com presença marcante da represa, ideal para storytelling de lifestyle.', coords:{lat:-18.7333,lng:-47.4949}},
@@ -2680,14 +2742,31 @@ function statusLabel(status){
   return status === 'reserved' ? 'Reservado' : status === 'sold' ? 'Vendido' : 'Disponível';
 }
 
-function renderMapLots(filter='available'){
+const mapFilterState = {status:'available', quadra:'all', query:''};
+
+function mapStatusLabel(status){
+  return status === 'reserved' ? 'Reservado' : status === 'sold' ? 'Vendido' : 'Disponível';
+}
+
+function mapFilteredLots(){
+  const q = (mapFilterState.query || '').trim().toLowerCase();
+  return MAP_LOTS.filter(l=>{
+    const statusOk = mapFilterState.status === 'all' || l.status === mapFilterState.status;
+    const quadraOk = mapFilterState.quadra === 'all' || l.quadra === mapFilterState.quadra;
+    const text = `${l.number} ${l.quadra} ${l.name} ${l.details} ${l.tag} ${l.taste}`.toLowerCase();
+    const qOk = !q || text.includes(q);
+    return statusOk && quadraOk && qOk;
+  });
+}
+
+function renderMapLots(){
   const layer = document.getElementById('mapLotsLayer');
   if(!layer) return;
-  const visible = MAP_LOTS.filter(l => filter === 'all' || l.status === filter);
-  layer.innerHTML = visible.map(l => `<button type="button" class="mapLotButton ${l.id===selectedMapLotId?'selected':''}" data-map-lot="${l.id}" data-status="${l.status}" style="--x:${l.x}%;--y:${l.y}%">${l.number}</button>`).join('');
-  layer.querySelectorAll('[data-map-lot]').forEach(btn=>{
-    btn.onclick = ()=>selectMapLot(btn.dataset.mapLot);
-  });
+  const l = selectedMapLot();
+  layer.innerHTML = `<div class="mapSelectedMarker" style="--x:${l.x}%;--y:${l.y}%">
+    <div class="pinBubble"><small>Quadra ${l.quadra}</small>Lote ${l.number}</div>
+    <div class="pinPoint"></div>
+  </div>`;
 }
 
 function renderMapSelection(){
@@ -2699,7 +2778,7 @@ function renderMapSelection(){
     <div class="mapCard">
       <div class="mapCardTop">
         <div>
-          <span class="tag">Lote selecionado • ${statusLabel(l.status)}</span>
+          <span class="tag">Lote selecionado • ${mapStatusLabel(l.status)}</span>
           <h3>${l.name}</h3>
         </div>
         <div class="mapMiniLot"><b>${l.number}</b></div>
@@ -2719,12 +2798,71 @@ function renderMapSelection(){
   bindMapSelectionActions();
 }
 
-function selectMapLot(id){
+function renderMapFinder(){
+  const list = document.getElementById('mapConventionalList');
+  const count = document.getElementById('mapListCount');
+  const quadraSelect = document.getElementById('mapQuadraFilter');
+  const statusSelect = document.getElementById('mapStatusFilter');
+  const searchInput = document.getElementById('mapSearchInput');
+
+  if(quadraSelect && !quadraSelect.dataset.ready){
+    const quadras = ['all', ...Array.from(new Set(MAP_LOTS.map(l=>l.quadra))).sort()];
+    quadraSelect.innerHTML = quadras.map(q=>`<option value="${q}">${q === 'all' ? 'Todas as quadras' : 'Quadra ' + q}</option>`).join('');
+    quadraSelect.dataset.ready = '1';
+  }
+
+  if(quadraSelect) quadraSelect.value = mapFilterState.quadra;
+  if(statusSelect) statusSelect.value = mapFilterState.status;
+  if(searchInput && document.activeElement !== searchInput) searchInput.value = mapFilterState.query;
+
+  const lots = mapFilteredLots();
+
+  if(count){
+    count.textContent = lots.length
+      ? `${lots.length} lote(s) encontrado(s). Selecione um para marcar no mapa.`
+      : 'Nenhum lote encontrado com estes filtros.';
+  }
+
+  if(!list) return;
+  list.innerHTML = lots.map(l=>`
+    <button type="button" class="mapLotRow ${l.id===selectedMapLotId?'selected':''}" data-select-map-lot="${l.id}">
+      <div class="mapLotRowTop">
+        <h4>Quadra ${l.quadra} • Lote ${l.number}</h4>
+        <span class="statusBadge ${l.status}">${mapStatusLabel(l.status)}</span>
+      </div>
+      <div class="rowMeta"><span>${Math.round(l.area)} m²</span><span>${l.dims}</span><span>${fmt(l.price)}</span><span>${l.taste}</span></div>
+      <p class="muted" style="margin:0">${l.details}</p>
+    </button>
+  `).join('');
+
+  list.querySelectorAll('[data-select-map-lot]').forEach(btn=>{
+    btn.onclick = ()=>selectMapLot(btn.dataset.selectMapLot);
+  });
+}
+
+function selectMapLot(id,{silent=false} = {}){
   selectedMapLotId = id;
-  const activeFilter = document.querySelector('[data-map-filter].active')?.dataset.mapFilter || 'available';
-  renderMapLots(activeFilter);
+  renderMapLots();
   renderMapSelection();
-  toast('Lote selecionado no mapa.');
+  renderMapFinder();
+  if(!silent) toast('Lote marcado no mapa visual.');
+}
+
+function ensureSelectedLotMatchesFilter(){
+  const lots = mapFilteredLots();
+  if(lots.length && !lots.some(l=>l.id === selectedMapLotId)){
+    selectedMapLotId = lots[0].id;
+  }
+}
+
+function setMapStatusFilter(status){
+  mapFilterState.status = status;
+  const statusSelect = document.getElementById('mapStatusFilter');
+  if(statusSelect) statusSelect.value = status;
+  ensureSelectedLotMatchesFilter();
+  renderMapLots();
+  renderMapSelection();
+  renderMapFinder();
 }
 
 function bindMapSelectionActions(){
@@ -2751,17 +2889,43 @@ function bindMapSelectionActions(){
 }
 
 function initInteractiveMap(){
-  MAP_LOTS.forEach(ensureMapLotInLots);
-  renderMapLots('available');
+  ensureMapLotInLots(selectedMapLot());
+  renderMapLots();
   renderMapSelection();
+  renderMapFinder();
 
   document.querySelectorAll('[data-map-filter]').forEach(btn=>{
     btn.onclick = ()=>{
       document.querySelectorAll('[data-map-filter]').forEach(b=>b.classList.remove('active'));
       btn.classList.add('active');
-      renderMapLots(btn.dataset.mapFilter);
+      setMapStatusFilter(btn.dataset.mapFilter);
     };
   });
+
+  const quadraSelect = document.getElementById('mapQuadraFilter');
+  const statusSelect = document.getElementById('mapStatusFilter');
+  const searchInput = document.getElementById('mapSearchInput');
+
+  if(quadraSelect) quadraSelect.onchange = ()=>{
+    mapFilterState.quadra = quadraSelect.value;
+    ensureSelectedLotMatchesFilter();
+    selectMapLot(selectedMapLotId,{silent:true});
+  };
+
+  if(statusSelect) statusSelect.onchange = ()=>{
+    mapFilterState.status = statusSelect.value;
+    document.querySelectorAll('[data-map-filter]').forEach(b=>b.classList.toggle('active', b.dataset.mapFilter === mapFilterState.status));
+    ensureSelectedLotMatchesFilter();
+    selectMapLot(selectedMapLotId,{silent:true});
+  };
+
+  if(searchInput) searchInput.oninput = ()=>{
+    mapFilterState.query = searchInput.value;
+    ensureSelectedLotMatchesFilter();
+    renderMapLots();
+    renderMapSelection();
+    renderMapFinder();
+  };
 
   const applyZoom = ()=>{ const inner = document.getElementById('mapInner'); if(inner) inner.style.setProperty('--mapZoom', mapZoom); };
   const zoomIn = document.getElementById('mapZoomIn');
@@ -2771,9 +2935,8 @@ function initInteractiveMap(){
 }
 
 applyStoredFieldMedia();
-initInteractiveMap();
 renderAll();
-renderMapSelection();
+initInteractiveMap();
 
 
 /* v7.8 — ocultar/visualizar único + simular casa */

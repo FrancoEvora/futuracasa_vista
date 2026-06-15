@@ -1,19 +1,19 @@
-# Futura Casa v8.3 — Mapa Interativo de Quadras e Lotes
+# Futura Casa v8.4 — Mapa Híbrido
 
-Nova versão da plataforma com:
-- seção **Mapa interativo** com identidade visual Futura Casa;
-- imagem limpa do mapa com lotes, viário, áreas verdes e represa;
-- lotes clicáveis por camada interativa sobre o mapa;
-- filtros por status: disponíveis, reservados e vendidos;
-- card do lote selecionado;
-- ações conectadas ao fluxo da plataforma:
+Ajustes realizados:
+- o hero mantém os quatro atalhos: **Abrir mapa interativo**, **Ver lotes**, **Ver casas** e **Montar combo**;
+- o mapa visual continua usando a identidade Futura Casa e a imagem verdadeira com lotes, viário, áreas verdes e represa;
+- a seleção principal dos lotes agora é feita por um **mapa convencional/lista técnica filtrável**;
+- filtros por:
+  - quadra;
+  - disponibilidade;
+  - busca textual por lote, quadra, represa etc.;
+- ao selecionar um lote na lista, ele é marcado em laranja no mapa visual;
+- corrigida a lógica dos filtros para que “Disponíveis” não selecione automaticamente lotes reservados;
+- o card do lote selecionado mantém:
   - Detalhes;
   - Simular valor;
   - Gerar imagens por IA;
   - Usar no combo;
   - Rota;
-  - Realidade aumentada;
-- zoom simples do mapa;
-- todos os assets necessários incluídos em `assets/img`.
-
-A base visual do mapa foi preparada a partir do material urbanístico do Solaris e adaptada para uso comercial/digital.
+  - Realidade aumentada.
