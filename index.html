@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v8.6 Scroll para o Mapa</title>
+<title>Futura Casa | v8.7 Ver no Mapa</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -409,7 +409,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 @media(max-width:760px){.houseSimToolbar{display:grid;grid-template-columns:1fr}}
 
 
-/* v8.6 — Mapa interativo Futura Casa */
+/* v8.7 — Mapa interativo Futura Casa */
 .mapSection{padding-top:18px}
 .mapExperience{position:relative;border-radius:34px;background:linear-gradient(180deg,#121824,#0e1420);box-shadow:var(--shadow2);overflow:hidden;border:1px solid rgba(16,20,29,.10)}
 .mapHeaderBar{position:absolute;z-index:8;left:18px;right:18px;top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:none}
@@ -578,6 +578,15 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
   .mapFiltersGrid .full{grid-column:1/-1}
   .mapListWindow{max-height:440px}
   .mapZoomBadge{left:14px;bottom:212px}
+}
+
+
+/* v8.7 — botão Ver no mapa na lista convencional */
+.mapLotRow{cursor:default}
+.mapLotRowActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px}
+.mapLotRowActions .btn{min-height:42px;border-radius:14px;font-size:14px;padding:0 12px}
+@media(max-width:700px){
+  .mapLotRowActions{grid-template-columns:1fr}
 }
 
 </style>
@@ -2922,18 +2931,31 @@ function renderMapFinder(){
 
   if(!list) return;
   list.innerHTML = lots.map(l=>`
-    <button type="button" class="mapLotRow ${l.id===selectedMapLotId?'selected':''}" data-select-map-lot="${l.id}">
+    <article class="mapLotRow ${l.id===selectedMapLotId?'selected':''}" data-select-map-lot="${l.id}">
       <div class="mapLotRowTop">
         <h4>Quadra ${l.quadra} • Lote ${l.number}</h4>
         <span class="statusBadge ${l.status}">${mapStatusLabel(l.status)}</span>
       </div>
       <div class="rowMeta"><span>${Math.round(l.area)} m²</span><span>${l.dims}</span><span>${fmt(l.price)}</span><span>${l.taste}</span></div>
       <p class="muted" style="margin:0">${l.details}</p>
-    </button>
+      <div class="mapLotRowActions">
+        <button class="btn light small" type="button" data-select-only-map-lot="${l.id}">Selecionar</button>
+        <button class="btn primary small" type="button" data-view-map-lot="${l.id}">Ver no mapa</button>
+      </div>
+    </article>
   `).join('');
 
-  list.querySelectorAll('[data-select-map-lot]').forEach(btn=>{
-    btn.onclick = ()=>selectMapLot(btn.dataset.selectMapLot);
+  list.querySelectorAll('[data-select-map-lot]').forEach(row=>{
+    row.onclick = (event)=>{
+      if(event.target.closest('button')) return;
+      selectMapLot(row.dataset.selectMapLot,{scrollToMap:false});
+    };
+  });
+  list.querySelectorAll('[data-select-only-map-lot]').forEach(btn=>{
+    btn.onclick = ()=>selectMapLot(btn.dataset.selectOnlyMapLot,{scrollToMap:false});
+  });
+  list.querySelectorAll('[data-view-map-lot]').forEach(btn=>{
+    btn.onclick = ()=>selectMapLot(btn.dataset.viewMapLot,{scrollToMap:true});
   });
 }
 
@@ -2953,13 +2975,17 @@ function scrollToMapVisual(){
   target.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
-function selectMapLot(id,{silent=false, scrollToMap=!silent} = {}){
+function selectMapLot(id,{silent=false, scrollToMap=false} = {}){
   selectedMapLotId = id;
   renderMapLots();
   renderMapSelection();
   renderMapFinder();
-  if(scrollToMap) setTimeout(scrollToMapVisual, 80);
-  if(!silent) toast('Lote marcado no mapa visual.');
+  if(scrollToMap){
+    setTimeout(scrollToMapVisual, 80);
+    if(!silent) toast('Lote marcado no mapa visual.');
+  }else if(!silent){
+    toast('Lote selecionado. Toque em “Ver no mapa” para subir ao mapa visual.');
+  }
 }
 
 function setMapStatusFilter(status){
