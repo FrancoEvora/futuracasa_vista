@@ -1,8 +1,13 @@
-# Futura Casa v8.8 — Ver no Mapa Único
+# Futura Casa v8.9 — Mapa Limpo
 
-Ajuste desta versão:
-- removido o botão **Selecionar** da lista convencional;
-- cada card de lote agora tem apenas o botão **Ver no mapa**;
-- tocar no próprio card do lote também executa a mesma ação;
-- ao clicar, a página sobe para o mapa visual e marca o lote selecionado em laranja;
+Ajustes desta versão:
+- removidas as informações sobrepostas ao mapa visual:
+  - selo “Mapa interativo • Futura Casa”;
+  - caixa de instrução sobre o lote selecionado;
+  - legenda sobreposta;
+  - balão textual do lote selecionado;
+- o lote selecionado agora aparece apenas com um marcador circular laranja, mais discreto;
+- o mapa foi ajustado para aparecer com menos aproximação, usando a imagem mais inteira;
+- mantido o botão único **Ver no mapa** na lista convencional;
+- removido qualquer botão **Selecionar** da lista de lotes;
 - mantidos os filtros por quadra, disponibilidade, busca textual, área mínima/máxima e valor mínimo/máximo.

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v8.8 Ver no Mapa Único</title>
+<title>Futura Casa | v8.9 Mapa Limpo</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -409,7 +409,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 @media(max-width:760px){.houseSimToolbar{display:grid;grid-template-columns:1fr}}
 
 
-/* v8.8 — Mapa interativo Futura Casa */
+/* v8.9 — Mapa interativo Futura Casa */
 .mapSection{padding-top:18px}
 .mapExperience{position:relative;border-radius:34px;background:linear-gradient(180deg,#121824,#0e1420);box-shadow:var(--shadow2);overflow:hidden;border:1px solid rgba(16,20,29,.10)}
 .mapHeaderBar{position:absolute;z-index:8;left:18px;right:18px;top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:none}
@@ -595,6 +595,62 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 .mapLotRow{cursor:pointer}
 .mapLotRow .btn.primary.small{min-height:44px}
 
+
+/* v8.9 — mapa visual mais limpo e menos aproximado */
+.mapHeaderBar,
+.mapImageHint,
+.mapLegendChips{
+  display:none!important;
+}
+.mapViewport{
+  min-height:auto!important;
+  aspect-ratio:4/3;
+  background:#efe7dc;
+}
+.mapInner{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  background:#efe7dc!important;
+}
+.mapInner img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+}
+.mapSelectedMarker{
+  transform:translate(-50%,-50%)!important;
+}
+.mapSelectedMarker .pinBubble{
+  display:none!important;
+}
+.mapSelectedMarker .pinPoint{
+  width:24px!important;
+  height:24px!important;
+  border-radius:50%!important;
+  background:var(--orange)!important;
+  border:4px solid #fff!important;
+  box-shadow:0 0 0 9px rgba(243,111,47,.22),0 14px 34px rgba(16,20,29,.22)!important;
+  margin:0!important;
+}
+.mapControls{
+  bottom:18px!important;
+  left:18px!important;
+}
+.mapCompass{
+  top:18px!important;
+  right:18px!important;
+}
+.mapZoomBadge{
+  bottom:142px!important;
+}
+@media(max-width:700px){
+  .mapViewport{aspect-ratio:4/3;min-height:auto!important}
+  .mapControls{left:12px!important;bottom:12px!important}
+  .mapCompass{right:12px!important;top:12px!important}
+  .mapZoomBadge{left:12px!important;bottom:112px!important}
+}
+
 </style>
 </head>
 <body>
@@ -635,10 +691,10 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 
   <section class="wrap section">
     <div class="grid4">
-      <button class="card journeyCard" type="button" data-journey="lot" aria-label="Selecionar jornada Somente lote"><div class="eyebrow">Entrada</div><h3>Somente lote</h3><p class="muted">Trave localização e decida a casa depois.</p><span class="journeyHint">Selecionar jornada <b>→</b></span></button>
-      <button class="card journeyCard" type="button" data-journey="home" aria-label="Selecionar jornada Somente casa"><div class="eyebrow">Residência</div><h3>Somente casa</h3><p class="muted">Para quem já possui lote ou quer conhecer o custo da construção.</p><span class="journeyHint">Selecionar jornada <b>→</b></span></button>
-      <button class="card journeyCard" type="button" data-journey="combo" aria-label="Selecionar jornada Lote mais casa"><div class="eyebrow">Combo</div><h3>Lote + casa</h3><p class="muted">A experiência completa com previsibilidade de desembolso.</p><span class="journeyHint">Selecionar jornada <b>→</b></span></button>
-      <button class="card journeyCard" type="button" data-journey="future" aria-label="Selecionar jornada Lote agora mais casa depois"><div class="eyebrow">Flexível</div><h3>Lote agora + casa depois</h3><p class="muted">Compra faseada com casa pré-contratada.</p><span class="journeyHint">Selecionar jornada <b>→</b></span></button>
+      <button class="card journeyCard" type="button" data-journey="lot" aria-label="Abrir jornada Somente lote"><div class="eyebrow">Entrada</div><h3>Somente lote</h3><p class="muted">Trave localização e decida a casa depois.</p><span class="journeyHint">Abrir jornada <b>→</b></span></button>
+      <button class="card journeyCard" type="button" data-journey="home" aria-label="Abrir jornada Somente casa"><div class="eyebrow">Residência</div><h3>Somente casa</h3><p class="muted">Para quem já possui lote ou quer conhecer o custo da construção.</p><span class="journeyHint">Abrir jornada <b>→</b></span></button>
+      <button class="card journeyCard" type="button" data-journey="combo" aria-label="Abrir jornada Lote mais casa"><div class="eyebrow">Combo</div><h3>Lote + casa</h3><p class="muted">A experiência completa com previsibilidade de desembolso.</p><span class="journeyHint">Abrir jornada <b>→</b></span></button>
+      <button class="card journeyCard" type="button" data-journey="future" aria-label="Abrir jornada Lote agora mais casa depois"><div class="eyebrow">Flexível</div><h3>Lote agora + casa depois</h3><p class="muted">Compra faseada com casa pré-contratada.</p><span class="journeyHint">Abrir jornada <b>→</b></span></button>
     </div>
   </section>
 
@@ -2788,7 +2844,7 @@ const MAP_LOTS = [
 ];
 
 let selectedMapLotId = 'map-sol-12';
-let mapZoom = 1;
+let mapZoom = 0.92;
 
 function mapLotToPlatformLot(mapLot){
   return {
@@ -3078,8 +3134,8 @@ function initInteractiveMap(){
 
   const zoomIn = document.getElementById('mapZoomIn');
   const zoomOut = document.getElementById('mapZoomOut');
-  const doZoomIn = (event)=>{ event?.preventDefault?.(); mapZoom = Math.min(2.1, +(mapZoom + .25).toFixed(2)); applyMapZoom(); };
-  const doZoomOut = (event)=>{ event?.preventDefault?.(); mapZoom = Math.max(1, +(mapZoom - .25).toFixed(2)); applyMapZoom(); };
+  const doZoomIn = (event)=>{ event?.preventDefault?.(); mapZoom = Math.min(1.75, +(mapZoom + .18).toFixed(2)); applyMapZoom(); };
+  const doZoomOut = (event)=>{ event?.preventDefault?.(); mapZoom = Math.max(0.82, +(mapZoom - .18).toFixed(2)); applyMapZoom(); };
   if(zoomIn){
     zoomIn.onclick = doZoomIn;
     zoomIn.onpointerdown = doZoomIn;
