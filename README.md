@@ -1,8 +1,9 @@
-# Futura Casa v8.0 — AR translúcida e mídia simplificada
+# Futura Casa v8.1 — Simulador financeiro nas imagens de IA
 
-Ajustes desta versão:
-- cards/itens da área de realidade aumentada ficaram translúcidos;
-- pins da AR agora são clicáveis e abrem a respectiva janela de detalhe do lote/ponto;
-- botão X ficou menor;
-- janela de upload de mídia foi simplificada para um único campo de envio + link de Drive opcional;
-- mídias continuam vinculadas ao lote e visíveis na galeria.
+Ajuste solicitado:
+- depois que as imagens da simulação de casa por IA são geradas, cada imagem passa a trazer o botão **Abrir simulador financeiro**.
+- ao clicar, a plataforma seleciona o lote atual, escolhe um modelo de casa compatível com o estilo visual escolhido e abre a bandeja/simulador financeiro em modo **Lote + casa**.
+
+Observação:
+- a chamada real à IA segue preparada para o endpoint `/api/chatgpt-house`;
+- sem backend conectado, a plataforma usa o fallback visual local e o mesmo fluxo de simulação financeira.
