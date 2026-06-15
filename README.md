@@ -1,9 +1,15 @@
-# Futura Casa v7.6 — AR refinada
+# Futura Casa v7.7 — AR, camadas e mídias
 
 Ajustes realizados:
-- removidos os botões "Bússola ativa" e "Fechar" da barra inferior do modo AR;
-- fechamento mantido apenas pelo botão X no topo direito;
-- bússola redesenhada com visual mais sofisticado e alinhada ao botão X;
-- janela de realidade aumentada ampliada;
-- pins dos lotes e locais próximos com ícones mais profissionais;
-- orientação dos lotes e referências continua sendo atualizada em tempo real conforme a rotação do aparelho.
+- os graus exibidos nos pins agora mudam em tempo real conforme a orientação do aparelho;
+- adicionadas opções para ocultar/visualizar lotes e locais próximos;
+- adicionado cadastro de mídia no modo campo:
+  - fotos já tiradas;
+  - tirar foto na hora;
+  - vídeos;
+  - arquivos;
+  - link do Google Drive;
+- as mídias ficam vinculadas ao lote ou local selecionado;
+- imagens cadastradas no lote entram na galeria do lote;
+- clicar em qualquer imagem abre visualização ampliada;
+- pins com mídia vinculada exibem um pequeno indicador.

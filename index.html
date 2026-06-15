@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v7.6 AR Refinada</title>
+<title>Futura Casa | v7.7 AR Mídias e Camadas</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -301,6 +301,43 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
   .fieldActions{grid-template-columns:1fr 1fr;gap:10px}
 }
 
+
+/* v7.7 — camadas AR, mídia vinculada e galeria ampliável */
+.fieldPins{pointer-events:none}
+.fieldPin{pointer-events:auto;cursor:pointer}
+.fieldLayerControls{position:absolute;left:128px;right:92px;top:18px;display:flex;gap:8px;justify-content:flex-end;z-index:8;pointer-events:auto}
+.fieldLayerButton{min-height:42px;border:1px solid rgba(16,20,29,.08);border-radius:999px;background:rgba(255,253,249,.92);color:var(--ink);font-size:12px;font-weight:950;padding:0 12px;box-shadow:0 16px 40px rgba(16,20,29,.10);backdrop-filter:blur(14px)}
+.fieldLayerButton.active{background:linear-gradient(180deg,var(--orange2),var(--orange));color:#fff;border-color:rgba(243,111,47,.24)}
+.fieldLayerButton.media{background:rgba(255,253,249,.96);color:var(--orange)}
+.fieldBearing{font-variant-numeric:tabular-nums}
+.fieldPin .mediaDot{width:7px;height:7px;border-radius:50%;background:var(--orange);display:inline-block;margin-left:4px;box-shadow:0 0 0 3px rgba(243,111,47,.12)}
+.fieldMediaOverlay{z-index:260;background:rgba(17,23,33,.46);backdrop-filter:blur(10px);padding:16px}
+.fieldMediaOverlay.show{display:grid;place-items:center}
+.fieldMediaCard{width:min(760px,100%);max-height:min(92vh,calc(100dvh - 28px));overflow:auto;background:#fffdf9;border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow2)}
+.fieldMediaHead{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;padding:20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fffdf9;z-index:2}
+.fieldMediaHead h2{margin:0;font-size:26px;letter-spacing:-.04em}
+.fieldMediaBody{padding:20px}
+.fieldMediaGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.fieldMediaGrid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:16px;border:1px solid var(--line);cursor:pointer;background:#f7f1e9}
+.mediaList{display:grid;gap:8px;margin-top:12px}
+.mediaList a,.mediaList span{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 14px;border-radius:16px;background:#f7f1e9;border:1px solid var(--line);color:var(--ink);font-weight:800}
+.mediaList small{color:var(--muted);font-weight:700}
+.mediaEmpty{padding:18px;border:1px dashed var(--line);border-radius:18px;color:var(--muted);background:#fff}
+.zoomModalImage{display:block;max-width:100%;max-height:74vh;margin:auto;border-radius:20px;object-fit:contain;background:#111}
+.zoomCard{width:min(980px,100%);background:#111721;border-radius:28px;overflow:hidden;box-shadow:var(--shadow2)}
+.zoomHead{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;color:#fff;background:#111721}
+.zoomHead b{font-size:16px}
+.zoomBody{padding:10px;background:#111721}
+.zoomableImage{cursor:zoom-in}
+@media(max-width:700px){
+  .fieldLayerControls{left:100px;right:84px;top:12px;gap:6px;overflow-x:auto;justify-content:flex-start;padding-bottom:2px}
+  .fieldLayerButton{min-height:38px;font-size:11px;padding:0 10px;white-space:nowrap}
+  .fieldMediaOverlay{padding:8px}
+  .fieldMediaCard{border-radius:22px;max-height:calc(100dvh - 16px)}
+  .fieldMediaHead,.fieldMediaBody{padding:14px}
+  .fieldMediaGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
 </style>
 </head>
 <body>
@@ -445,6 +482,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 </main>
 
 <div class="modal" id="detailModal"></div>
+<div class="modal fieldMediaOverlay" id="fieldMediaModal"></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -2102,6 +2140,400 @@ function openARView(id){
   `, 'fieldModalCard');
   initFieldExperience(lot.id);
 }
+
+
+/* v7.7 — mídia vinculada, camadas e graus relativos em tempo real */
+var FIELD_MEDIA_STORAGE_KEY = 'fc_field_media_v77';
+var fieldLayerPrefs = {lots:true, places:true};
+var fieldActiveTarget = {key:'', type:'lot', label:'', lotId:''};
+var fieldSessionFiles = {};
+
+function mediaTargetLotKey(lotId){ return `lot:${lotId}`; }
+function mediaTargetPlaceKey(lotId,label){ return `place:${lotId}:${String(label||'local').toLowerCase().replace(/\s+/g,'-')}`; }
+
+function readFieldMedia(){
+  try{
+    const raw = JSON.parse(localStorage.getItem(FIELD_MEDIA_STORAGE_KEY) || '[]');
+    return Array.isArray(raw) ? raw : [];
+  }catch(e){
+    return [];
+  }
+}
+
+function saveFieldMedia(items){
+  localStorage.setItem(FIELD_MEDIA_STORAGE_KEY, JSON.stringify(items));
+}
+
+function fieldMediaForTarget(key){
+  return readFieldMedia().filter(item=>item.targetKey === key);
+}
+
+function fieldMediaImagesForTarget(key){
+  return fieldMediaForTarget(key).filter(item=>item.type === 'image' && item.src).map(item=>item.src);
+}
+
+function lotMediaImages(lotId){
+  return fieldMediaImagesForTarget(mediaTargetLotKey(lotId));
+}
+
+function hasMediaForTarget(key){
+  return fieldMediaForTarget(key).length > 0;
+}
+
+function fieldTargetTitle(key){
+  if(!key) return 'Ponto atual';
+  if(key.startsWith('lot:')){
+    const lot = LOTS.find(l=>l.id === key.split(':')[1]);
+    return lot?.name || 'Lote';
+  }
+  if(key.startsWith('place:')){
+    const parts = key.split(':');
+    const lot = LOTS.find(l=>l.id === parts[1]);
+    const label = decodeURIComponent(parts.slice(2).join(':')).replace(/-/g,' ');
+    return `${label.charAt(0).toUpperCase()+label.slice(1)} · ${lot?.project || 'Empreendimento'}`;
+  }
+  return 'Ponto atual';
+}
+
+function setFieldTargetFromPoint(point){
+  if(!point) return;
+  if(point.kind === 'lot' && point.id){
+    fieldActiveTarget = {key:mediaTargetLotKey(point.id), type:'lot', label:point.label, lotId:point.id};
+  }else{
+    const currentLotId = fieldActiveTarget?.lotId || state.lot?.id || LOTS[0]?.id;
+    const key = mediaTargetPlaceKey(currentLotId, point.label);
+    fieldActiveTarget = {key, type:'place', label:point.label, lotId:currentLotId};
+  }
+}
+
+function fieldDirectionArrowSvg(){
+  return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 20 21 12 17.3 4 21 12 3Z"></path></svg>`;
+}
+
+function fieldPointIconSvg(point){
+  const label = String(point?.label || '').toLowerCase();
+  if(point?.kind === 'lot'){
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5 12 4l8 4.5v7L12 20l-8-4.5v-7Z"></path><path d="M12 4v16"></path><path d="M4 8.5 12 13l8-4.5"></path></svg>`;
+  }
+  if(label.includes('portaria')){
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V7"></path><path d="M20 20V7"></path><path d="M4 7h16"></path><path d="M9 7v13"></path><path d="M15 7v13"></path></svg>`;
+  }
+  if(label.includes('acesso')){
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18h10"></path><path d="M10 6h10"></path><path d="m11 15 3 3 6-6"></path></svg>`;
+  }
+  if(label.includes('verde')){
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c5-2 8-6.5 8-12-5.5 0-10 2.8-12 8"></path><path d="M12 20c-4.5-1.8-7-5.7-8-10 4.4-.2 7.8 1.3 10 4.6"></path></svg>`;
+  }
+  if(label.includes('lazer')){
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19h14"></path><path d="M12 19V9"></path><path d="M12 9c2.2-2.5 4.8-3.5 7-3.5 0 3.3-2 5.7-7 5.7-4.9 0-7-2.4-7-5.7 2.2 0 4.8 1 7 3.5Z"></path></svg>`;
+  }
+  return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.5 6-10a6 6 0 1 0-12 0c0 4.5 6 10 6 10Z"></path><path d="M12 13.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z"></path></svg>`;
+}
+
+function lotGallery(l){
+  const gallery = Array.isArray(l.gallery) ? l.gallery.filter(Boolean) : [];
+  const media = lotMediaImages(l.id);
+  const base = l.thumb || makeSvgDataUri(l.name, 'Vista geral do lote e contexto urbano', '#466a43', '#c2ca8e');
+  return [
+    ...media,
+    ...gallery,
+    base,
+    makeSvgDataUri(l.project, 'Perspectiva de implantação e frente do lote', '#5f7c4c', '#d6a76e'),
+    makeSvgDataUri((l.area || '-') + ' m²', 'Leitura de potencial construtivo e posição', '#2a4e5f', '#7fa5b8')
+  ].filter((src, index, arr)=>src && arr.indexOf(src)===index);
+}
+
+function renderGallery(images, galleryId='galleryViewport'){
+  return `
+    <div class="galleryShell">
+      <button class="galleryArrow prev" type="button" data-gallery-nav="prev" data-gallery-target="${galleryId}" aria-label="Imagem anterior">‹</button>
+      <div class="galleryViewport" id="${galleryId}">
+        ${images.map((src,i)=>`<div class="gallerySlide"><img class="zoomableImage" data-zoom-src="${src}" src="${src}" alt="Imagem ${i+1}"></div>`).join('')}
+      </div>
+      <button class="galleryArrow next" type="button" data-gallery-nav="next" data-gallery-target="${galleryId}" aria-label="Próxima imagem">›</button>
+    </div>
+  `;
+}
+
+function nearestLotPoints(current){
+  if(!fieldLayerPrefs.lots) return [];
+  return lotsWithCoords()
+    .map(lot=>({kind:'lot', label: lot.name.replace('Parque das Árvores • ', '').replace('Solaris • ', 'Solaris '), distance: metersBetween(current, lotDestination(lot)), bearing: bearingBetween(current, lotDestination(lot)), id: lot.id, targetKey: mediaTargetLotKey(lot.id)}))
+    .sort((a,b)=>a.distance-b.distance)
+    .slice(0,3);
+}
+
+function placePointsFromLot(lot){
+  if(!fieldLayerPrefs.places) return [];
+  const points = Array.isArray(lot?.arPoints) ? lot.arPoints : [];
+  return points
+    .filter(p=>!String(p.label || '').toLowerCase().includes('lote'))
+    .slice(0,2)
+    .map(p=>({kind:'place', label:p.label, distance:p.distance, bearing:p.bearing, targetKey: mediaTargetPlaceKey(lot.id, p.label)}));
+}
+
+function fieldPointHtml(points=[]){
+  const finalPoints = points.length ? points : [];
+  return finalPoints.slice(0,4).map((p,i)=>{
+    const rel = pointArrowRotation(p);
+    const mediaDot = hasMediaForTarget(p.targetKey) ? '<span class="mediaDot" title="Mídia vinculada"></span>' : '';
+    return `
+      <div class="fieldPin ${p.kind === 'lot' ? 'nearLot' : 'placePin'} p${i+1}" data-field-target-key="${p.targetKey || ''}" data-field-point-index="${i}">
+        <div class="fieldPinHead">
+          <span class="fieldPinDir" aria-hidden="true"><span class="fieldPinDirArrow" style="transform:rotate(${rel}deg)">${fieldDirectionArrowSvg()}</span></span>
+          <div class="fieldPinLabel">
+            <span class="fieldPinIcon" aria-hidden="true">${fieldPointIconSvg(p)}</span>
+            <span class="fieldPinLabelText">${p.label}</span>${mediaDot}
+          </div>
+        </div>
+        <small><span>${p.distance} m</span><b>•</b><span class="fieldBearing" data-bearing="${p.bearing || 0}">${rel}°</span></small>
+      </div>
+    `;
+  }).join('');
+}
+
+function updateFieldPins(points){
+  fieldCurrentPoints = points || [];
+  const el = $('#fieldPins');
+  if(el) el.innerHTML = fieldPointHtml(fieldCurrentPoints);
+  refreshFieldPinDirections();
+  bindFieldPinClicks();
+}
+
+function refreshFieldPinDirections(){
+  const arrows = document.querySelectorAll('.fieldPinDirArrow');
+  const bearings = document.querySelectorAll('.fieldBearing');
+  arrows.forEach((arrow, idx)=>{
+    const point = fieldCurrentPoints[idx];
+    if(!point) return;
+    arrow.style.transform = `rotate(${pointArrowRotation(point)}deg)`;
+  });
+  bearings.forEach((span, idx)=>{
+    const point = fieldCurrentPoints[idx];
+    if(!point) return;
+    span.textContent = `${pointArrowRotation(point)}°`;
+  });
+}
+
+function bindFieldPinClicks(){
+  document.querySelectorAll('[data-field-point-index]').forEach(pin=>{
+    pin.onclick = () => {
+      const idx = Number(pin.dataset.fieldPointIndex || -1);
+      const point = fieldCurrentPoints[idx];
+      if(!point) return;
+      setFieldTargetFromPoint(point);
+      openFieldMediaGallery(fieldActiveTarget.key, fieldTargetTitle(fieldActiveTarget.key));
+    };
+  });
+}
+
+function updateFieldLayerButtons(){
+  const lotBtn = $('#toggleLotsLayer');
+  const placeBtn = $('#togglePlacesLayer');
+  if(lotBtn){
+    lotBtn.classList.toggle('active', fieldLayerPrefs.lots);
+    lotBtn.textContent = fieldLayerPrefs.lots ? 'Ocultar lotes' : 'Ver lotes';
+  }
+  if(placeBtn){
+    placeBtn.classList.toggle('active', fieldLayerPrefs.places);
+    placeBtn.textContent = fieldLayerPrefs.places ? 'Ocultar locais' : 'Ver locais';
+  }
+}
+
+function toggleFieldLayer(type){
+  fieldLayerPrefs[type] = !fieldLayerPrefs[type];
+  updateFieldLayerButtons();
+  updateFieldPins(buildFieldPoints(state.lot || LOTS[0]));
+}
+
+function setFieldActiveLot(activeLot, modeLabel='Você está vendo'){
+  if(!activeLot) return;
+  fieldActiveTarget = {key:mediaTargetLotKey(activeLot.id), type:'lot', label:activeLot.name, lotId:activeLot.id};
+  if($('#fieldStatusLabel')) $('#fieldStatusLabel').textContent = modeLabel;
+  if($('#fieldCurrentPoint')) $('#fieldCurrentPoint').textContent = activeLot.name;
+  if($('#fieldInfoProduct')) $('#fieldInfoProduct').textContent = `${activeLot.area} m² · ${activeLot.dims}`;
+  if($('#fieldInfoValue')) $('#fieldInfoValue').textContent = fmt(activeLot.price);
+  const dest = lotDestination(activeLot);
+  if(dest && $('#fieldInfoCoords')) $('#fieldInfoCoords').textContent = `${dest.lat.toFixed(5)}, ${dest.lng.toFixed(5)}`;
+}
+
+function openARView(id){
+  const lot = LOTS.find(x=>x.id===id);
+  if(!lot) return;
+  if(!lotDestination(lot)){
+    toast('Cadastre a posição GPS deste lote antes de usar AR.');
+    openGpsEditModal(id);
+    return;
+  }
+  const image = lot.thumb || 'assets/img/lot-sol45-premium.png';
+  const coords = lotDestination(lot);
+  openModal(`
+    <div class="modalBody">
+      <div class="fieldShell">
+        <div class="fieldStage">
+          <video id="fieldVideo" autoplay playsinline muted></video>
+          <div class="fieldFallback" id="fieldFallback">
+            <img src="${image}" alt="${lot.name}">
+          </div>
+          <div class="fieldVeil"></div>
+          <div class="fieldTop">
+            <div class="fieldCompass" aria-label="Bússola">
+              <div class="fieldCompassDial">
+                <div class="fieldCompassRose"></div>
+                <span class="fieldNorthLabel">N</span>
+                <div class="fieldNeedleWrap" id="fieldNeedleWrap"><div class="fieldNeedle" id="fieldNeedle"></div></div>
+                <div class="fieldCompassCenter"></div>
+              </div>
+              <div class="fieldCompassMeta"><strong id="fieldHeading">--°</strong><small>bússola</small></div>
+            </div>
+            <button class="fieldClose" data-close-modal aria-label="Fechar">×</button>
+          </div>
+          <div class="fieldLayerControls">
+            <button class="fieldLayerButton active" id="toggleLotsLayer" type="button" data-field-toggle="lots">Ocultar lotes</button>
+            <button class="fieldLayerButton active" id="togglePlacesLayer" type="button" data-field-toggle="places">Ocultar locais</button>
+            <button class="fieldLayerButton media" type="button" id="openFieldMediaRegister">+ Mídia</button>
+          </div>
+          <div id="fieldPins" class="fieldPins">${fieldPointHtml(buildFieldPoints(lot))}</div>
+          <div class="fieldStatus">
+            <div class="fieldStatusIcon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.5 6-10a6 6 0 1 0-12 0c0 4.5 6 10 6 10Z"></path><path d="M12 13.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z"></path></svg></div>
+            <div class="fieldStatusText"><small class="dynamicLabel" id="fieldStatusLabel">Você está vendo</small><b id="fieldCurrentPoint">${lot.name}</b><span id="fieldAccuracy">Solicitando câmera, bússola e localização...</span></div>
+          </div>
+        </div>
+        <div class="fieldInfo">
+          <div class="res"><small>Coordenada do lote</small><b id="fieldInfoCoords">${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}</b></div>
+          <div class="res"><small>Produto</small><b id="fieldInfoProduct">${lot.area} m² · ${lot.dims}</b></div>
+          <div class="res"><small>Valor</small><b id="fieldInfoValue">${fmt(lot.price)}</b></div>
+        </div>
+        <div class="fieldActions">
+          <button class="btn primary" data-route-lot="${lot.id}"><span class="actionIcon">↗</span><span>Abrir rota</span></button>
+          <button class="btn light" data-edit-gps-lot="${lot.id}"><span class="actionIcon">◎</span><span>Atualizar GPS</span></button>
+          <button class="fieldActionHidden" id="fieldCompassPermission" type="button" aria-hidden="true" tabindex="-1">Ativar bússola</button>
+        </div>
+      </div>
+    </div>
+  `, 'fieldModalCard');
+  initFieldExperience(lot.id);
+  updateFieldLayerButtons();
+}
+
+function openFieldMediaRegister(){
+  const currentKey = fieldActiveTarget?.key || mediaTargetLotKey(state.lot?.id || LOTS[0].id);
+  const currentLotId = fieldActiveTarget?.lotId || state.lot?.id || LOTS[0].id;
+  const lot = LOTS.find(l=>l.id === currentLotId) || LOTS[0];
+  const places = placePointsFromLot(lot);
+  const options = [
+    `<option value="${mediaTargetLotKey(lot.id)}">${lot.name}</option>`,
+    ...places.map(p=>`<option value="${p.targetKey}">${p.label} · ${lot.project}</option>`)
+  ].join('');
+  const modal = $('#fieldMediaModal');
+  modal.innerHTML = `
+    <div class="fieldMediaCard">
+      <div class="fieldMediaHead">
+        <div><span class="tag">Cadastro de mídia</span><h2>Vincular fotos, vídeos e arquivos</h2><p class="muted">As imagens entram na galeria do lote ou do local selecionado.</p></div>
+        <button class="btn light small" data-close-field-media>Fechar</button>
+      </div>
+      <div class="fieldMediaBody">
+        <div class="modalFormGrid">
+          <div class="modalField full"><label>Vincular a</label><select id="mediaTargetSelect">${options}</select></div>
+          <div class="modalField full"><label>Fotos já tiradas</label><input type="file" id="mediaImages" accept="image/*" multiple></div>
+          <div class="modalField full"><label>Tirar foto agora</label><input type="file" id="mediaCamera" accept="image/*" capture="environment"></div>
+          <div class="modalField full"><label>Vídeos</label><input type="file" id="mediaVideos" accept="video/*" capture="environment" multiple></div>
+          <div class="modalField full"><label>Arquivos</label><input type="file" id="mediaFiles" multiple></div>
+          <div class="modalField full"><label>Link do Google Drive</label><input type="url" id="mediaDrive" placeholder="https://drive.google.com/..."></div>
+          <div class="modalField full"><label>Observação</label><textarea id="mediaNote" placeholder="Ex.: foto da esquina, vista, marcação de quadra, documento do lote..."></textarea></div>
+        </div>
+        <div class="actions"><button class="btn primary" id="saveFieldMedia">Salvar mídia</button><button class="btn light" data-open-field-media-gallery="${currentKey}">Ver galeria</button></div>
+      </div>
+    </div>`;
+  modal.classList.add('show');
+  $('#mediaTargetSelect').value = currentKey;
+  bindFieldMediaModal();
+}
+
+async function saveFieldMediaFromModal(){
+  const targetKey = $('#mediaTargetSelect')?.value || fieldActiveTarget?.key;
+  if(!targetKey){ toast('Selecione onde vincular a mídia.'); return; }
+  const note = ($('#mediaNote')?.value || '').trim();
+  const items = readFieldMedia();
+  const now = new Date().toISOString();
+  const addImageFile = async (file) => {
+    const src = await fileToCompressedImage(file, 1400, .82);
+    if(src) items.push({id:`media-${Date.now()}-${Math.random().toString(16).slice(2)}`, targetKey, type:'image', src, name:file.name, note, createdAt:now});
+  };
+  const imageFiles = [...Array.from($('#mediaImages')?.files || []), ...Array.from($('#mediaCamera')?.files || [])];
+  for(const file of imageFiles.slice(0,8)) await addImageFile(file);
+  Array.from($('#mediaVideos')?.files || []).slice(0,6).forEach(file=>{
+    const url = URL.createObjectURL(file);
+    const id = `media-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    fieldSessionFiles[id] = url;
+    items.push({id,targetKey,type:'video',name:file.name,mime:file.type,size:file.size,note,createdAt:now,sessionUrl:url});
+  });
+  Array.from($('#mediaFiles')?.files || []).slice(0,12).forEach(file=>{
+    const id = `media-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    items.push({id,targetKey,type:'file',name:file.name,mime:file.type,size:file.size,note,createdAt:now});
+  });
+  const drive = ($('#mediaDrive')?.value || '').trim();
+  if(drive) items.push({id:`media-${Date.now()}-drive`,targetKey,type:'drive',name:'Google Drive',url:drive,note,createdAt:now});
+  saveFieldMedia(items);
+  toast('Mídia vinculada com sucesso.');
+  const modal = $('#fieldMediaModal');
+  modal.classList.remove('show');
+  modal.innerHTML = '';
+  if(fieldCurrentPoints?.length) updateFieldPins(fieldCurrentPoints);
+}
+
+function openFieldMediaGallery(targetKey, title='Galeria'){
+  const media = fieldMediaForTarget(targetKey);
+  const images = media.filter(m=>m.type==='image' && m.src);
+  const videos = media.filter(m=>m.type==='video');
+  const files = media.filter(m=>m.type==='file' || m.type==='drive');
+  const modal = $('#fieldMediaModal');
+  modal.innerHTML = `
+    <div class="fieldMediaCard">
+      <div class="fieldMediaHead">
+        <div><span class="tag">Galeria vinculada</span><h2>${title}</h2><p class="muted">${media.length ? `${media.length} item(ns) cadastrados.` : 'Nenhuma mídia cadastrada para este ponto.'}</p></div>
+        <button class="btn light small" data-close-field-media>Fechar</button>
+      </div>
+      <div class="fieldMediaBody">
+        ${images.length ? `<div class="fieldMediaGrid">${images.map(img=>`<img class="zoomableImage" data-zoom-src="${img}" src="${img}" alt="${title}">`).join('')}</div>` : `<div class="mediaEmpty">Nenhuma imagem cadastrada. Use “+ Mídia” no modo campo.</div>`}
+        ${videos.length ? `<div class="mediaList"><b>Vídeos</b>${videos.map(v=>v.sessionUrl ? `<a href="${v.sessionUrl}" target="_blank">${v.name}<small>abrir</small></a>` : `<span>${v.name}<small>registrado</small></span>`).join('')}</div>` : ''}
+        ${files.length ? `<div class="mediaList"><b>Arquivos e Drive</b>${files.map(f=>f.type==='drive' ? `<a href="${f.url}" target="_blank">${f.name}<small>Google Drive</small></a>` : `<span>${f.name}<small>${((f.size||0)/1024/1024).toFixed(1)} MB</small></span>`).join('')}</div>` : ''}
+        <div class="actions" style="margin-top:16px"><button class="btn primary" id="openFieldMediaRegisterFromGallery">Cadastrar mídia</button></div>
+      </div>
+    </div>`;
+  modal.classList.add('show');
+  bindFieldMediaModal();
+  $('#openFieldMediaRegisterFromGallery').onclick = openFieldMediaRegister;
+}
+
+function openImagePreview(src,title='Imagem'){
+  const modal = $('#fieldMediaModal');
+  modal.innerHTML = `
+    <div class="zoomCard">
+      <div class="zoomHead"><b>${title}</b><button class="btn light small" data-close-field-media>Fechar</button></div>
+      <div class="zoomBody"><img class="zoomModalImage" src="${src}" alt="${title}"></div>
+    </div>`;
+  modal.classList.add('show');
+  bindFieldMediaModal();
+}
+
+function bindFieldMediaModal(){
+  $$('[data-close-field-media]').forEach(btn=>btn.onclick=()=>{const modal=$('#fieldMediaModal');modal.classList.remove('show');modal.innerHTML='';});
+  $('#saveFieldMedia') && ($('#saveFieldMedia').onclick = saveFieldMediaFromModal);
+  $$('[data-open-field-media-gallery]').forEach(btn=>btn.onclick=()=>openFieldMediaGallery(btn.dataset.openFieldMediaGallery, fieldTargetTitle(btn.dataset.openFieldMediaGallery)));
+  $$('[data-zoom-src]').forEach(img=>img.onclick=()=>openImagePreview(img.dataset.zoomSrc, img.alt || 'Imagem'));
+}
+
+const bindModalActionsBaseV77 = bindModalActions;
+bindModalActions = function(){
+  bindModalActionsBaseV77();
+  $$('[data-zoom-src]').forEach(img=>img.onclick=()=>openImagePreview(img.dataset.zoomSrc, img.alt || 'Imagem'));
+  $$('[data-field-toggle]').forEach(btn=>btn.onclick=()=>toggleFieldLayer(btn.dataset.fieldToggle));
+  $('#openFieldMediaRegister') && ($('#openFieldMediaRegister').onclick = openFieldMediaRegister);
+  bindFieldPinClicks();
+};
+
+$('#fieldMediaModal')?.addEventListener('click', e=>{ if(e.target.id === 'fieldMediaModal'){ e.currentTarget.classList.remove('show'); e.currentTarget.innerHTML=''; }});
 
 </script>
 </body>
