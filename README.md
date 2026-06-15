@@ -1,13 +1,6 @@
-# Futura Casa v8.9 — Mapa Limpo
+# Futura Casa v9.0 — Mapa com Etiqueta
 
-Ajustes desta versão:
-- removidas as informações sobrepostas ao mapa visual:
-  - selo “Mapa interativo • Futura Casa”;
-  - caixa de instrução sobre o lote selecionado;
-  - legenda sobreposta;
-  - balão textual do lote selecionado;
-- o lote selecionado agora aparece apenas com um marcador circular laranja, mais discreto;
-- o mapa foi ajustado para aparecer com menos aproximação, usando a imagem mais inteira;
-- mantido o botão único **Ver no mapa** na lista convencional;
-- removido qualquer botão **Selecionar** da lista de lotes;
-- mantidos os filtros por quadra, disponibilidade, busca textual, área mínima/máxima e valor mínimo/máximo.
+Ajuste desta versão:
+- além da bolinha laranja no mapa, o lote selecionado passa a exibir uma pequena etiqueta translúcida;
+- a etiqueta mostra **Quadra** e **Lote** diretamente sobre o mapa, sem comprometer a visualização;
+- mantido o mapa com menos zoom e visual limpo da v8.9.
