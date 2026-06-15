@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v7.6 AR Refinada</title>
+<title>Futura Casa | v8.3 Mapa Interativo</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -408,6 +408,72 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 .houseSimToolbar .btn{flex:1 1 240px}
 @media(max-width:760px){.houseSimToolbar{display:grid;grid-template-columns:1fr}}
 
+
+/* v8.3 — Mapa interativo Futura Casa */
+.mapSection{padding-top:18px}
+.mapExperience{position:relative;border-radius:34px;background:linear-gradient(180deg,#121824,#0e1420);box-shadow:var(--shadow2);overflow:hidden;border:1px solid rgba(16,20,29,.10)}
+.mapHeaderBar{position:absolute;z-index:8;left:18px;right:18px;top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:none}
+.mapBrandPill,.mapProject{display:inline-flex;align-items:center;gap:10px;border-radius:999px;background:rgba(255,253,249,.88);backdrop-filter:blur(14px);border:1px solid rgba(16,20,29,.08);box-shadow:0 14px 40px rgba(16,20,29,.12);padding:11px 14px;font-weight:900;color:var(--ink)}
+.mapBrandPill .stackIcon{color:var(--orange);font-size:17px;transform:rotate(90deg);display:inline-block}
+.mapProject{background:rgba(17,23,33,.90);color:#fff;letter-spacing:.02em}
+.interactiveMapFrame{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,430px);min-height:720px}
+.mapViewport{position:relative;min-height:720px;overflow:hidden;background:#efe7dc}
+.mapInner{position:absolute;inset:0;transform:scale(var(--mapZoom,1));transform-origin:center center;transition:transform .24s ease}
+.mapInner img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.02) contrast(.99)}
+.mapLotsLayer{position:absolute;inset:0;z-index:4}
+.mapLotButton{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);min-width:46px;height:38px;padding:0 11px;border-radius:999px;border:1px solid rgba(17,23,33,.16);background:rgba(255,253,249,.82);backdrop-filter:blur(10px);box-shadow:0 12px 32px rgba(16,20,29,.16);font-weight:950;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:5px;transition:transform .18s ease, background .18s ease, box-shadow .18s ease}
+.mapLotButton:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 4px rgba(243,111,47,.16)}
+.mapLotButton[data-status="reserved"]:before{background:var(--orange2)}
+.mapLotButton[data-status="sold"]{opacity:.62;background:rgba(255,255,255,.62)}
+.mapLotButton[data-status="sold"]:before{background:#9ca3af}
+.mapLotButton.selected{background:linear-gradient(180deg,var(--orange2),var(--orange));color:#fff;border-color:rgba(243,111,47,.55);box-shadow:0 18px 54px rgba(243,111,47,.34);transform:translate(-50%,-50%) scale(1.14);z-index:7}
+.mapLotButton.selected:before{background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.22)}
+.mapControls{position:absolute;z-index:8;left:20px;bottom:118px;display:grid;overflow:hidden;border-radius:22px;box-shadow:0 18px 50px rgba(16,20,29,.14)}
+.mapControls button{width:54px;height:54px;border:0;background:rgba(255,253,249,.92);font-size:28px;font-weight:900;color:var(--ink);border-bottom:1px solid var(--line)}
+.mapControls button:last-child{border-bottom:0}
+.mapCompass{position:absolute;z-index:8;right:22px;top:88px;width:70px;height:70px;border-radius:50%;background:rgba(255,253,249,.92);box-shadow:0 18px 48px rgba(16,20,29,.14);display:grid;place-items:center;border:1px solid rgba(16,20,29,.08)}
+.mapCompass span{position:absolute;top:9px;font-weight:950;font-size:12px}
+.mapCompass b{color:var(--orange);font-size:31px;line-height:1}
+.mapLegendChips{position:absolute;z-index:8;left:92px;right:18px;bottom:22px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.mapLegendChips span{display:inline-flex;align-items:center;gap:8px;background:rgba(255,253,249,.90);border:1px solid rgba(16,20,29,.08);box-shadow:0 10px 30px rgba(16,20,29,.10);border-radius:999px;padding:10px 12px;font-weight:800;color:var(--muted)}
+.mapLegendChips i{width:14px;height:14px;border-radius:50%;display:inline-block;border:1px solid rgba(16,20,29,.10)}
+.mapLegendChips .available{background:#ffe6a7}.mapLegendChips .reserved{background:var(--orange)}.mapLegendChips .sold{background:#a6a6a6}.mapLegendChips .green{background:#75a843}.mapLegendChips .water{background:#4aa6d8}
+.mapSelection{background:linear-gradient(180deg,#fffdf9,#fbf5ed);border-left:1px solid rgba(16,20,29,.08);padding:26px;display:flex;align-items:stretch}
+.mapCard{width:100%;align-self:center;background:rgba(255,253,249,.94);border:1px solid var(--line);border-radius:30px;padding:22px;box-shadow:var(--shadow);display:grid;gap:15px}
+.mapCardTop{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.mapCard .tag{width:max-content}
+.mapMiniLot{width:122px;min-width:122px;aspect-ratio:1;border-radius:22px;background:linear-gradient(135deg,#f4e7d6,#fff8eb);border:1px solid var(--line);position:relative;overflow:hidden}
+.mapMiniLot:before{content:"";position:absolute;left:42px;top:18px;width:44px;height:86px;border:2px solid var(--orange);border-radius:8px;transform:rotate(13deg);background:rgba(243,111,47,.22)}
+.mapMiniLot b{position:absolute;inset:0;display:grid;place-items:center;font-size:30px;color:var(--ink)}
+.mapCard h3{font-size:30px;line-height:1.05;margin:0;letter-spacing:-.04em}
+.mapCard .price{font-size:38px;color:var(--orange);font-weight:950;letter-spacing:-.04em}
+.mapSpecs{display:flex;gap:8px;flex-wrap:wrap}
+.mapSpecs span{padding:9px 12px;background:#f8f2ea;border:1px solid var(--line);border-radius:14px;color:var(--muted);font-weight:850}
+.mapActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mapActions .wide{grid-column:1/-1}
+@media(max-width:960px){
+  .interactiveMapFrame{grid-template-columns:1fr;min-height:auto}
+  .mapViewport{min-height:620px}
+  .mapSelection{border-left:0;border-top:1px solid rgba(16,20,29,.08);padding:18px}
+  .mapCard{border-radius:28px}
+}
+@media(max-width:700px){
+  .mapExperience{border-radius:26px;margin-left:-6px;margin-right:-6px}
+  .mapHeaderBar{top:12px;left:12px;right:12px}
+  .mapProject{display:none}
+  .mapBrandPill{font-size:13px;padding:10px 12px}
+  .mapViewport{min-height:560px}
+  .mapControls{left:12px;bottom:112px}
+  .mapControls button{width:46px;height:46px}
+  .mapCompass{right:12px;top:68px;width:58px;height:58px}
+  .mapLegendChips{left:12px;right:12px;bottom:12px;gap:7px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}
+  .mapLegendChips span{white-space:nowrap;padding:9px 11px;font-size:13px}
+  .mapLotButton{min-width:38px;height:32px;font-size:13px;padding:0 9px}
+  .mapCardTop{display:block}.mapMiniLot{float:right;margin-left:12px;margin-bottom:8px;width:106px;min-width:106px}
+  .mapCard h3{font-size:26px}.mapCard .price{font-size:32px}
+  .mapActions{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
@@ -417,7 +483,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
       <img class="brandMain" src="assets/img/img-002-2bbccd1661190fb9.png" alt="Futura Casa">
     </a>
     <nav class="nav">
-      <a href="#lotes" class="active">Lotes</a><a href="#casas">Casas</a><a href="#combos">Combos</a><a href="#adicionais">Adicionais</a><a href="#bandeja">Simulação</a><a href="#atendimento">Atendimento</a><a href="#" id="openLotRegistryMenu">Cadastrar lote</a>
+      <a href="#mapa" class="active">Mapa</a><a href="#mapa">Mapa</a><a href="#lotes">Lotes</a><a href="#casas">Casas</a><a href="#combos">Combos</a><a href="#adicionais">Adicionais</a><a href="#bandeja">Simulação</a><a href="#atendimento">Atendimento</a><a href="#" id="openLotRegistryMenu">Cadastrar lote</a>
     </nav>
     <a class="btn primary" href="#bandeja">Ver minha escolha</a>
     <button class="hamb" id="hamb">☰</button>
@@ -434,7 +500,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
         <div class="eyebrow">Novo conceito de compra</div>
         <h1>Monte sua casa como quem escolhe um cardápio.</h1>
         <p>Escolha a base da sua vida — o lote. Depois escolha a casa. Se preferir, monte um combo pronto com adicionais, simulação editável e encaminhamento direto para um consultor.</p>
-        <div class="heroActions"><a class="btn primary" href="#lotes">Começar pelos lotes</a><a class="btn ghost" href="#casas">Ver casas</a><a class="btn ghost" href="#combos">Montar combo</a></div>
+        <div class="heroActions"><a class="btn primary" href="#mapa">Abrir mapa interativo</a><a class="btn ghost" href="#lotes">Ver lotes</a><a class="btn ghost" href="#combos">Montar combo</a></div>
       </div>
       <aside class="trayHero">
         <div class="eyebrow">Cardápio Futura Casa</div><h3>Escolha em 4 passos</h3>
@@ -452,6 +518,51 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
       <button class="card journeyCard" type="button" data-journey="home" aria-label="Selecionar jornada Somente casa"><div class="eyebrow">Residência</div><h3>Somente casa</h3><p class="muted">Para quem já possui lote ou quer conhecer o custo da construção.</p><span class="journeyHint">Selecionar jornada <b>→</b></span></button>
       <button class="card journeyCard" type="button" data-journey="combo" aria-label="Selecionar jornada Lote mais casa"><div class="eyebrow">Combo</div><h3>Lote + casa</h3><p class="muted">A experiência completa com previsibilidade de desembolso.</p><span class="journeyHint">Selecionar jornada <b>→</b></span></button>
       <button class="card journeyCard" type="button" data-journey="future" aria-label="Selecionar jornada Lote agora mais casa depois"><div class="eyebrow">Flexível</div><h3>Lote agora + casa depois</h3><p class="muted">Compra faseada com casa pré-contratada.</p><span class="journeyHint">Selecionar jornada <b>→</b></span></button>
+    </div>
+  </section>
+
+
+  <section class="wrap section mapSection" id="mapa">
+    <div class="sectionHead">
+      <div>
+        <div class="eyebrow">Mapa interativo</div>
+        <h2>Escolha o lote diretamente no mapa.</h2>
+        <p class="muted">Toque em um lote disponível para abrir a ficha comercial, simular valor, gerar imagens por IA, usar rota ou realidade aumentada.</p>
+      </div>
+      <div class="modebar"><button class="mode active" data-map-filter="available">Disponíveis</button><button class="mode" data-map-filter="reserved">Reservados</button><button class="mode" data-map-filter="sold">Vendidos</button></div>
+    </div>
+
+    <div class="mapExperience">
+      <div class="mapHeaderBar">
+        <div class="mapBrandPill"><span class="stackIcon">▰</span><span>Mapa interativo • Futura Casa</span></div>
+        <div class="mapProject">Solaris Home Resort</div>
+      </div>
+
+      <div class="interactiveMapFrame">
+        <div class="mapViewport">
+          <div class="mapInner" id="mapInner">
+            <img src="assets/img/solaris-mapa-lotes-clean.png" alt="Mapa de quadras e lotes Solaris Home Resort">
+            <div id="mapLotsLayer" class="mapLotsLayer"></div>
+          </div>
+
+          <div class="mapControls">
+            <button type="button" id="mapZoomIn" aria-label="Aproximar mapa">+</button>
+            <button type="button" id="mapZoomOut" aria-label="Afastar mapa">−</button>
+          </div>
+
+          <div class="mapCompass"><span>N</span><b>▲</b></div>
+
+          <div class="mapLegendChips">
+            <span><i class="available"></i>Disponíveis</span>
+            <span><i class="reserved"></i>Reservados</span>
+            <span><i class="sold"></i>Vendidos</span>
+            <span><i class="green"></i>Área verde</span>
+            <span><i class="water"></i>Represa</span>
+          </div>
+        </div>
+
+        <aside class="mapSelection" id="mapSelectionCard" aria-live="polite"></aside>
+      </div>
     </div>
   </section>
 
@@ -2513,8 +2624,156 @@ function openARView(id){
   if($('#fieldMediaCamera')) $('#fieldMediaCamera').onchange = previewFieldMediaPhotos;
 }
 
+
+/* v8.3 — mapa interativo de quadras e lotes */
+const MAP_LOTS = [
+  {id:'map-sol-12', number:'12', quadra:'A', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 12', area:504.83, dims:'15 x 33 m', price:498000, status:'available', x:69.5, y:11.2, taste:'Premium', tag:'vista elevada', details:'Lote de posição alta, com leitura premium no mapa e boa relação entre frente, profundidade e implantação residencial.', coords:{lat:-18.7312,lng:-47.4932}},
+  {id:'map-sol-26', number:'26', quadra:'C', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 26', area:465.12, dims:'15 x 30 m', price:459000, status:'available', x:43.1, y:25.2, taste:'Equilibrado', tag:'boa metragem', details:'Lote intermediário em quadra curva, indicado para projeto residencial com implantação eficiente.', coords:{lat:-18.7316,lng:-47.4928}},
+  {id:'map-sol-45', number:'45', quadra:'C', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 45', area:458.16, dims:'15 x 30 m', price:470000, status:'available', x:56.8, y:35.8, taste:'Prático', tag:'implantação fácil', details:'Lote com boa leitura de quadra e acesso simples ao sistema viário interno.', coords:{lat:-18.7319,lng:-47.4925}},
+  {id:'map-sol-81', number:'81', quadra:'F', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 81', area:470.94, dims:'15 x 31 m', price:512000, status:'available', x:66.8, y:40.5, taste:'Premium', tag:'próximo à área verde', details:'Lote com proximidade visual a áreas verdes e boa posição para projeto de presença.', coords:{lat:-18.7322,lng:-47.49348}},
+  {id:'map-sol-104', number:'104', quadra:'E', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 104', area:456.05, dims:'15 x 30 m', price:455000, status:'available', x:73.5, y:57.6, taste:'Funcional', tag:'quadra organizada', details:'Lote em quadra vertical, com ótima clareza de acesso e potencial para moradia planejada.', coords:{lat:-18.7329,lng:-47.4921}},
+  {id:'map-sol-124', number:'124', quadra:'E', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 124', area:470.59, dims:'15 x 31 m', price:468000, status:'available', x:80.1, y:77.5, taste:'Reservado', tag:'fim de quadra', details:'Lote em posição mais reservada, indicado para quem valoriza privacidade e menor fluxo.', coords:{lat:-18.7337,lng:-47.4917}},
+  {id:'map-sol-137', number:'137', quadra:'J', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 137', area:428.03, dims:'12 x 35 m', price:398000, status:'reserved', x:54.7, y:85.5, taste:'Oportunidade', tag:'entrada de valor', details:'Lote de perfil objetivo para entrada na jornada Solaris com menor valor total.', coords:{lat:-18.7341,lng:-47.4931}},
+  {id:'map-sol-157', number:'157', quadra:'B', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 157', area:477.04, dims:'15 x 31 m', price:485000, status:'available', x:29.2, y:54.2, taste:'Paisagem', tag:'próximo à represa', details:'Lote com forte apelo paisagístico por proximidade com a represa e áreas verdes.', coords:{lat:-18.733,lng:-47.4945}},
+  {id:'map-sol-165', number:'165', quadra:'B', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 165', area:476.79, dims:'15 x 31 m', price:492000, status:'available', x:22.1, y:62.4, taste:'Vista', tag:'represa', details:'Lote em setor com presença marcante da represa, ideal para storytelling de lifestyle.', coords:{lat:-18.7333,lng:-47.4949}},
+  {id:'map-sol-73', number:'73', quadra:'F', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 73', area:487.6, dims:'16 x 30 m', price:505000, status:'sold', x:63.5, y:32.7, taste:'Vendido', tag:'referência', details:'Lote já vendido, mantido no mapa para contexto de estoque e leitura de ocupação.', coords:{lat:-18.732,lng:-47.4929}},
+  {id:'map-sol-114', number:'114', quadra:'E', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 114', area:470.59, dims:'15 x 31 m', price:475000, status:'available', x:80.3, y:55.0, taste:'Familiar', tag:'quadra tranquila', details:'Lote com boa metragem para casa familiar e acesso simples pelo sistema viário.', coords:{lat:-18.733,lng:-47.49185}},
+  {id:'map-sol-31', number:'31', quadra:'C', project:'Solaris Home Resort', name:'Solaris Home Resort • Lote 31', area:457.72, dims:'15 x 30 m', price:462000, status:'available', x:50.7, y:25.0, taste:'Equilibrado', tag:'miolo de quadra', details:'Lote com perfil equilibrado e boa posição na quadra superior do empreendimento.', coords:{lat:-18.73155,lng:-47.49255}}
+];
+
+let selectedMapLotId = 'map-sol-12';
+let mapZoom = 1;
+
+function mapLotToPlatformLot(mapLot){
+  return {
+    id: mapLot.id,
+    name: mapLot.name,
+    project: 'Solaris Residencial Resort',
+    area: Math.round(mapLot.area),
+    dims: mapLot.dims,
+    price: mapLot.price,
+    tag: mapLot.tag,
+    taste: mapLot.taste,
+    details: mapLot.details,
+    features: [`Quadra ${mapLot.quadra}`, `${Math.round(mapLot.area)} m²`, mapLot.dims, mapLot.status === 'available' ? 'Disponível' : mapLot.status === 'reserved' ? 'Reservado' : 'Vendido'],
+    thumb: 'assets/img/solaris-mapa-lotes-clean.png',
+    gallery: ['assets/img/solaris-mapa-lotes-clean.png'],
+    coords: mapLot.coords,
+    arPoints: [{label:'Represa',distance:120,bearing:260},{label:'Área verde',distance:38,bearing:185},{label:`Lote ${mapLot.number}`,distance:6,bearing:0}],
+    source:'map'
+  };
+}
+
+function ensureMapLotInLots(mapLot){
+  const existing = LOTS.find(l=>l.id === mapLot.id);
+  const normalized = mapLotToPlatformLot(mapLot);
+  if(existing) Object.assign(existing, normalized);
+  else LOTS.push(normalized);
+  return LOTS.find(l=>l.id === mapLot.id);
+}
+
+function selectedMapLot(){
+  return MAP_LOTS.find(l=>l.id === selectedMapLotId) || MAP_LOTS[0];
+}
+
+function statusLabel(status){
+  return status === 'reserved' ? 'Reservado' : status === 'sold' ? 'Vendido' : 'Disponível';
+}
+
+function renderMapLots(filter='available'){
+  const layer = document.getElementById('mapLotsLayer');
+  if(!layer) return;
+  const visible = MAP_LOTS.filter(l => filter === 'all' || l.status === filter);
+  layer.innerHTML = visible.map(l => `<button type="button" class="mapLotButton ${l.id===selectedMapLotId?'selected':''}" data-map-lot="${l.id}" data-status="${l.status}" style="--x:${l.x}%;--y:${l.y}%">${l.number}</button>`).join('');
+  layer.querySelectorAll('[data-map-lot]').forEach(btn=>{
+    btn.onclick = ()=>selectMapLot(btn.dataset.mapLot);
+  });
+}
+
+function renderMapSelection(){
+  const card = document.getElementById('mapSelectionCard');
+  if(!card) return;
+  const l = selectedMapLot();
+  ensureMapLotInLots(l);
+  card.innerHTML = `
+    <div class="mapCard">
+      <div class="mapCardTop">
+        <div>
+          <span class="tag">Lote selecionado • ${statusLabel(l.status)}</span>
+          <h3>${l.name}</h3>
+        </div>
+        <div class="mapMiniLot"><b>${l.number}</b></div>
+      </div>
+      <div class="mapSpecs"><span>Quadra ${l.quadra}</span><span>${Math.round(l.area)} m²</span><span>${l.dims}</span></div>
+      <div class="price">${fmt(l.price)}</div>
+      <p class="muted">${l.details}</p>
+      <div class="mapActions">
+        <button class="btn primary" data-map-detail="${l.id}">Detalhes</button>
+        <button class="btn primary" data-map-sim="${l.id}">Simular valor</button>
+        <button class="btn primary wide" data-map-ai="${l.id}">Gerar imagens por IA</button>
+        <button class="btn dark" data-map-combo="${l.id}">Usar no combo</button>
+        <button class="btn light" data-map-route="${l.id}">Rota</button>
+        <button class="btn light" data-map-ar="${l.id}">Realidade aumentada</button>
+      </div>
+    </div>`;
+  bindMapSelectionActions();
+}
+
+function selectMapLot(id){
+  selectedMapLotId = id;
+  const activeFilter = document.querySelector('[data-map-filter].active')?.dataset.mapFilter || 'available';
+  renderMapLots(activeFilter);
+  renderMapSelection();
+  toast('Lote selecionado no mapa.');
+}
+
+function bindMapSelectionActions(){
+  document.querySelectorAll('[data-map-detail]').forEach(btn=>btn.onclick=()=>openLotDetails(ensureMapLotInLots(MAP_LOTS.find(l=>l.id===btn.dataset.mapDetail)).id));
+  document.querySelectorAll('[data-map-ai]').forEach(btn=>btn.onclick=()=>openHouseSimulation(ensureMapLotInLots(MAP_LOTS.find(l=>l.id===btn.dataset.mapAi)).id));
+  document.querySelectorAll('[data-map-route]').forEach(btn=>btn.onclick=()=>openRouteToLot(ensureMapLotInLots(MAP_LOTS.find(l=>l.id===btn.dataset.mapRoute)).id));
+  document.querySelectorAll('[data-map-ar]').forEach(btn=>btn.onclick=()=>openARView(ensureMapLotInLots(MAP_LOTS.find(l=>l.id===btn.dataset.mapAr)).id));
+  document.querySelectorAll('[data-map-sim]').forEach(btn=>btn.onclick=()=>{
+    const lot = ensureMapLotInLots(MAP_LOTS.find(l=>l.id===btn.dataset.mapSim));
+    state.lot = lot; state.customLotPrice = lot.price; state.mode = 'lot';
+    if($('#buyMode')) $('#buyMode').value = 'lot';
+    syncPriceInputs(); renderAll();
+    document.querySelector('#bandeja')?.scrollIntoView({behavior:'smooth'});
+    toast('Lote do mapa enviado para simulação.');
+  });
+  document.querySelectorAll('[data-map-combo]').forEach(btn=>btn.onclick=()=>{
+    const lot = ensureMapLotInLots(MAP_LOTS.find(l=>l.id===btn.dataset.mapCombo));
+    state.lot = lot; state.customLotPrice = lot.price; state.mode = 'combo';
+    if($('#buyMode')) $('#buyMode').value = 'combo';
+    syncPriceInputs(); renderAll();
+    document.querySelector('#bandeja')?.scrollIntoView({behavior:'smooth'});
+    toast('Lote do mapa adicionado ao combo.');
+  });
+}
+
+function initInteractiveMap(){
+  MAP_LOTS.forEach(ensureMapLotInLots);
+  renderMapLots('available');
+  renderMapSelection();
+
+  document.querySelectorAll('[data-map-filter]').forEach(btn=>{
+    btn.onclick = ()=>{
+      document.querySelectorAll('[data-map-filter]').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderMapLots(btn.dataset.mapFilter);
+    };
+  });
+
+  const applyZoom = ()=>{ const inner = document.getElementById('mapInner'); if(inner) inner.style.setProperty('--mapZoom', mapZoom); };
+  const zoomIn = document.getElementById('mapZoomIn');
+  const zoomOut = document.getElementById('mapZoomOut');
+  if(zoomIn) zoomIn.onclick = ()=>{ mapZoom = Math.min(1.45, +(mapZoom + .12).toFixed(2)); applyZoom(); };
+  if(zoomOut) zoomOut.onclick = ()=>{ mapZoom = Math.max(1, +(mapZoom - .12).toFixed(2)); applyZoom(); };
+}
+
 applyStoredFieldMedia();
+initInteractiveMap();
 renderAll();
+renderMapSelection();
 
 
 /* v7.8 — ocultar/visualizar único + simular casa */
