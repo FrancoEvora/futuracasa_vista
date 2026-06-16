@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v9.5 SACOC</title>
+<title>Futura Casa | v9.6 PDF + Mapa Premium</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -759,6 +759,161 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 /* v9.5 — inclusão do SACOC */
 .resultGrid .res b#resSystemNote{font-size:15px;line-height:1.22}
 
+
+
+/* v9.6 — PDF + mapa premium */
+.simActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.simActions .btn{width:100%}
+@media(max-width:760px){.simActions{grid-template-columns:1fr}}
+
+.mapExperience{
+  background:linear-gradient(180deg,#f5ede4 0%,#efe4d7 100%);
+  border:1px solid rgba(17,23,33,.08);
+  box-shadow:0 30px 90px rgba(16,20,29,.14), inset 0 1px 0 rgba(255,255,255,.45);
+}
+.interactiveMapFrame{grid-template-columns:minmax(0,1.12fr) minmax(360px,.88fr);min-height:760px}
+.mapViewport{
+  min-height:760px;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255,255,255,.92), transparent 24%),
+    radial-gradient(circle at 88% 14%, rgba(243,111,47,.08), transparent 22%),
+    linear-gradient(180deg,#ece0d0 0%,#e4d6c4 100%);
+}
+.mapViewport::before{
+  content:"";
+  position:absolute;
+  inset:16px;
+  border-radius:30px;
+  background:linear-gradient(180deg,rgba(255,255,255,.32),rgba(255,255,255,.10));
+  border:1px solid rgba(255,255,255,.32);
+  pointer-events:none;
+  z-index:0;
+}
+.mapInner{
+  position:absolute;
+  inset:24px;
+  border-radius:28px;
+  overflow:hidden;
+  box-shadow:0 28px 60px rgba(16,20,29,.14);
+  background:#f8f1e8;
+}
+.mapInner img{
+  object-fit:contain;
+  background:#f8f1e8;
+  filter:saturate(1.04) contrast(1.05) brightness(1.01);
+}
+.mapHeaderBar{left:24px;right:24px;top:24px}
+.mapBrandPill,.mapProject{
+  background:rgba(255,253,249,.72);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(17,23,33,.08);
+  box-shadow:0 14px 40px rgba(16,20,29,.08);
+}
+.mapProject{color:var(--ink);font-weight:900}
+.mapControls{
+  left:38px;
+  bottom:46px;
+  border-radius:20px;
+  overflow:hidden;
+  background:rgba(255,253,249,.78);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(17,23,33,.08);
+  box-shadow:0 18px 42px rgba(16,20,29,.14);
+}
+.mapControls button{
+  width:50px;
+  height:50px;
+  font-size:26px;
+  background:transparent;
+  color:#1a2433;
+  border-bottom:1px solid rgba(17,23,33,.08);
+}
+.mapControls button:hover{background:rgba(255,255,255,.62)}
+.mapZoomBadge{
+  left:40px;
+  bottom:160px;
+  padding:8px 10px;
+  border-radius:999px;
+  background:rgba(17,23,33,.80);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:0 14px 28px rgba(16,20,29,.18);
+}
+.mapCompass{
+  right:38px;
+  top:102px;
+  width:78px;
+  height:78px;
+  border-radius:50%;
+  background:rgba(255,253,249,.72);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(17,23,33,.08);
+  box-shadow:0 18px 44px rgba(16,20,29,.12);
+}
+.mapCompass span{font-size:13px;color:#435062;letter-spacing:.18em}
+.mapCompass b{font-size:24px;color:var(--orange);text-shadow:0 6px 18px rgba(243,111,47,.20)}
+.mapImageHint{display:none!important}
+.mapLegendChips{
+  left:24px;
+  right:24px;
+  bottom:18px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.mapLegendChips span{
+  background:rgba(255,253,249,.74);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(17,23,33,.08);
+  color:#425062;
+  font-weight:800;
+  padding:8px 12px;
+  border-radius:999px;
+  box-shadow:0 8px 22px rgba(16,20,29,.08);
+}
+.mapSelectedMarker{transform:translate(-50%,-100%);}
+.mapSelectedMarker .pinBubble{
+  min-width:auto;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border-radius:16px;
+  background:rgba(255,252,248,.78);
+  color:var(--ink);
+  font-weight:950;
+  padding:10px 14px;
+  border:1px solid rgba(243,111,47,.22);
+  box-shadow:0 18px 48px rgba(16,20,29,.16);
+  backdrop-filter:blur(14px);
+}
+.mapSelectedMarker .pinBubble small{display:none}
+.mapSelectedMarker .pinQuadra{color:var(--orange);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.mapSelectedMarker .pinDivider{opacity:.45}
+.mapSelectedMarker .pinLote{color:#101721;font-size:14px}
+.mapSelectedMarker .pinPoint{
+  width:16px;height:16px;border-radius:50%;background:var(--orange);
+  border:4px solid #fff;box-shadow:0 0 0 9px rgba(243,111,47,.16),0 16px 30px rgba(16,20,29,.16);margin-top:6px
+}
+.mapSelection{background:linear-gradient(180deg,#fffdf9 0%,#fbf4eb 100%)}
+.mapSelection .mapCard,.mapFinder{
+  box-shadow:0 18px 50px rgba(16,20,29,.06);
+}
+@media(max-width:960px){
+  .interactiveMapFrame{grid-template-columns:1fr;min-height:auto}
+  .mapViewport{min-height:620px}
+  .mapInner{inset:18px}
+}
+@media(max-width:700px){
+  .mapViewport{min-height:560px}
+  .mapHeaderBar{left:16px;right:16px;top:16px}
+  .mapBrandPill,.mapProject{padding:9px 12px;font-size:12px}
+  .mapControls{left:24px;bottom:34px}
+  .mapZoomBadge{left:24px;bottom:144px}
+  .mapCompass{right:24px;top:92px;width:70px;height:70px}
+  .mapLegendChips{left:16px;right:16px;bottom:14px}
+  .mapSelectedMarker .pinBubble{padding:9px 12px;gap:6px}
+}
+
 </style>
 </head>
 <body>
@@ -958,10 +1113,11 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
           <div class="res"><small>Saldo residual / balão</small><b id="resResidual">-</b></div>
           <div class="res"><small>Observação do modelo</small><b id="resSystemNote">Parcela estimada</b></div>
         </div>
-        <div class="actions">
+        <div class="actions simActions">
           <button class="btn primary" id="saveChoice">Salvar proposta</button>
           <button class="btn primary" id="copyChoice">Copiar resumo</button>
           <button class="btn primary" id="sendConsultant">Enviar proposta ao consultor</button>
+          <button class="btn primary" id="savePdfChoice">Salvar em PDF</button>
         </div>
       </div>
 
@@ -4369,6 +4525,167 @@ document.addEventListener('click', (event) => {
     return;
   }
 });
+
+
+/* v9.6 — salvar simulação em PDF */
+function escPdfHtml(value){
+  return String(value == null ? '' : value)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+function proposalPdfHtml(){
+  const totals = getTotals();
+  const buyer = buyerData();
+  const generatedAt = new Date();
+  const journeyMap = {
+    combo:'Lote + casa',
+    lot:'Somente lote',
+    home:'Somente casa',
+    future:'Lote agora + casa pré-contratada'
+  };
+  const journey = journeyMap[document.getElementById('buyMode')?.value] || 'Lote + casa';
+  const lotName = state.lot?.name || 'Nenhum lote selecionado';
+  const homeName = state.home?.name || 'Nenhuma casa selecionada';
+  const addons = state.addons?.length ? state.addons.map(item=>item.name).join(', ') : 'Nenhum adicional';
+  const rowsChoice = [
+    ['Jornada', journey],
+    ['Lote', lotName],
+    ['Casa', homeName],
+    ['Adicionais', addons],
+    ['Valor total estimado', fmt(totals.total)],
+    ['Entrada total', fmt(totals.entryValue)],
+    ['Parcelamento da entrada', `${totals.installments}X no cartão de ${fmt(totals.entryInstallment)}`],
+    ['Valor financiado', fmt(totals.financed)],
+    ['Prazo', `${totals.term} meses`],
+    ['Modelo financeiro', systemDisplayName(totals.system)],
+    ['Parcela estimada', fmt(totals.payment)],
+    ['Entrada em %', `${totals.entryPercent.toFixed(1)}%`],
+    ['Saldo residual / balão', totals.paymentInfo?.residual ? fmt(totals.paymentInfo.residual) : '-'],
+    ['Observação do modelo', totals.paymentInfo?.note || '-']
+  ].map(([label,value])=>`<tr><th>${escPdfHtml(label)}</th><td>${escPdfHtml(value)}</td></tr>`).join('');
+  const rowsRates = [
+    ['Juros remuneratórios', totals.rateInfo?.interestText || '-'],
+    ['Índice de correção', totals.rateInfo?.correctionText || '-'],
+    ['Taxa mensal considerada', totals.rateInfo?.effectiveText || '-']
+  ].map(([label,value])=>`<tr><th>${escPdfHtml(label)}</th><td>${escPdfHtml(value)}</td></tr>`).join('');
+  const rowsBuyer = [
+    ['Nome', buyer.name || '-'],
+    ['Telefone', buyer.phone || '-'],
+    ['E-mail', buyer.email || '-'],
+    ['Cidade', buyer.city || '-'],
+    ['Preferência de contato', buyer.preference || '-'],
+    ['Melhor horário', buyer.time || '-'],
+    ['Observação', buyer.note || '-']
+  ].map(([label,value])=>`<tr><th>${escPdfHtml(label)}</th><td>${escPdfHtml(value)}</td></tr>`).join('');
+
+  return `<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proposta Futura Casa</title>
+<style>
+  :root{--ink:#161b24;--muted:#66707f;--line:#e9dece;--orange:#f36f2f;--paper:#fffdf9;--paper2:#fbf4eb;--dark:#111721;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,Arial,sans-serif;background:#f5efe7;color:var(--ink);padding:24px}
+  .sheet{max-width:980px;margin:0 auto;background:var(--paper);border:1px solid rgba(17,23,33,.08);border-radius:26px;overflow:hidden;box-shadow:0 18px 50px rgba(16,20,29,.10)}
+  .hero{padding:28px 32px;background:linear-gradient(135deg,#121824 0%,#1c2736 68%,#2a3443 100%);color:#fff}
+  .hero small{display:block;letter-spacing:.22em;text-transform:uppercase;color:#f6b089;font-weight:800;margin-bottom:8px}
+  .hero h1{margin:0;font-size:34px;line-height:1.05}
+  .hero p{margin:12px 0 0;color:rgba(255,255,255,.82);font-size:15px}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .meta span{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);padding:8px 12px;border-radius:999px;font-size:13px}
+  .content{padding:28px 32px 34px;display:grid;gap:20px}
+  .summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .summary .box{background:var(--paper2);border:1px solid var(--line);border-radius:18px;padding:16px}
+  .summary small{display:block;color:var(--muted);font-weight:700;margin-bottom:8px}
+  .summary b{font-size:24px;line-height:1.1}
+  .section{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:#fff}
+  .sectionHead{padding:16px 20px;background:linear-gradient(180deg,#fffaf4,#fbf1e4);border-bottom:1px solid var(--line)}
+  .sectionHead h2{margin:0;font-size:20px}
+  .sectionHead p{margin:6px 0 0;color:var(--muted);font-size:14px}
+  table{width:100%;border-collapse:collapse}
+  th,td{padding:13px 20px;border-bottom:1px solid #efe6da;text-align:left;font-size:14px;vertical-align:top}
+  tr:last-child th,tr:last-child td{border-bottom:0}
+  th{width:34%;color:#5b6472;font-weight:800;background:#fffcf8}
+  td{font-weight:700}
+  .footer{padding:0 32px 28px;color:var(--muted);font-size:12px;line-height:1.55}
+  @media print{body{background:#fff;padding:0}.sheet{box-shadow:none;border:0;border-radius:0;max-width:none}.hero{print-color-adjust:exact;-webkit-print-color-adjust:exact}.sectionHead{print-color-adjust:exact;-webkit-print-color-adjust:exact}.summary .box{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+  @page{size:A4;margin:14mm}
+</style>
+</head>
+<body>
+  <div class="sheet">
+    <div class="hero">
+      <small>Futura Casa • proposta financeira</small>
+      <h1>Simulação para ${escPdfHtml(lotName)}</h1>
+      <p>Resumo gerado a partir da bandeja de compra e do simulador financeiro.</p>
+      <div class="meta">
+        <span>Gerado em ${escPdfHtml(generatedAt.toLocaleString('pt-BR'))}</span>
+        <span>${escPdfHtml(systemDisplayName(totals.system))}</span>
+        <span>${escPdfHtml(totals.term)} meses</span>
+      </div>
+    </div>
+    <div class="content">
+      <div class="summary">
+        <div class="box"><small>Valor total estimado</small><b>${escPdfHtml(fmt(totals.total))}</b></div>
+        <div class="box"><small>Entrada total</small><b>${escPdfHtml(fmt(totals.entryValue))}</b></div>
+        <div class="box"><small>Parcela estimada</small><b>${escPdfHtml(fmt(totals.payment))}</b></div>
+      </div>
+      <section class="section">
+        <div class="sectionHead"><h2>Escolha do cliente</h2><p>Composição da bandeja e parâmetros centrais da proposta.</p></div>
+        <table>${rowsChoice}</table>
+      </section>
+      <section class="section">
+        <div class="sectionHead"><h2>Juros e correção</h2><p>Condições consideradas na simulação atual.</p></div>
+        <table>${rowsRates}</table>
+      </section>
+      <section class="section">
+        <div class="sectionHead"><h2>Dados para atendimento</h2><p>Informações para continuidade do contato comercial.</p></div>
+        <table>${rowsBuyer}</table>
+      </section>
+    </div>
+    <div class="footer">Documento de caráter ilustrativo e comercial. Os valores podem sofrer alteração conforme política comercial, atualização monetária, aprovação cadastral, disponibilidade do lote e validação final pela equipe comercial.</div>
+  </div>
+  <script>
+    window.onload = () => setTimeout(() => window.print(), 280);
+  <\/script>
+</body>
+</html>`;
+}
+
+function saveProposalPdf(){
+  const html = proposalPdfHtml();
+  const win = window.open('', '_blank');
+  if(!win){
+    toast('Permita a abertura da janela para salvar a proposta em PDF.');
+    return;
+  }
+  win.document.open();
+  win.document.write(html);
+  win.document.close();
+  toast('Abrindo visualização para salvar em PDF.');
+}
+
+(function(){
+  const savePdfBtn = document.getElementById('savePdfChoice');
+  if(savePdfBtn) savePdfBtn.onclick = saveProposalPdf;
+})();
+
+/* v9.6 — mapa com apresentação mais sofisticada */
+(function(){
+  if(typeof mapZoom !== 'undefined'){
+    mapZoom = 0.86;
+    const inner = document.getElementById('mapInner');
+    if(inner) inner.style.setProperty('--mapZoom', mapZoom);
+    const badge = document.getElementById('mapZoomBadge');
+    if(badge) badge.textContent = `${Math.round(mapZoom*100)}%`;
+  }
+})();
+
 </script>
 </body>
 </html>
