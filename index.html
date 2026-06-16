@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v9.8 PDF com Imagens + Mapa Premium</title>
+<title>Futura Casa | v9.9 Reserva e Concierge</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -916,7 +916,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 
 
 
-/* v9.8 - PDF com imagens e mapa mais sofisticado */
+/* v9.9 - PDF com imagens e mapa mais sofisticado */
 .mapViewport{
   background:linear-gradient(180deg,#efe4d7 0%,#e5d7c6 100%)!important;
 }
@@ -948,6 +948,86 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 .mapLotRow .rowMeta span:last-child{background:#fff6ee;color:var(--orange);border-color:rgba(243,111,47,.22)}
 .mapListCount strong{color:var(--orange)}
 
+
+/* v9.9 — Reserva e Concierge */
+.journeySuite{padding-top:22px}
+.journeySuiteGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.journeyServiceCard{
+  border:1px solid var(--line);
+  background:linear-gradient(180deg,#fffdf9,#fbf4eb);
+  border-radius:26px;
+  padding:18px;
+  text-align:left;
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  box-shadow:0 18px 46px rgba(16,20,29,.08);
+  color:var(--ink);
+  min-height:138px;
+}
+.journeyServiceCard:hover{transform:translateY(-2px);box-shadow:0 22px 56px rgba(16,20,29,.12)}
+.serviceIcon{
+  width:54px;height:54px;min-width:54px;border-radius:18px;
+  display:grid;place-items:center;
+  background:linear-gradient(180deg,#ffefe6,#fff7ef);
+  color:var(--orange);border:1px solid rgba(243,111,47,.18);
+  font-weight:950;font-size:25px;
+}
+.journeyServiceCard h3{margin:0 0 6px;font-size:20px;letter-spacing:-.03em}
+.journeyServiceCard p{margin:0;color:var(--muted);line-height:1.42}
+.reservationPanel{
+  margin-top:16px;
+  border:1px solid var(--line);
+  border-radius:28px;
+  background:rgba(255,253,249,.88);
+  box-shadow:0 18px 48px rgba(16,20,29,.08);
+  padding:18px;
+  display:none;
+}
+.reservationPanel.show{display:block}
+.reservationCardInline{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.reservationCardInline h3{margin:0 0 5px;font-size:22px}
+.reservationCardInline p{margin:0;color:var(--muted)}
+.reservationBadge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 13px;border-radius:999px;
+  background:#fff4ea;color:var(--orange);
+  font-weight:950;border:1px solid rgba(243,111,47,.20);
+}
+.reserveStatusReserved{
+  display:inline-flex;align-items:center;gap:6px;
+  border-radius:999px;padding:7px 11px;
+  background:#fff4ea;color:#9a4b13;font-weight:950;border:1px solid rgba(243,111,47,.20);
+  font-size:12px;
+}
+.reserveStatusReserved:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--orange)}
+.reservationProtocol{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  background:#111721;color:#fff;border-radius:16px;padding:12px 14px;font-weight:800
+}
+.reserveModalGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.reserveModalGrid .full{grid-column:1/-1}
+.reserveSummary{
+  border:1px solid var(--line);border-radius:20px;padding:16px;
+  background:linear-gradient(180deg,#fffdf9,#fbf4eb);
+  display:grid;gap:8px;
+}
+.reserveSummaryLine{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #efe4d8;padding-bottom:8px}
+.reserveSummaryLine:last-child{border-bottom:0;padding-bottom:0}
+.reserveSummaryLine span{color:var(--muted);font-weight:700}
+.reserveSummaryLine b{text-align:right}
+.mapLotRow.reservedByUser,.menuCard.reservedByUser{
+  outline:2px solid rgba(243,111,47,.25);
+  background:linear-gradient(180deg,#fff7ef,#fffdf9);
+}
+@media(max-width:960px){.journeySuiteGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){
+  .journeySuiteGrid{grid-template-columns:1fr}
+  .journeyServiceCard{min-height:auto}
+  .reserveModalGrid{grid-template-columns:1fr}
+  .reserveModalGrid .full{grid-column:auto}
+}
+
 </style>
 </head>
 <body>
@@ -957,13 +1037,13 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
       <img class="brandMain" src="assets/img/img-002-2bbccd1661190fb9.png" alt="Futura Casa">
     </a>
     <nav class="nav">
-      <a href="#mapa" class="active">Mapa</a><a href="#lotes">Lotes</a><a href="#casas">Casas</a><a href="#combos">Combos</a><a href="#adicionais">Adicionais</a><a href="#bandeja">Simulação</a><a href="#atendimento">Atendimento</a><a href="#" id="openLotRegistryMenu">Cadastrar lote</a>
+      <a href="#jornada" class="active">Jornada</a><a href="#mapa">Mapa</a><a href="#lotes">Lotes</a><a href="#casas">Casas</a><a href="#combos">Combos</a><a href="#adicionais">Adicionais</a><a href="#bandeja">Simulação</a><a href="#atendimento">Atendimento</a><a href="#" id="openLotRegistryMenu">Cadastrar lote</a>
     </nav>
     <a class="btn primary" href="#bandeja">Ver minha escolha</a>
     <button class="hamb" id="hamb">☰</button>
   </div>
   <nav class="mobile" id="mobile">
-    <a href="#mapa">Mapa</a><a href="#lotes">Lotes</a><a href="#casas">Casas</a><a href="#combos">Combos</a><a href="#adicionais">Adicionais</a><a href="#bandeja">Simulação</a><a href="#atendimento">Atendimento</a><a href="#" id="openLotRegistryMobile">Cadastrar lote</a>
+    <a href="#jornada">Jornada</a><a href="#mapa">Mapa</a><a href="#lotes">Lotes</a><a href="#casas">Casas</a><a href="#combos">Combos</a><a href="#adicionais">Adicionais</a><a href="#bandeja">Simulação</a><a href="#atendimento">Atendimento</a><a href="#" id="openLotRegistryMobile">Cadastrar lote</a>
   </nav>
 </header>
 
@@ -984,6 +1064,36 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
         <div class="miniLine"><div><b>4. Adicionais</b><small>Paisagismo, solar, gourmet</small></div><span>➕</span></div>
       </aside>
     </div>
+
+  </section>
+
+  <section class="wrap section journeySuite" id="jornada">
+    <div class="sectionHead">
+      <div>
+        <div class="eyebrow">Minha Jornada</div>
+        <h2>Catálogo, reserva e atendimento assistido.</h2>
+        <p class="muted">Uma experiência inspirada em hotelaria: escolha, reserve, faça check-in da proposta e acione o concierge comercial.</p>
+      </div>
+    </div>
+    <div class="journeySuiteGrid">
+      <button class="journeyServiceCard" type="button" data-service-catalog>
+        <span class="serviceIcon">▦</span>
+        <div><h3>Catálogo Futura Casa</h3><p>Lotes, casas, combos, adicionais e mapa em um só lugar.</p></div>
+      </button>
+      <button class="journeyServiceCard" type="button" data-open-reserve-current>
+        <span class="serviceIcon">✓</span>
+        <div><h3>Reservar oportunidade</h3><p>Bloqueie o lote ou combo por tempo limitado para iniciar a negociação.</p></div>
+      </button>
+      <button class="journeyServiceCard" type="button" data-open-concierge>
+        <span class="serviceIcon">✦</span>
+        <div><h3>Concierge Futura Casa</h3><p>Peça ajuda para comparar lotes, simular ou falar com um especialista.</p></div>
+      </button>
+      <button class="journeyServiceCard" type="button" data-open-checkin>
+        <span class="serviceIcon">⌁</span>
+        <div><h3>Check-in da proposta</h3><p>Pré-cadastro para acelerar atendimento e negociação.</p></div>
+      </button>
+    </div>
+    <div class="reservationPanel" id="reservationPanel"></div>
   </section>
 
   <section class="wrap section">
@@ -1151,6 +1261,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
           <button class="btn primary" id="saveChoice">Salvar proposta</button>
           <button class="btn primary" id="copyChoice">Copiar resumo</button>
           <button class="btn primary" id="sendConsultant">Enviar proposta ao consultor</button>
+          <button class="btn primary" id="reserveProposal">Reservar esta proposta</button>
           <button class="btn primary" id="savePdfChoice">Salvar em PDF</button>
         </div>
       </div>
@@ -1168,7 +1279,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
     <div class="card">
       <div class="sectionHead">
         <div><div class="eyebrow">Atendimento</div><h2>Pronto para transformar a escolha em negociação?</h2><p class="muted">Depois de montar a bandeja, envie a proposta para um consultor validar disponibilidade, prazo, fluxo e condições.</p></div>
-        <div class="actions"><button class="btn primary" id="sendConsultantBottom">Enviar proposta ao consultor</button><button class="btn primary" id="openScheduleModal">Agendar apresentação</button></div>
+        <div class="actions"><button class="btn primary" id="sendConsultantBottom">Enviar proposta ao consultor</button><button class="btn primary" id="openScheduleModal">Agendar apresentação</button><button class="btn primary" data-open-concierge>Concierge Futura Casa</button><button class="btn primary" data-open-checkin>Check-in da proposta</button></div>
       </div>
     </div>
   </section>
@@ -1551,6 +1662,7 @@ function renderLots(filter='all'){
         <p class="muted">${l.details}</p>
         <div class="cardActions">
           <button class="btn primary small" data-detail-lot="${l.id}">Detalhes</button>
+          <button class="btn primary small" data-reserve-lot="${l.id}">Reservar lote</button>
           <button class="btn primary small" data-house-sim-lot="${l.id}">Gerar imagens por IA</button>
           <button class="btn primary small" data-sim-lot="${l.id}">Simular valor</button>
           <button class="btn primary small" data-combo-lot="${l.id}">Usar no combo</button>
@@ -3587,6 +3699,7 @@ function renderMapSelection(){
       <div class="mapActions">
         <button class="btn primary" data-map-detail="${l.id}">Detalhes</button>
         <button class="btn primary" data-map-sim="${l.id}">Simular valor</button>
+        <button class="btn primary wide" data-map-reserve="${l.id}">Reservar lote</button>
         <button class="btn primary wide" data-map-ai="${l.id}">Gerar imagens por IA</button>
         <button class="btn primary" data-map-combo="${l.id}">Usar no combo</button>
         <button class="btn primary" data-map-route="${l.id}">Rota</button>
@@ -4768,6 +4881,468 @@ function saveProposalPdf(){
     const badge = document.getElementById('mapZoomBadge');
     if(badge) badge.textContent = `${Math.round(mapZoom*100)}%`;
   }
+})();
+
+
+/* v9.9 — Reserva, Concierge e Check-in */
+const RESERVATION_KEY = 'fc_reservation_v99';
+const CHECKIN_KEY = 'fc_checkin_v99';
+const CONCIERGE_KEY = 'fc_concierge_v99';
+
+function currentReservation(){
+  try{
+    const r = JSON.parse(localStorage.getItem(RESERVATION_KEY) || 'null');
+    if(!r) return null;
+    if(new Date(r.expiresAt).getTime() < Date.now()){
+      r.status = 'expired';
+    }
+    return r;
+  }catch(e){ return null; }
+}
+
+function saveReservationData(reservation){
+  localStorage.setItem(RESERVATION_KEY, JSON.stringify(reservation));
+  applyReservationStatus();
+  renderReservationPanel();
+}
+
+function reservationLotId(){
+  const r = currentReservation();
+  return r && r.status !== 'expired' ? r.lotId : '';
+}
+
+function applyReservationStatus(){
+  const r = currentReservation();
+  const activeLotId = r && r.status !== 'expired' ? r.lotId : '';
+  if(typeof MAP_LOTS !== 'undefined'){
+    MAP_LOTS.forEach(l=>{
+      if(l._baseStatus === undefined) l._baseStatus = l.status;
+      l.status = l.id === activeLotId ? 'reserved' : l._baseStatus;
+    });
+  }
+  if(typeof LOTS !== 'undefined'){
+    LOTS.forEach(l=>{
+      if(l._baseStatus === undefined) l._baseStatus = l.status || 'available';
+      l.status = l.id === activeLotId ? 'reserved' : l._baseStatus;
+    });
+  }
+}
+
+function reservationExpiresLabel(expiresAt){
+  if(!expiresAt) return '-';
+  return new Date(expiresAt).toLocaleString('pt-BR', {dateStyle:'short', timeStyle:'short'});
+}
+
+function reservationProtocol(){
+  const stamp = new Date().toISOString().replace(/\D/g,'').slice(0,12);
+  return `FC-${stamp}`;
+}
+
+function selectedLotForReservation(lotId=''){
+  let lot = null;
+  if(lotId){
+    lot = resolveSelectableLot(lotId) || LOTS.find(l=>l.id===lotId);
+  }
+  return lot || state.lot || LOTS[0] || null;
+}
+
+function reservationContext(lotId=''){
+  const lot = selectedLotForReservation(lotId);
+  const totals = getTotals();
+  const hasStateLot = state.lot && (!lotId || state.lot.id === lotId);
+  const total = hasStateLot ? totals.total : (lot?.price || 0);
+  return {lot, totals, total};
+}
+
+function reservationPayloadFromForm(lotId=''){
+  const {lot, totals, total} = reservationContext(lotId);
+  const name = $('#reserveName')?.value?.trim() || '';
+  const phone = $('#reservePhone')?.value?.trim() || '';
+  const email = $('#reserveEmail')?.value?.trim() || '';
+  const cpf = $('#reserveCpf')?.value?.trim() || '';
+  const city = $('#reserveCity')?.value?.trim() || '';
+  const hours = Number($('#reserveHours')?.value || 24);
+  const note = $('#reserveNote')?.value?.trim() || '';
+  const expiresAt = new Date(Date.now() + Math.max(1,hours) * 60 * 60 * 1000).toISOString();
+  return {
+    id: reservationProtocol(),
+    status:'active',
+    createdAt:new Date().toISOString(),
+    expiresAt,
+    hours,
+    lotId: lot?.id || '',
+    lotName: lot?.name || '-',
+    lotArea: lot?.area || '',
+    lotPrice: lot?.price || 0,
+    homeId: state.home?.id || '',
+    homeName: state.home?.name || '',
+    total,
+    entryValue: totals.entryValue || 0,
+    financed: totals.financed || 0,
+    payment: totals.payment || 0,
+    system: totals.system || '',
+    buyer:{name,phone,email,cpf,city,note}
+  };
+}
+
+function fillReserveFormDefaults(){
+  const b = buyerData();
+  if($('#reserveName')) $('#reserveName').value = b.name || '';
+  if($('#reservePhone')) $('#reservePhone').value = b.phone || '';
+  if($('#reserveEmail')) $('#reserveEmail').value = b.email || '';
+  if($('#reserveCity')) $('#reserveCity').value = b.city || '';
+}
+
+function openReserveModal(lotId=''){
+  const {lot, totals, total} = reservationContext(lotId);
+  if(!lot){
+    toast('Selecione um lote antes de reservar.');
+    return;
+  }
+  openModal(`
+    <div class="modalHead">
+      <div>
+        <span class="tag">Reserva Futura Casa</span>
+        <h2>Reservar oportunidade</h2>
+        <p class="muted">Bloqueie este lote para atendimento e validação comercial. A reserva não substitui análise cadastral nem contrato.</p>
+      </div>
+      <button class="btn light small" data-close-modal>Fechar</button>
+    </div>
+    <div class="modalBody">
+      <div class="reserveSummary">
+        <div class="reserveSummaryLine"><span>Lote</span><b>${lot.name}</b></div>
+        <div class="reserveSummaryLine"><span>Área</span><b>${Math.round(lot.area || 0)} m²</b></div>
+        <div class="reserveSummaryLine"><span>Valor do lote</span><b>${fmt(lot.price || 0)}</b></div>
+        <div class="reserveSummaryLine"><span>Total da bandeja</span><b>${fmt(total || lot.price || 0)}</b></div>
+        <div class="reserveSummaryLine"><span>Condição simulada</span><b>${fmt(totals.payment || 0)} / ${systemDisplayName(totals.system || 'PRICE')}</b></div>
+      </div>
+      <div style="height:16px"></div>
+      <div class="reserveModalGrid">
+        <div class="modalField"><label>Nome completo</label><input id="reserveName" type="text" placeholder="Nome do interessado"></div>
+        <div class="modalField"><label>WhatsApp / telefone</label><input id="reservePhone" type="tel" placeholder="(00) 00000-0000"></div>
+        <div class="modalField"><label>E-mail</label><input id="reserveEmail" type="email" placeholder="nome@email.com"></div>
+        <div class="modalField"><label>CPF opcional</label><input id="reserveCpf" type="text" placeholder="000.000.000-00"></div>
+        <div class="modalField"><label>Cidade</label><input id="reserveCity" type="text" placeholder="Cidade/UF"></div>
+        <div class="modalField"><label>Validade da reserva</label><select id="reserveHours"><option value="12">12 horas</option><option value="24" selected>24 horas</option><option value="48">48 horas</option><option value="72">72 horas</option></select></div>
+        <div class="modalField full"><label>Observação</label><textarea id="reserveNote" placeholder="Ex.: desejo validar entrada, prazo ou documentação."></textarea></div>
+      </div>
+      <div class="actions">
+        <button class="btn primary" id="confirmReservation" data-reserve-lot-confirm="${lot.id}">Confirmar reserva</button>
+        <button class="btn light" data-close-modal>Cancelar</button>
+      </div>
+    </div>
+  `);
+  fillReserveFormDefaults();
+}
+
+function confirmReservation(lotId=''){
+  const payload = reservationPayloadFromForm(lotId);
+  if(!payload.buyer.name){
+    toast('Informe o nome para confirmar a reserva.');
+    $('#reserveName')?.focus();
+    return;
+  }
+  if(!payload.buyer.phone){
+    toast('Informe o WhatsApp ou telefone para confirmar a reserva.');
+    $('#reservePhone')?.focus();
+    return;
+  }
+  saveReservationData(payload);
+  localStorage.setItem('fc_buyer_data', JSON.stringify({
+    name: payload.buyer.name,
+    phone: payload.buyer.phone,
+    email: payload.buyer.email,
+    city: payload.buyer.city,
+    preference: $('#contactPreference')?.value || 'WhatsApp',
+    time: $('#contactTime')?.value || 'Qualquer horário',
+    note: payload.buyer.note
+  }));
+  closeModal();
+  renderAll();
+  if(typeof renderMapFinder === 'function') renderMapFinder();
+  if(typeof renderMapSelection === 'function') renderMapSelection();
+  toast(`Reserva ${payload.id} confirmada até ${reservationExpiresLabel(payload.expiresAt)}.`);
+}
+
+function reservationText(){
+  const r = currentReservation();
+  if(!r) return '';
+  return `Reserva Futura Casa
+
+Protocolo: ${r.id}
+Status: ${r.status === 'expired' ? 'Expirada' : 'Ativa'}
+Validade: ${reservationExpiresLabel(r.expiresAt)}
+
+Lote: ${r.lotName}
+Casa: ${r.homeName || '-'}
+Total estimado: ${fmt(r.total || 0)}
+Entrada simulada: ${fmt(r.entryValue || 0)}
+Financiado: ${fmt(r.financed || 0)}
+Parcela estimada: ${fmt(r.payment || 0)}
+Modelo financeiro: ${systemDisplayName(r.system || 'PRICE')}
+
+Interessado: ${r.buyer?.name || '-'}
+Telefone: ${r.buyer?.phone || '-'}
+E-mail: ${r.buyer?.email || '-'}
+Cidade: ${r.buyer?.city || '-'}
+Observação: ${r.buyer?.note || '-'}`;
+}
+
+function openReservationDetails(){
+  const r = currentReservation();
+  if(!r){
+    toast('Nenhuma reserva ativa encontrada.');
+    return;
+  }
+  openModal(`
+    <div class="modalHead">
+      <div>
+        <span class="tag">Minha reserva</span>
+        <h2>${r.lotName}</h2>
+        <p class="muted">Protocolo ${r.id}</p>
+      </div>
+      <button class="btn light small" data-close-modal>Fechar</button>
+    </div>
+    <div class="modalBody">
+      <div class="reservationProtocol">${r.id}</div>
+      <div style="height:14px"></div>
+      <div class="reserveSummary">
+        <div class="reserveSummaryLine"><span>Status</span><b>${r.status === 'expired' ? 'Expirada' : 'Ativa'}</b></div>
+        <div class="reserveSummaryLine"><span>Validade</span><b>${reservationExpiresLabel(r.expiresAt)}</b></div>
+        <div class="reserveSummaryLine"><span>Total estimado</span><b>${fmt(r.total || 0)}</b></div>
+        <div class="reserveSummaryLine"><span>Parcela estimada</span><b>${fmt(r.payment || 0)}</b></div>
+        <div class="reserveSummaryLine"><span>Interessado</span><b>${r.buyer?.name || '-'}</b></div>
+        <div class="reserveSummaryLine"><span>Telefone</span><b>${r.buyer?.phone || '-'}</b></div>
+      </div>
+      <div class="actions">
+        <button class="btn primary" id="copyReservation">Copiar reserva</button>
+        <button class="btn primary" id="sendReservationConsultant">Enviar ao consultor</button>
+        <button class="btn light" id="cancelReservation">Cancelar reserva local</button>
+      </div>
+    </div>
+  `);
+}
+
+function renderReservationPanel(){
+  const panel = $('#reservationPanel');
+  if(!panel) return;
+  const r = currentReservation();
+  if(!r){
+    panel.classList.remove('show');
+    panel.innerHTML = '';
+    return;
+  }
+  panel.classList.add('show');
+  panel.innerHTML = `
+    <div class="reservationCardInline">
+      <div>
+        <span class="reservationBadge">${r.status === 'expired' ? 'Reserva expirada' : 'Reserva ativa'}</span>
+        <h3>${r.lotName}</h3>
+        <p>Protocolo ${r.id} • validade até ${reservationExpiresLabel(r.expiresAt)}</p>
+      </div>
+      <div class="actions" style="margin-top:0">
+        <button class="btn primary" data-open-reservation-details>Ver reserva</button>
+        <button class="btn primary" data-open-concierge>Concierge</button>
+      </div>
+    </div>`;
+}
+
+function openConciergeModal(){
+  const b = buyerData();
+  openModal(`
+    <div class="modalHead">
+      <div>
+        <span class="tag">Concierge Futura Casa</span>
+        <h2>Como podemos ajudar?</h2>
+        <p class="muted">Solicite apoio para escolher, comparar, simular ou agendar atendimento.</p>
+      </div>
+      <button class="btn light small" data-close-modal>Fechar</button>
+    </div>
+    <div class="modalBody">
+      <div class="reserveModalGrid">
+        <div class="modalField"><label>Nome</label><input id="conciergeName" type="text" value="${b.name || ''}"></div>
+        <div class="modalField"><label>WhatsApp</label><input id="conciergePhone" type="tel" value="${b.phone || ''}"></div>
+        <div class="modalField full"><label>Tipo de apoio</label><select id="conciergeType"><option>Escolher melhor lote</option><option>Comparar dois lotes</option><option>Simulação personalizada</option><option>Agendar visita</option><option>Documentação e proposta</option><option>Dúvida sobre obra/casa</option></select></div>
+        <div class="modalField full"><label>Mensagem</label><textarea id="conciergeMessage" placeholder="Conte o que você gostaria de avaliar."></textarea></div>
+      </div>
+      <div class="actions"><button class="btn primary" id="sendConciergeRequest">Enviar pedido ao concierge</button><button class="btn light" data-close-modal>Cancelar</button></div>
+    </div>
+  `);
+}
+
+function sendConciergeRequest(){
+  const payload = {
+    createdAt:new Date().toISOString(),
+    name: $('#conciergeName')?.value || '',
+    phone: $('#conciergePhone')?.value || '',
+    type: $('#conciergeType')?.value || '',
+    message: $('#conciergeMessage')?.value || '',
+    reservation: currentReservation()?.id || ''
+  };
+  localStorage.setItem(CONCIERGE_KEY, JSON.stringify(payload));
+  const text = `Concierge Futura Casa
+Nome: ${payload.name || '-'}
+WhatsApp: ${payload.phone || '-'}
+Tipo: ${payload.type}
+Reserva: ${payload.reservation || '-'}
+Mensagem: ${payload.message || '-'}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+  closeModal();
+  toast('Pedido de concierge preparado para envio.');
+}
+
+function openCheckinModal(){
+  const b = buyerData();
+  openModal(`
+    <div class="modalHead">
+      <div>
+        <span class="tag">Check-in da proposta</span>
+        <h2>Pré-cadastro comercial</h2>
+        <p class="muted">Preencha preferências para acelerar o atendimento do consultor.</p>
+      </div>
+      <button class="btn light small" data-close-modal>Fechar</button>
+    </div>
+    <div class="modalBody">
+      <div class="reserveModalGrid">
+        <div class="modalField"><label>Nome</label><input id="checkinName" value="${b.name || ''}"></div>
+        <div class="modalField"><label>WhatsApp</label><input id="checkinPhone" value="${b.phone || ''}"></div>
+        <div class="modalField"><label>Interesse principal</label><select id="checkinInterest"><option>Lote</option><option>Casa</option><option>Lote + casa</option><option>Lote agora + casa depois</option></select></div>
+        <div class="modalField"><label>Entrada pretendida</label><select id="checkinEntry"><option>Até 20%</option><option>20% a 30%</option><option>30% a 40%</option><option>Acima de 40%</option></select></div>
+        <div class="modalField"><label>Prazo desejado</label><select id="checkinTerm"><option>120 meses</option><option>180 meses</option><option>240 meses</option><option>360 meses</option></select></div>
+        <div class="modalField"><label>Atendimento</label><select id="checkinService"><option>WhatsApp</option><option>Ligação</option><option>Vídeo chamada</option><option>Visita presencial</option></select></div>
+        <div class="modalField full"><label>Observações</label><textarea id="checkinNote" placeholder="Ex.: quero avaliar lote próximo à represa, menor entrada ou combo pronto."></textarea></div>
+      </div>
+      <div class="actions"><button class="btn primary" id="saveCheckin">Salvar check-in</button><button class="btn light" data-close-modal>Cancelar</button></div>
+    </div>
+  `);
+}
+
+function saveCheckin(){
+  const payload = {
+    createdAt:new Date().toISOString(),
+    name: $('#checkinName')?.value || '',
+    phone: $('#checkinPhone')?.value || '',
+    interest: $('#checkinInterest')?.value || '',
+    entry: $('#checkinEntry')?.value || '',
+    term: $('#checkinTerm')?.value || '',
+    service: $('#checkinService')?.value || '',
+    note: $('#checkinNote')?.value || ''
+  };
+  localStorage.setItem(CHECKIN_KEY, JSON.stringify(payload));
+  closeModal();
+  toast('Check-in da proposta salvo.');
+}
+
+(function(){
+  applyReservationStatus();
+  const prevRenderLotsReserve = renderLots;
+  renderLots = function(filter='all'){
+    applyReservationStatus();
+    prevRenderLotsReserve(filter);
+    const reservedId = reservationLotId();
+    if(reservedId){
+      document.querySelectorAll(`[data-reserve-lot="${reservedId}"]`).forEach(btn=>{
+        btn.textContent = 'Reserva ativa';
+        btn.disabled = false;
+      });
+    }
+  };
+  const prevRenderMapFinderReserve = renderMapFinder;
+  renderMapFinder = function(){
+    applyReservationStatus();
+    prevRenderMapFinderReserve();
+    const reservedId = reservationLotId();
+    if(reservedId){
+      document.querySelectorAll(`[data-view-map-lot-card="${reservedId}"]`).forEach(row=>row.classList.add('reservedByUser'));
+    }
+  };
+  const prevRenderMapSelectionReserve = renderMapSelection;
+  renderMapSelection = function(){
+    applyReservationStatus();
+    prevRenderMapSelectionReserve();
+  };
+
+  document.addEventListener('click', (event)=>{
+    const reserveLot = event.target.closest('[data-reserve-lot]');
+    if(reserveLot){
+      event.preventDefault();
+      openReserveModal(reserveLot.dataset.reserveLot);
+      return;
+    }
+    const reserveMap = event.target.closest('[data-map-reserve]');
+    if(reserveMap){
+      event.preventDefault();
+      openReserveModal(reserveMap.dataset.mapReserve);
+      return;
+    }
+    if(event.target.closest('[data-open-reserve-current]') || event.target.closest('#reserveProposal')){
+      event.preventDefault();
+      openReserveModal(state.lot?.id || selectedMapLotId || '');
+      return;
+    }
+    if(event.target.closest('[data-open-concierge]')){
+      event.preventDefault();
+      openConciergeModal();
+      return;
+    }
+    if(event.target.closest('[data-open-checkin]')){
+      event.preventDefault();
+      openCheckinModal();
+      return;
+    }
+    if(event.target.closest('[data-service-catalog]')){
+      event.preventDefault();
+      document.querySelector('#lotes')?.scrollIntoView({behavior:'smooth'});
+      return;
+    }
+    if(event.target.closest('[data-open-reservation-details]')){
+      event.preventDefault();
+      openReservationDetails();
+      return;
+    }
+    const confirm = event.target.closest('[data-reserve-lot-confirm]');
+    if(confirm){
+      event.preventDefault();
+      confirmReservation(confirm.dataset.reserveLotConfirm);
+      return;
+    }
+    if(event.target.closest('#copyReservation')){
+      event.preventDefault();
+      navigator.clipboard?.writeText(reservationText());
+      toast('Reserva copiada.');
+      return;
+    }
+    if(event.target.closest('#sendReservationConsultant')){
+      event.preventDefault();
+      window.open(`https://wa.me/?text=${encodeURIComponent(reservationText())}`, '_blank');
+      toast('Reserva preparada para envio ao consultor.');
+      return;
+    }
+    if(event.target.closest('#cancelReservation')){
+      event.preventDefault();
+      localStorage.removeItem(RESERVATION_KEY);
+      closeModal();
+      applyReservationStatus();
+      renderAll();
+      if(typeof renderMapFinder === 'function') renderMapFinder();
+      if(typeof renderMapSelection === 'function') renderMapSelection();
+      renderReservationPanel();
+      toast('Reserva local cancelada.');
+      return;
+    }
+    if(event.target.closest('#sendConciergeRequest')){
+      event.preventDefault();
+      sendConciergeRequest();
+      return;
+    }
+    if(event.target.closest('#saveCheckin')){
+      event.preventDefault();
+      saveCheckin();
+      return;
+    }
+  });
+
+  renderReservationPanel();
 })();
 
 </script>

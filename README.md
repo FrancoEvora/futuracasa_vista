@@ -1,9 +1,19 @@
-# Futura Casa v9.8 - Lotes e Coordenadas Centrais
+# Futura Casa v9.9 — Reserva e Concierge
 
-Atualizações desta versão:
-- cadastrados 251 registros do Solaris Home Resort a partir da certidão/planta fornecida;
-- quadras cadastradas: A, B, C, D, E, F, G, H, I, J, K e L;
-- cada lote recebeu número, quadra, área, rua/eixo de referência, status, coordenadas percentuais centrais no mapa e coordenadas aproximadas para rota/AR;
-- o marcador do mapa usa `x` e `y` do centro do lote selecionado.
+Nova versão inspirada em experiência de hotel/resort:
+- seção **Minha Jornada** com quatro cards:
+  - Catálogo Futura Casa;
+  - Reservar oportunidade;
+  - Concierge Futura Casa;
+  - Check-in da proposta;
+- botão **Reservar lote** nos cards de lote;
+- botão **Reservar lote** no card do lote selecionado no mapa;
+- botão **Reservar esta proposta** no final do simulador financeiro;
+- janela de reserva com dados do comprador, validade da reserva, resumo financeiro e protocolo;
+- painel de reserva ativa na página;
+- status reservado aplicado localmente ao lote e ao mapa;
+- janela de Concierge para solicitar atendimento especializado;
+- janela de Check-in da proposta para pré-cadastro comercial;
+- opção de copiar ou enviar a reserva ao consultor.
 
-Observação: as coordenadas percentuais são centros visuais calibrados sobre a imagem do mapa interativo. Para produção, recomenda-se importar os polígonos CAD/GIS e calcular centroides oficiais.
+Observação: nesta versão de protótipo, reservas e check-ins são salvos no navegador via localStorage. Em produção, isso deve ser integrado ao backoffice/CRM.
