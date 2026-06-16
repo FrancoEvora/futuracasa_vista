@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v9.3 Oferta + Mapa + Senha</title>
+<title>Futura Casa | v9.5 SACOC</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -653,7 +653,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 
 
 
-/* v9.3 — marcador com etiqueta translúcida de quadra e lote */
+/* v9.5 — marcador com etiqueta translúcida de quadra e lote */
 .mapSelectedMarker{
   transform:translate(-50%,-58%)!important;
 }
@@ -747,6 +747,18 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 #lotes{scroll-margin-top:110px}
 #mapa{scroll-margin-top:110px}
 
+
+/* v9.4 — modelos financeiros adicionais */
+#system option{font-weight:800}
+.resultGrid .res b#resSystemNote{
+  font-size:17px;
+  line-height:1.25;
+}
+
+
+/* v9.5 — inclusão do SACOC */
+.resultGrid .res b#resSystemNote{font-size:15px;line-height:1.22}
+
 </style>
 </head>
 <body>
@@ -773,7 +785,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
         <div class="eyebrow">Novo conceito de compra</div>
         <h1>Monte sua casa como quem escolhe um cardápio.</h1>
         <p>Escolha a base da sua vida — o lote. Depois escolha a casa. Se preferir, monte um combo pronto com adicionais, simulação editável e encaminhamento direto para um consultor.</p>
-        <div class="heroActions"><a class="btn primary" href="#lotes">Lotes em oferta</a><a class="btn primary" href="#lotes">Ver lotes</a><a class="btn primary" href="#casas">Ver casas</a><a class="btn primary" href="#combos">Montar combos</a></div>
+        <div class="heroActions"><a class="btn primary" href="#lotes">Lotes em oferta</a><a class="btn primary" href="#mapa">Ver lotes</a><a class="btn primary" href="#casas">Ver casas</a><a class="btn primary" href="#combos">Montar combos</a></div>
       </div>
       <aside class="trayHero">
         <div class="eyebrow">Cardápio Futura Casa</div><h3>Escolha em 4 passos</h3>
@@ -891,7 +903,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
   </section>
 
   <section class="wrap section" id="bandeja">
-    <div class="sectionHead"><div><div class="eyebrow">Simulação editável</div><h2>Minha bandeja e proposta.</h2><p class="muted">Valores, entrada, percentual, pagamento da entrada no cartão em 1, 2 ou 3 parcelas, prazo, sistema, juros remuneratórios e correção podem ser ajustados diretamente.</p></div><div class="actions"><button class="btn primary" id="openFinanceSettings" type="button">Configurar juros e correção</button></div></div>
+    <div class="sectionHead"><div><div class="eyebrow">Simulação editável</div><h2>Minha bandeja e proposta.</h2><p class="muted">Valores, entrada, percentual, pagamento da entrada no cartão em 1, 2 ou 3 parcelas, prazo, modelo financeiro, juros remuneratórios e correção podem ser ajustados diretamente.</p></div><div class="actions"><button class="btn primary" id="openFinanceSettings" type="button">Configurar juros e correção</button></div></div>
     <div class="grid2">
       <div class="tray">
         <h2>Minha escolha</h2><p class="muted">Selecione lote, casa e adicionais. Depois ajuste os campos financeiros.</p>
@@ -909,7 +921,15 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
           <div class="field"><label>Parcelamento da entrada</label><select id="entryInstallments"><option value="1">1X no cartão</option><option value="2">2X no cartão</option><option value="3" selected>3X no cartão</option></select></div>
           <div class="field"><label>Valor da parcela da entrada</label><input type="text" id="entryInstallmentField" value="R$ 0" readonly></div>
           <div class="field"><label>Prazo</label><select id="term"><option value="120">120 meses</option><option value="180">180 meses</option><option value="240" selected>240 meses</option><option value="360">360 meses</option></select></div>
-          <div class="field"><label>Sistema</label><select id="system"><option value="PRICE">PRICE</option><option value="SAC">SAC</option></select></div>
+          <div class="field"><label>Modelo de amortização</label><select id="system">
+            <option value="PRICE">PRICE</option>
+            <option value="SAC">SAC</option>
+            <option value="SACOC">SACOC</option>
+            <option value="SACRE">SACRE</option>
+            <option value="SAM">SAM / Misto</option>
+            <option value="AMERICANO">Americano</option>
+            <option value="BALAO">Balão</option>
+          </select></div>
         </div>
 
         <div class="contactBlock">
@@ -932,9 +952,11 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
           <div class="res"><small>Financiado</small><b id="resFinanced">R$ 0</b></div>
           <div class="res"><small>Parcela estimada</small><b id="resPayment">R$ 0</b></div>
           <div class="res"><small>Entrada em %</small><b id="resRatio">0%</b></div>
-          <div class="res"><small>Sistema</small><b id="resSystem">PRICE</b></div>
+          <div class="res"><small>Modelo financeiro</small><b id="resSystem">PRICE</b></div>
           <div class="res"><small>Juros remuneratórios</small><b id="resInterestRate">0,98% a.m.</b></div>
           <div class="res"><small>Índice de correção</small><b id="resCorrectionIndex">IPCA • 0,35% a.m.</b></div>
+          <div class="res"><small>Saldo residual / balão</small><b id="resResidual">-</b></div>
+          <div class="res"><small>Observação do modelo</small><b id="resSystemNote">Parcela estimada</b></div>
         </div>
         <div class="actions">
           <button class="btn primary" id="saveChoice">Salvar proposta</button>
@@ -1536,6 +1558,100 @@ function baseTotalWithoutEntry(){
   return {mode, addons, lot, home, total: total + addons};
 }
 
+
+function systemDisplayName(system){
+  const labels = {
+    PRICE:'PRICE',
+    SAC:'SAC',
+    SACOC:'SACOC',
+    SACRE:'SACRE',
+    SAM:'SAM / Misto',
+    AMERICANO:'Americano',
+    BALAO:'Balão'
+  };
+  return labels[system] || system || 'PRICE';
+}
+
+function calculateFinancingPayment(financed, term, r, system){
+  const safeTerm = Math.max(1, Number(term || 1));
+  const safeRate = Math.max(0, Number(r || 0));
+  const baseAmortization = financed / safeTerm;
+  const pricePayment = safeRate > 0
+    ? financed * (safeRate / (1 - Math.pow(1 + safeRate, -safeTerm)))
+    : baseAmortization;
+  const sacFirstPayment = baseAmortization + financed * safeRate;
+
+  if(system === 'PRICE'){
+    return {
+      payment: pricePayment,
+      residual: 0,
+      note: 'Parcela estimada constante.'
+    };
+  }
+
+  if(system === 'SAC'){
+    return {
+      payment: sacFirstPayment,
+      residual: 0,
+      note: 'Primeira parcela estimada; tendência decrescente.'
+    };
+  }
+
+  if(system === 'SACOC'){
+    const compoundRate = Math.pow(1 + safeRate, 1) - 1;
+    const payment = baseAmortization + financed * compoundRate;
+    return {
+      payment,
+      residual: 0,
+      note: 'SACOC: amortização constante com juros compostos. Parcela inicial estimada; validar fórmula contratual.'
+    };
+  }
+
+  if(system === 'SACRE'){
+    return {
+      payment: (pricePayment * 0.45) + (sacFirstPayment * 0.55),
+      residual: 0,
+      note: 'Estimativa inicial de parcela recalculável.'
+    };
+  }
+
+  if(system === 'SAM'){
+    return {
+      payment: (pricePayment + sacFirstPayment) / 2,
+      residual: 0,
+      note: 'Sistema misto: média entre PRICE e SAC.'
+    };
+  }
+
+  if(system === 'AMERICANO'){
+    return {
+      payment: financed * safeRate,
+      residual: financed,
+      note: 'Juros mensais estimados; principal ao final.'
+    };
+  }
+
+  if(system === 'BALAO'){
+    const residual = financed * 0.20;
+    const amortized = Math.max(financed - residual, 0);
+    const payment = safeRate > 0
+      ? amortized * (safeRate / (1 - Math.pow(1 + safeRate, -safeTerm)))
+      : amortized / safeTerm;
+    return {
+      payment,
+      residual,
+      note: 'Estimativa com 20% de saldo balão final.'
+    };
+  }
+
+  return {
+    payment: pricePayment,
+    residual: 0,
+    note: 'Modelo padrão PRICE.'
+  };
+}
+
+
 function getTotals(changedField=''){
   const mode = $('#buyMode')?.value || state.mode;
   state.mode = mode;
@@ -1578,11 +1694,9 @@ function getTotals(changedField=''){
   const system = $('#system')?.value || 'PRICE';
   const rateInfo = financeRateInfo(mode);
   const r = rateInfo.monthlyRate;
-  const baseAmortization = term ? financed / term : financed;
-  const payment = system === 'PRICE'
-    ? (r > 0 ? financed * (r / (1 - Math.pow(1+r,-term))) : baseAmortization)
-    : baseAmortization + financed * r;
-  return {mode,addons,lot,home,total,entryPercent,entryValue,installments,entryInstallment,financed,payment,system,term,rateInfo};
+  const paymentInfo = calculateFinancingPayment(financed, term, r, system);
+  const payment = paymentInfo.payment;
+  return {mode,addons,lot,home,total,entryPercent,entryValue,installments,entryInstallment,financed,payment,system,term,rateInfo,paymentInfo};
 }
 
 function renderTray(changedField=''){
@@ -1624,9 +1738,11 @@ function renderTray(changedField=''){
   $('#resFinanced').textContent = fmt(t.financed);
   $('#resPayment').textContent = fmt(t.payment);
   $('#resRatio').textContent = t.entryPercent.toFixed(1).replace('.',',') + '%';
-  $('#resSystem').textContent = t.system;
+  $('#resSystem').textContent = systemDisplayName(t.system);
   if($('#resInterestRate')) $('#resInterestRate').textContent = t.rateInfo?.interestText || '-';
   if($('#resCorrectionIndex')) $('#resCorrectionIndex').textContent = t.rateInfo?.correctionText || '-';
+  if($('#resResidual')) $('#resResidual').textContent = t.paymentInfo?.residual ? fmt(t.paymentInfo.residual) : '-';
+  if($('#resSystemNote')) $('#resSystemNote').textContent = t.paymentInfo?.note || '-';
 
   const healthy = t.entryPercent >= 30;
   const attention = t.entryPercent >= 20 && t.entryPercent < 30;
@@ -2598,10 +2714,12 @@ Entrada total: ${fmt(t.entryValue)}
 Parcelamento da entrada: ${t.installments}X no cartão de ${fmt(t.entryInstallment)}
 Valor financiado: ${fmt(t.financed)}
 Prazo: ${t.term} meses
-Sistema: ${t.system}
+Modelo financeiro: ${systemDisplayName(t.system)}
 Juros remuneratórios: ${t.rateInfo?.interestText || '-'}
 Índice de correção: ${t.rateInfo?.correctionText || '-'}
 Taxa mensal considerada: ${t.rateInfo?.effectiveText || '-'}
+Saldo residual / balão: ${t.paymentInfo?.residual ? fmt(t.paymentInfo.residual) : '-'}
+Observação do modelo: ${t.paymentInfo?.note || '-'}
 Parcela estimada: ${fmt(t.payment)}
 Entrada em %: ${t.entryPercent.toFixed(1)}%
 
