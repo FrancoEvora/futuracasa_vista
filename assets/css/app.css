@@ -1,0 +1,1278 @@
+:root {
+  --bg:#f5efe7; --paper:#fffdf9; --paper2:#fbf5ed; --ink:#151922; --muted:#697280; --line:#e7dccd;
+  --dark:#111721; --dark2:#192231; --orange:#f36f2f; --orange2:#ff8f50; --green:#25a765; --red:#d95050;
+  --gold:#d8a04f; --shadow:0 18px 54px rgba(16,20,29,.11); --shadow2:0 36px 96px rgba(16,20,29,.18);
+  --radius:28px; --max:1320px;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 10% -10%,rgba(243,111,47,.18),transparent 34rem),radial-gradient(circle at 96% 4%,rgba(17,23,33,.10),transparent 38rem),var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{cursor:pointer}
+.wrap{width:min(100% - 34px,var(--max));margin:auto}
+.top{position:sticky;top:0;z-index:80;background:rgba(17,23,33,.96);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.08);box-shadow:0 10px 28px rgba(0,0,0,.18)}
+.topin{min-height:124px;padding:26px 0;display:flex;gap:18px;align-items:center} .logo{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;min-width:0}
+.logo img{width:230px;max-width:100%;display:block;height:auto;object-fit:contain;filter:drop-shadow(0 6px 18px rgba(0,0,0,.22))}.brandTag{display:none!important} .logoText{display:none}.logoText small{display:block;color:var(--muted);font-weight:700;margin-top:2px}.lotBrandRow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.projectLogo{display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 16px;box-shadow:var(--shadow);min-height:74px}.projectLogo img{display:block;height:32px;width:auto;max-width:140px;object-fit:contain}.projectLogo.solaris{padding:14px 18px;min-height:82px}.projectLogo.solaris img{height:52px;max-width:200px}.modalBrand{margin-top:14px}.modalBrand .projectLogo{min-height:92px;padding:16px 20px}.modalBrand .projectLogo img{height:42px;max-width:200px}.modalBrand .projectLogo.solaris img{height:72px;max-width:250px}
+.nav{margin-left:auto;display:flex;gap:4px;align-items:center} .nav a{padding:12px 13px;border-radius:14px;font-weight:850;color:rgba(255,255,255,.76);font-size:14px}
+.nav a:hover,.nav a.active{background:rgba(255,255,255,.08);color:var(--orange);box-shadow:none} .hamb{display:none;margin-left:auto;width:48px;height:48px;border:1px solid rgba(255,255,255,.16);border-radius:16px;background:rgba(255,255,255,.08);color:#fff;box-shadow:none} .mobile{display:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;border:0;border-radius:16px;padding:0 18px;font-weight:950;letter-spacing:-.01em}
+.btn.primary{background:linear-gradient(180deg,var(--orange2),var(--orange));color:#fff} .btn.dark{background:var(--dark);color:#fff} .btn.light{background:#fff;border:1px solid var(--line);color:var(--ink)} .btn.ghost{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);color:#fff} .btn.small{min-height:42px;padding:0 13px;border-radius:14px;font-size:13px}
+.hero{margin:28px auto 24px;background:linear-gradient(135deg,#10141d 0%,#1b2534 50%,#6c3519 100%);color:#fff;border-radius:38px;overflow:hidden;position:relative;box-shadow:var(--shadow2)}
+.hero:after{content:"";position:absolute;right:-16%;bottom:-42%;width:620px;height:620px;background:radial-gradient(circle,rgba(243,111,47,.42),transparent 62%)}
+.heroGrid{position:relative;z-index:1;padding:48px;display:grid;grid-template-columns:1.08fr .92fr;gap:30px;align-items:end}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:950;color:var(--orange)} .hero h1{font-size:clamp(40px,5.7vw,82px);line-height:.98;letter-spacing:-.075em;margin:10px 0 16px} .hero p{font-size:18px;line-height:1.58;color:rgba(255,255,255,.78);max-width:780px}
+.heroActions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px} .trayHero{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:30px;padding:22px;backdrop-filter:blur(15px)} .trayHero h3{margin:0 0 14px}
+.miniLine{display:flex;justify-content:space-between;gap:14px;padding:14px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);margin-bottom:10px} .miniLine small{display:block;color:rgba(255,255,255,.62);margin-top:3px}
+.section{padding:34px 0} .sectionHead{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:20px} .sectionHead h2,.sectionHead h1{margin:0} .sectionHead p{margin:8px 0 0} .muted{color:var(--muted)}
+.card{background:var(--paper);border:1px solid rgba(16,20,29,.06);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px} .grid2,.grid3,.grid4{display:grid;gap:18px} .grid2{grid-template-columns:repeat(2,minmax(0,1fr))} .grid3{grid-template-columns:repeat(3,minmax(0,1fr))} .grid4{grid-template-columns:repeat(4,minmax(0,1fr))}.journeyCard{width:100%;appearance:none;text-align:left;color:inherit;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}.journeyCard:hover{transform:translateY(-3px);border-color:rgba(243,111,47,.35);box-shadow:0 22px 60px rgba(16,20,29,.12)}.journeyCard:focus-visible{outline:3px solid rgba(243,111,47,.35);outline-offset:2px}.journeyCard .journeyHint{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--orange)}.journeyCard .journeyHint b{font-size:16px;line-height:1}
+.modebar{display:flex;gap:8px;flex-wrap:wrap;padding:7px;background:#f7efe5;border:1px solid var(--line);border-radius:20px;width:max-content;max-width:100%} .mode{border:0;background:transparent;color:var(--muted);border-radius:15px;padding:12px 14px;font-weight:950} .mode.active{background:linear-gradient(180deg,var(--orange2),var(--orange));color:#fff}
+.menuCard{overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);position:relative;display:flex;flex-direction:column} .menuCard.selected{outline:3px solid rgba(243,111,47,.32);box-shadow:0 24px 72px rgba(243,111,47,.18)}
+.menuTop{min-height:230px;background:#e9e1d5;position:relative;overflow:hidden} .menuTop:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.10) 0 2px,transparent 2px 44px);pointer-events:none} .menuTop img.lotThumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block} .menuTop .lotShade{position:absolute;inset:auto 0 0 0;height:54%;background:linear-gradient(180deg,rgba(7,19,22,0) 0%,rgba(7,19,22,.10) 42%,rgba(7,19,22,.58) 100%)} .menuTop .lotLabel{position:absolute;left:14px;top:14px;display:flex;flex-direction:column;gap:6px;max-width:65%} .menuTop .lotLabel .chip{display:inline-flex;align-self:flex-start;background:rgba(255,255,255,.92);color:#111827;border-radius:999px;padding:7px 11px;font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase} .menuTop .lotLabel .title{color:#fff;font-size:18px;font-weight:900;line-height:1.08;text-shadow:0 4px 18px rgba(0,0,0,.28)} .menuTop .area{position:absolute;right:14px;bottom:14px;background:#fff;border-radius:18px;padding:12px 16px;font-weight:950;box-shadow:0 16px 40px rgba(16,20,29,.18);font-size:18px}
+.houseImgs{display:grid;grid-template-columns:1fr 1fr;background:#eee2d4} .houseImgs img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.body{padding:18px;display:grid;gap:10px;flex:1} .body h3{margin:0;font-size:22px;letter-spacing:-.03em}
+.tag{display:inline-flex;width:max-content;align-items:center;padding:7px 12px;border-radius:999px;background:rgba(243,111,47,.12);color:var(--orange);font-size:12px;font-weight:950} .price{font-size:22px;font-weight:950;letter-spacing:-.03em}
+.specs{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:13px} .specs span{background:#f7f1e9;border:1px solid var(--line);border-radius:999px;padding:7px 10px}
+.cardActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto}
+.comboCard{background:linear-gradient(180deg,#fffdf9,#fbf3ea);border:1px solid var(--line);border-radius:30px;box-shadow:var(--shadow);padding:20px;display:flex;flex-direction:column} .comboPreview{display:grid;grid-template-columns:1fr 46px 1fr;align-items:center;gap:10px;margin-bottom:16px} .previewBox{border-radius:18px;background:#f1e8dc;border:1px solid var(--line);min-height:112px;overflow:hidden;display:grid;place-items:center;text-align:center;padding:10px} .previewBox img{width:100%;height:112px;object-fit:cover} .plus{width:46px;height:46px;border-radius:16px;background:var(--dark);color:#fff;display:grid;place-items:center;font-weight:950;font-size:26px}.comboPickerGrid{display:grid;grid-template-columns:1fr;gap:10px;margin:0 0 16px}.comboPickerField{display:grid;gap:6px}.comboPickerField label{font-size:11px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}.comboPickerField select{width:100%;min-height:48px;border:1px solid var(--line);border-radius:14px;padding:0 12px;background:#fff;color:#111;outline:0}.comboCard .price{margin:14px 0 24px}.comboCard .tag{margin-bottom:10px}
+.addon{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:0 12px 30px rgba(16,20,29,.05)} .addon.active{outline:2px solid rgba(243,111,47,.35)}
+.tray{position:sticky;top:96px;background:linear-gradient(180deg,#121721,#1d2634);color:#fff;border-radius:30px;box-shadow:var(--shadow2);padding:24px} .tray h2{margin:0 0 12px;letter-spacing:-.04em} .tray .muted{color:rgba(255,255,255,.64)} .trayLine{display:flex;justify-content:space-between;gap:14px;border-bottom:1px solid rgba(255,255,255,.10);padding:12px 0} .trayLine:last-child{border-bottom:0} .total{font-size:34px;font-weight:950;letter-spacing:-.05em;margin:10px 0}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px} .field{display:grid;gap:8px} .field label{color:rgba(255,255,255,.72);font-weight:850;font-size:13px} .field input,.field select,.field textarea{width:100%;min-height:50px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:#fff;border-radius:15px;padding:0 12px;outline:0}.field textarea{padding:12px;min-height:82px;resize:vertical} .field option{color:#111} .field input[type=range]{accent-color:var(--orange)} .field.full{grid-column:1/-1}.contactBlock{margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12)}.contactBlock h3{margin:0 0 4px}.contactBlock p{margin:0 0 14px;color:rgba(255,255,255,.62);font-size:13px}
+.entryToggle{display:flex;gap:8px;background:rgba(255,255,255,.06);padding:6px;border-radius:15px} .entryToggle button{flex:1;border:0;border-radius:12px;background:transparent;color:rgba(255,255,255,.68);font-weight:900;padding:10px} .entryToggle button.active{background:#fff;color:var(--dark)}
+.resultGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px} .res{padding:14px;border-radius:16px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.09)} .res small{display:block;color:rgba(255,255,255,.62);margin-bottom:5px} .res b{font-size:18px}
+.note{border:1px solid #ead7be;background:#fff7ec;color:#765733;padding:14px 16px;border-radius:16px} .aiBox{border:1px solid var(--line);border-radius:28px;background:#fff;box-shadow:var(--shadow);overflow:hidden} .thread{padding:18px;background:linear-gradient(180deg,#fffdf9,#f5ede3);display:grid;gap:12px;max-height:370px;overflow:auto} .msg{max-width:84%;padding:14px 16px;border-radius:18px;line-height:1.45} .bot{background:#fff;border:1px solid var(--line);border-bottom-left-radius:6px} .user{margin-left:auto;background:var(--dark);color:#fff;border-bottom-right-radius:6px} .chatbar{display:flex;gap:10px;border-top:1px solid var(--line);padding:14px} .chatbar input{flex:1;min-height:52px;border:1px solid var(--line);border-radius:16px;padding:0 14px;outline:0} .actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px}.actions .btn{flex:1 1 220px;min-width:0;white-space:normal;text-align:center;line-height:1.2;padding-top:12px;padding-bottom:12px}
+.modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(17,23,33,.58);backdrop-filter:blur(8px);z-index:200;padding:18px} .modal.show{display:grid} .modalCard{background:#fff;border-radius:28px;box-shadow:var(--shadow2);width:min(760px,100%);max-height:88vh;overflow:auto} .modalHead{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding:22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:3} .modalBody{padding:22px;overflow:auto;-webkit-overflow-scrolling:touch} .modalImageGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px} .modalImageGrid img{width:100%;border-radius:18px;aspect-ratio:4/3;object-fit:cover} .featureList{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0} .featureList span{background:#f7f1e9;border:1px solid var(--line);padding:12px;border-radius:15px;font-weight:800}.field input[readonly]{background:rgba(255,255,255,.08);color:#fff;font-weight:700}.galleryShell{position:relative;margin-bottom:16px}.galleryViewport{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-ms-overflow-style:none;border-radius:22px}.galleryViewport::-webkit-scrollbar{display:none}.gallerySlide{flex:0 0 100%;scroll-snap-align:start}.gallerySlide img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-radius:22px;background:#f3f3f3}.galleryArrow{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border:0;border-radius:999px;background:rgba(16,20,29,.78);color:#fff;display:grid;place-items:center;font-size:26px;font-weight:900;line-height:1;box-shadow:0 12px 28px rgba(0,0,0,.22);z-index:2}.galleryArrow.prev{left:12px}.galleryArrow.next{right:12px}.comboDetailGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.comboDetailBlock{border:1px solid var(--line);border-radius:22px;padding:16px;background:#fffdf9}.comboDetailBlock h3{margin:8px 0 6px;font-size:22px;letter-spacing:-.03em}.comboDetailBlock p{margin:10px 0 0}.comboDetailTop{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:10px}.comboDetailTop .miniSelect{min-width:220px;max-width:280px;width:100%;min-height:46px;border:1px solid var(--line);border-radius:14px;padding:0 12px;background:#fff;color:#111;outline:0}.comboMeta{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 0}.comboMeta span{background:#f7f1e9;border:1px solid var(--line);padding:10px 12px;border-radius:999px;font-size:13px;font-weight:800}.comboDetailGrid .modalBrand{margin:0 0 10px}.comboDetailGrid .featureList{grid-template-columns:1fr}.comboDetailActions{margin-top:18px}
+.toast{position:fixed;right:18px;bottom:18px;background:#10141d;color:#fff;border-radius:16px;padding:14px 18px;box-shadow:var(--shadow2);z-index:220;opacity:0;transform:translateY(10px);transition:.22s} .toast.show{opacity:1;transform:translateY(0)}
+
+.modalBody .actions,.comboDetailActions .actions{display:flex;gap:12px;flex-wrap:wrap}.modalFormGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}.modalField{display:grid;gap:8px}.modalField label{font-weight:800;color:var(--text);font-size:13px}.modalField input,.modalField select,.modalField textarea{width:100%;min-height:50px;border:1px solid var(--line);background:#fff;color:var(--text);border-radius:15px;padding:0 12px;outline:0}.modalField textarea{padding:12px;min-height:90px;resize:vertical}.modalField.full{grid-column:1/-1}.modalCaption{margin:0 0 6px;color:var(--muted)}
+@media(max-width:760px){.comboPreview{grid-template-columns:1fr;gap:12px}.plus{margin:0 auto}.comboPickerGrid{grid-template-columns:1fr}.cardActions{grid-template-columns:1fr}.comboCard .price{margin-bottom:18px}}
+@media(max-width:900px){.modal{padding:12px;align-items:flex-start}.modalCard{width:100%;max-height:min(94vh,calc(100dvh - 24px));border-radius:24px}.modalHead,.modalBody{padding:18px}.modalHead{flex-direction:column;align-items:stretch}.modalHead .btn.small{width:100%}.comboDetailGrid,.modalImageGrid,.featureList{grid-template-columns:1fr}.comboDetailBlock{padding:14px}.comboDetailTop{flex-direction:column;align-items:stretch}.comboDetailTop .miniSelect{min-width:0;max-width:none}.gallerySlide img{aspect-ratio:16/11}.galleryArrow{width:42px;height:42px;font-size:24px}.comboMeta span{font-size:12px;padding:9px 11px}.comboDetailActions .actions .btn,.modalBody .actions .btn{flex:1 1 240px}}
+@media(max-width:560px){.modal{padding:8px}.modalCard{max-height:min(96vh,calc(100dvh - 16px));border-radius:22px}.modalHead,.modalBody{padding:14px}.modalHead h2{font-size:24px;line-height:1.05}.modalHead p{font-size:14px}.galleryArrow{width:38px;height:38px;font-size:21px}.comboMeta span,.featureList span{width:100%}.comboDetailActions .actions .btn,.modalBody .actions .btn{width:100%;flex:1 1 100%}.modalFormGrid{grid-template-columns:1fr}}
+@media(max-width:1100px){.nav,.top .btn.primary{display:none}.hamb{display:grid;place-items:center}.mobile.open{display:grid}.mobile{position:fixed;inset:78px 16px auto 16px;background:#10141d;color:#fff;border-radius:24px;padding:16px;z-index:100;box-shadow:0 24px 80px rgba(0,0,0,.28)}.mobile a{padding:14px;border-radius:14px;font-weight:900}.mobile a:hover{background:rgba(255,255,255,.08)}.heroGrid,.grid2{grid-template-columns:1fr}.grid4,.grid3{grid-template-columns:repeat(2,1fr)}.tray{position:relative;top:0}}
+@media(max-width:700px){.wrap{width:min(100% - 24px,var(--max))}.topin{height:70px}.logo img{width:112px}.logoText{display:none}.hero{border-radius:26px;margin-top:18px}.heroGrid{padding:26px}.hero h1{font-size:40px}.hero p{font-size:15px}.heroActions{display:grid}.btn{width:100%}.grid4,.grid3,.grid2,.resultGrid,.fields,.modalFormGrid{grid-template-columns:1fr}.sectionHead{flex-direction:column}.modebar{width:100%;overflow:auto;flex-wrap:nowrap}.mode{white-space:nowrap}.comboPreview{grid-template-columns:1fr}.plus{margin:auto;transform:rotate(90deg)}.chatbar,.cardActions,.actions{grid-template-columns:1fr;display:grid}.actions .btn{flex:1 1 auto}.modalImageGrid,.featureList{grid-template-columns:1fr}.galleryArrow{width:42px;height:42px;font-size:24px}.comboDetailGrid{grid-template-columns:1fr}.comboDetailTop{flex-direction:column}.comboDetailTop .miniSelect{max-width:none}}
+@media (max-width:640px){.logo img{width:168px}.projectLogo{min-height:66px;padding:10px 12px}.projectLogo img{height:28px;max-width:124px}.projectLogo.solaris{min-height:74px;padding:12px 14px}.projectLogo.solaris img{height:40px;max-width:160px}.modalBrand .projectLogo.solaris img{height:56px;max-width:200px}}
+
+.logo{min-width:176px;min-height:62px;display:flex;align-items:center;justify-content:flex-start}
+.logoText{display:none!important}
+.lotBrandRow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.projectLogo{display:none}.modalBrand{margin:16px 0 0}.modalBrand .projectLogo{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#071316,#0d2528);border:1px solid rgba(0,172,172,.22);border-radius:22px;padding:22px;box-shadow:0 18px 50px rgba(0,0,0,.12);min-height:170px}.modalBrand .projectLogo img{display:block;width:min(360px,80vw);height:auto;max-height:130px;object-fit:contain}.modalBrand .projectLogo.solaris img{width:min(380px,80vw);max-height:150px}.menuTop .lotBrandRow .projectLogo{display:none}.menuTop .area{right:14px!important;bottom:14px!important}.hero{margin-top:28px}
+@media(max-width:640px){.topin{min-height:112px;padding:22px 0}.logo{min-width:150px}.logo img{width:190px!important}.brandTag{display:none!important}.modalBrand .projectLogo{min-height:130px;padding:18px}.modalBrand .projectLogo img,.modalBrand .projectLogo.solaris img{width:min(280px,78vw);max-height:105px}.hero{margin-top:18px}}
+
+@media(max-width:900px){.topin{min-height:116px;padding:24px 0}.logo img{width:206px}.brandTag{display:none!important}}
+
+/* v7.0 — rota e realidade aumentada */
+.arHelpBox{margin:14px 0;padding:14px 16px;border:1px solid #ead7be;background:#fff7ec;color:#765733;border-radius:16px;line-height:1.45}
+.modalCard.arModalCard{width:min(980px,100%);background:#071016;color:#fff;border:1px solid rgba(255,255,255,.10);overflow:hidden}
+.modalCard.arModalCard .modalHead{background:linear-gradient(180deg,rgba(7,16,26,.98),rgba(13,28,43,.98));border-bottom:1px solid rgba(255,255,255,.10);color:#fff}
+.modalCard.arModalCard .modalHead .muted{color:rgba(255,255,255,.70)}
+.modalCard.arModalCard .modalHead .tag{background:rgba(160,220,60,.14);color:#a8df35}
+.arShell{display:grid;gap:14px}
+.arScene{position:relative;min-height:640px;height:min(74vh,760px);border-radius:28px;overflow:hidden;background:linear-gradient(135deg,#0a1520,#121b2a);box-shadow:inset 0 0 0 1px rgba(255,255,255,.10)}
+.arScene video,.arFallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.arFallback{display:grid;place-items:center;background:linear-gradient(135deg,#0e1826,#1b2838);overflow:hidden}
+.arFallback img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45;filter:blur(1px) saturate(.9)}
+.arFallback.hidden{display:none}
+.arFallbackText{position:relative;z-index:2;text-align:center;max-width:420px;padding:22px;background:rgba(7,16,26,.62);border:1px solid rgba(255,255,255,.12);border-radius:22px;backdrop-filter:blur(12px)}
+.arOverlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.28),transparent 30%,transparent 60%,rgba(0,0,0,.54));pointer-events:none}
+.arTopPill{position:absolute;left:18px;top:18px;right:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:rgba(10,18,28,.78);border:1px solid rgba(255,255,255,.14);border-radius:22px;backdrop-filter:blur(16px);box-shadow:0 16px 48px rgba(0,0,0,.22)}
+.arBrand{display:flex;flex-direction:column;gap:3px}
+.arBrand small{letter-spacing:.18em;text-transform:uppercase;color:#a8df35;font-weight:950;font-size:11px}
+.arBrand b{font-size:18px}
+.arCloseMini{width:44px;height:44px;border-radius:16px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:#fff;font-weight:950}
+.arCompass{position:absolute;left:20px;top:116px;width:88px;height:116px;border-radius:26px;background:rgba(10,18,28,.78);border:1px solid rgba(255,255,255,.14);display:grid;place-items:center;gap:4px;padding:10px;backdrop-filter:blur(16px);box-shadow:0 16px 42px rgba(0,0,0,.22)}
+.arCompassDial{width:62px;height:62px;border-radius:50%;border:2px solid rgba(255,255,255,.20);position:relative;display:grid;place-items:center}
+.arCompassNeedle{width:4px;height:32px;border-radius:999px;background:#a8df35;transform-origin:50% 90%;box-shadow:0 0 16px rgba(168,223,53,.45)}
+.arCompassDial span{position:absolute;top:6px;color:#fff;font-size:12px;font-weight:900;transform:translateY(-2px)}
+.arCompass strong{font-size:18px}
+.arMarker{position:absolute;min-width:132px;max-width:180px;padding:11px 13px;background:rgba(10,18,28,.82);color:#fff;border:1px solid rgba(168,223,53,.38);border-radius:18px;backdrop-filter:blur(14px);box-shadow:0 18px 42px rgba(0,0,0,.25)}
+.arMarker:after{content:"";position:absolute;left:50%;bottom:-34px;width:1px;height:34px;background:rgba(255,255,255,.45)}
+.arMarker .kicker{display:flex;align-items:center;gap:8px;font-weight:950}
+.arMarker .dot{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:#a8df35;color:#12201b;font-size:12px}
+.arMarker small{display:block;margin-top:5px;color:rgba(255,255,255,.72);font-size:14px}
+.arMarker.m1{left:13%;top:42%}
+.arMarker.m2{right:9%;top:33%}
+.arMarker.m3{left:27%;top:58%}
+.arMarker.m4{right:21%;top:55%}
+.arBottomStatus{position:absolute;left:18px;right:18px;bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;background:rgba(7,16,26,.88);border:1px solid rgba(255,255,255,.12);border-radius:26px;backdrop-filter:blur(18px);box-shadow:0 22px 70px rgba(0,0,0,.34)}
+.arStatusIcon{width:74px;height:74px;border-radius:50%;background:rgba(168,223,53,.12);border:1px solid rgba(168,223,53,.35);display:grid;place-items:center;color:#a8df35;font-size:30px}
+.arStatusText{flex:1}
+.arStatusText small{display:block;letter-spacing:.18em;text-transform:uppercase;color:#a8df35;font-weight:950}
+.arStatusText b{display:block;font-size:26px;margin:2px 0 4px}
+.arStatusText span{color:rgba(255,255,255,.72)}
+.arInfoButton{width:58px;height:58px;border-radius:18px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff;font-size:24px;font-weight:900}
+.arActions{display:flex;gap:10px;flex-wrap:wrap}
+.arActions .btn{flex:1 1 190px}
+@media(max-width:700px){
+  .arScene{height:76vh;min-height:590px;border-radius:22px}
+  .arTopPill{left:12px;right:12px;top:12px;padding:12px}
+  .arCompass{left:14px;top:102px;width:78px;height:104px}
+  .arMarker{min-width:120px;padding:10px 12px;font-size:13px}
+  .arMarker.m1{left:9%;top:39%}
+  .arMarker.m2{right:6%;top:31%}
+  .arMarker.m3{left:18%;top:56%}
+  .arMarker.m4{right:10%;top:60%}
+  .arBottomStatus{left:12px;right:12px;bottom:12px;padding:14px}
+  .arStatusIcon{width:58px;height:58px}
+  .arStatusText b{font-size:22px}
+}
+
+
+/* v7.1 — cadastro de lotes */
+.registerIntro{margin:0 0 14px;color:var(--muted);line-height:1.45}
+.gpsBox{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin:14px 0;padding:14px;border-radius:18px;background:#fff7ec;border:1px solid #ead7be;color:#765733}
+.gpsBox b{display:block;color:#4c3824;margin-bottom:3px}
+.gpsBox small{display:block;line-height:1.35}
+.mediaPreview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
+.mediaPreview img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px;border:1px solid var(--line);background:#f7f1e9}
+.fileList{margin-top:8px;display:grid;gap:6px;color:var(--muted);font-size:13px}
+.fileList span{display:block;padding:8px 10px;border-radius:12px;background:#f7f1e9;border:1px solid var(--line)}
+.lotMediaList{margin-top:14px;display:grid;gap:8px}
+.lotMediaList span{padding:10px 12px;border-radius:14px;background:#f7f1e9;border:1px solid var(--line);display:flex;justify-content:space-between;gap:12px}
+.pendingGps{margin:14px 0;padding:14px 16px;border-radius:16px;background:#fff7ec;border:1px solid #ead7be;color:#765733}
+.confirmBox{display:grid;gap:10px;padding:18px;border-radius:20px;background:linear-gradient(180deg,#fffdf9,#fbf3ea);border:1px solid var(--line)}
+.confirmBox h3{margin:0;font-size:24px}
+.confirmBox p{margin:0;color:var(--muted);line-height:1.45}
+.registerBadge{display:inline-flex;width:max-content;max-width:100%;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;background:rgba(37,167,101,.12);color:#178653;font-weight:950;font-size:12px}
+@media(max-width:700px){.gpsBox{display:grid}.mediaPreview{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* v7.2 — Modo Campo Futura Casa, feito do zero no layout da plataforma */
+.fieldModalCard{width:min(980px,100%);background:#fffdf9;color:var(--ink);border:1px solid rgba(16,20,29,.08);overflow:hidden}
+.fieldModalCard .modalHead{background:linear-gradient(180deg,#fffdf9,#fbf3ea);border-bottom:1px solid var(--line)}
+.fieldShell{display:grid;gap:16px}
+.fieldStage{position:relative;min-height:640px;height:min(74vh,760px);border-radius:30px;overflow:hidden;background:#efe6da;box-shadow:0 26px 90px rgba(16,20,29,.18);border:1px solid rgba(16,20,29,.08)}
+.fieldStage video,.fieldFallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.fieldFallback{background:#efe6da;overflow:hidden}
+.fieldFallback img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.92) contrast(.95);opacity:.62}
+.fieldFallback.hidden{display:none}
+.fieldVeil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,253,249,.12) 0%,rgba(255,253,249,.02) 34%,rgba(16,20,29,.25) 100%);pointer-events:none}
+.fieldTop{position:absolute;left:18px;right:18px;top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:rgba(255,253,249,.86);border:1px solid rgba(16,20,29,.08);border-radius:24px;backdrop-filter:blur(18px);box-shadow:0 18px 60px rgba(16,20,29,.12)}
+.fieldTopBrand{display:none}
+.fieldTopBrand small{letter-spacing:.16em;text-transform:uppercase;color:var(--orange);font-weight:950;font-size:11px}
+.fieldTopBrand b{font-size:18px;color:var(--ink)}
+.fieldClose{width:58px;height:58px;border-radius:21px;border:1px solid var(--line);background:rgba(255,253,249,.95);color:var(--ink);font-size:34px;font-weight:950;box-shadow:0 18px 40px rgba(16,20,29,.14)}
+.fieldCompass{position:absolute;left:18px;top:92px;width:92px;border-radius:24px;background:rgba(255,253,249,.90);border:1px solid rgba(16,20,29,.08);padding:12px;display:grid;place-items:center;gap:8px;backdrop-filter:blur(16px);box-shadow:0 18px 60px rgba(16,20,29,.12);z-index:6}
+.fieldCompassDial{width:62px;height:62px;border-radius:50%;border:2px solid rgba(243,111,47,.28);display:grid;place-items:center;position:relative;background:#fff}
+.fieldCompassDial span{position:absolute;top:6px;font-size:11px;font-weight:950;color:var(--orange)}
+.fieldNeedle{width:4px;height:32px;border-radius:999px;background:linear-gradient(180deg,var(--orange),var(--orange2));transform-origin:50% 90%;box-shadow:0 0 16px rgba(243,111,47,.3)}
+.fieldCompass strong{font-size:18px;color:var(--ink)}
+.fieldPin{position:absolute;min-width:132px;max-width:190px;padding:11px 13px;background:rgba(255,253,249,.90);border:1px solid rgba(243,111,47,.24);border-radius:19px;box-shadow:0 20px 60px rgba(16,20,29,.15);backdrop-filter:blur(16px)}
+.fieldPin:after{content:"";position:absolute;left:50%;bottom:-32px;width:2px;height:32px;background:linear-gradient(180deg,rgba(243,111,47,.72),rgba(243,111,47,0))}
+.fieldPinHead{display:flex;align-items:center;gap:8px;font-weight:950;color:var(--ink)}
+.fieldPinDir{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(243,111,47,.10);border:1px solid rgba(243,111,47,.18);color:var(--orange);font-size:15px;line-height:1;flex:0 0 auto}
+.fieldPinDirArrow{display:inline-block;transform:rotate(0deg);transition:transform .18s linear}
+.fieldPinIcon{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:rgba(243,111,47,.14);color:var(--orange);font-size:14px}
+.fieldPin small{display:block;margin-top:4px;color:var(--muted);font-weight:750}
+.fieldPin.p1{left:13%;top:42%}
+.fieldPin.p2{right:8%;top:31%}
+.fieldPin.p3{left:28%;top:58%}
+.fieldPin.p4{right:19%;top:55%}
+.fieldStatus{position:absolute;left:18px;right:18px;bottom:18px;display:flex;align-items:center;gap:16px;padding:18px 20px;background:rgba(255,253,249,.92);border:1px solid rgba(16,20,29,.08);border-radius:28px;box-shadow:0 24px 80px rgba(16,20,29,.20);backdrop-filter:blur(18px)}
+.fieldStatusIcon{width:70px;height:70px;border-radius:50%;background:rgba(243,111,47,.12);color:var(--orange);display:grid;place-items:center;font-size:30px;border:1px solid rgba(243,111,47,.22)}
+.fieldStatusText{flex:1}
+.fieldStatusText small{display:block;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);font-weight:950;font-size:11px}
+.fieldStatusText b{display:block;font-size:24px;margin:2px 0 4px}
+.fieldStatusText span{color:var(--muted)}
+.fieldInfo{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.fieldInfo .res{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.fieldInfo .res small{color:var(--muted)}
+.fieldInfo .res b{color:var(--ink)}
+.fieldActions{display:flex;gap:10px;flex-wrap:wrap}
+.fieldActions .btn{flex:1 1 180px}
+@media(max-width:700px){
+  .fieldStage{height:76vh;min-height:590px;border-radius:22px}
+  .fieldTop{left:12px;right:12px;top:12px;padding:12px}
+  .fieldCompass{left:12px;top:100px;width:80px;padding:9px}
+  .fieldPin{min-width:118px;padding:10px 11px}
+  .fieldPin.p1{left:8%;top:41%}
+  .fieldPin.p2{right:5%;top:32%}
+  .fieldPin.p3{left:18%;top:57%}
+  .fieldPin.p4{right:8%;top:61%}
+  .fieldStatus{left:12px;right:12px;bottom:12px;padding:14px}
+  .fieldStatusIcon{width:58px;height:58px}
+  .fieldStatusText b{font-size:21px}
+  .fieldInfo{grid-template-columns:1fr}
+}
+
+
+/* v7.3 — Campo AR em tempo real, encaixado na tela */
+.modal.fieldMode{padding:max(8px,env(safe-area-inset-top)) 8px max(8px,env(safe-area-inset-bottom));background:linear-gradient(180deg,#fbf5ed,#f5efe7);overflow:hidden;place-items:stretch}
+.modal.fieldMode.show{display:block}
+.modal.fieldMode .fieldModalCard{width:100%;height:calc(100dvh - max(8px,env(safe-area-inset-top)) - max(8px,env(safe-area-inset-bottom)) - 16px);max-height:calc(100dvh - max(8px,env(safe-area-inset-top)) - max(8px,env(safe-area-inset-bottom)) - 16px);border-radius:26px;display:flex;flex-direction:column;overflow:hidden}
+.modal.fieldMode .modalHead{display:none}
+.modal.fieldMode .modalBody{flex:1;min-height:0;overflow:hidden;padding:10px;background:transparent}
+.modal.fieldMode .fieldShell{height:100%;display:grid;grid-template-rows:minmax(0,1fr) auto auto;gap:10px}
+.modal.fieldMode .fieldStage{height:auto;min-height:0;border-radius:24px}
+.fieldPins{position:absolute;inset:0;pointer-events:none}
+.fieldTopBrand b{max-width:72vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fieldTopProjectLine{display:block;color:var(--muted);font-weight:800;font-size:12px;margin-top:2px}
+.fieldStatusText small.dynamicLabel{color:var(--orange)}
+.fieldInfo{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.fieldInfo .res{padding:10px 12px;border-radius:14px}
+.fieldInfo .res small{font-size:11px;margin-bottom:3px}
+.fieldInfo .res b{font-size:13px;line-height:1.25}
+.fieldActions{margin-top:0}
+.fieldActions .btn{min-height:46px}
+.fieldPin.nearLot{border-color:rgba(243,111,47,.34)}
+.fieldPin.placePin{border-color:rgba(37,167,101,.28)}
+.fieldPin.placePin .fieldPinIcon{background:rgba(37,167,101,.12);color:#178653}
+.fieldPin.placePin .fieldPinDir{background:rgba(37,167,101,.10);border-color:rgba(37,167,101,.18);color:#178653}
+@media(max-width:700px){
+  .modal.fieldMode{padding:max(6px,env(safe-area-inset-top)) 6px max(6px,env(safe-area-inset-bottom))}
+  .modal.fieldMode .fieldModalCard{height:calc(100dvh - max(6px,env(safe-area-inset-top)) - max(6px,env(safe-area-inset-bottom)) - 12px);max-height:calc(100dvh - max(6px,env(safe-area-inset-top)) - max(6px,env(safe-area-inset-bottom)) - 12px);border-radius:22px}
+  .modal.fieldMode .modalBody{padding:7px}
+  .fieldTop{top:10px;right:10px}
+  .fieldTopBrand small{font-size:10px}
+  .fieldTopBrand b{font-size:16px;max-width:66vw}
+  .fieldCompass{left:10px;top:74px;width:76px;padding:8px;border-radius:20px}
+  .fieldCompassDial{width:52px;height:52px}
+  .fieldNeedle{height:28px;transition:transform .18s linear}
+  .fieldPin{min-width:110px;max-width:158px;padding:9px 10px;border-radius:16px}
+  .fieldPinHead{font-size:13px}
+  .fieldPin small{font-size:12px}
+  .fieldPin.p1{left:8%;top:35%}
+  .fieldPin.p2{right:4%;top:30%}
+  .fieldPin.p3{left:12%;top:54%}
+  .fieldPin.p4{right:7%;top:58%}
+  .fieldStatus{left:10px;right:10px;bottom:10px;padding:12px;border-radius:22px}
+  .fieldStatusIcon{width:50px;height:50px;font-size:24px}
+  .fieldStatusText b{font-size:18px}
+  .fieldStatusText span{font-size:12px}
+  .fieldInfo{grid-template-columns:1fr 1fr}
+  .fieldInfo .res:last-child{grid-column:1/-1}
+  .fieldActions{display:grid;grid-template-columns:1fr 1fr}
+  .fieldActions .btn{width:100%;min-height:44px;padding:0 12px}
+}
+
+
+
+/* v7.6 — refinamento da experiência AR */
+.fieldStage{min-height:700px;height:min(78vh,840px)}
+.fieldTop{left:18px;right:18px;top:18px;padding:0;background:transparent;border:none;box-shadow:none;backdrop-filter:none;align-items:flex-start;justify-content:space-between;z-index:8}
+.fieldClose{width:74px;height:74px;border-radius:24px;border:1px solid rgba(16,20,29,.08);background:rgba(255,253,249,.96);color:var(--ink);font-size:42px;font-weight:950;display:grid;place-items:center;box-shadow:0 22px 56px rgba(16,20,29,.16)}
+.fieldCompass{position:relative;left:auto;top:auto;width:112px;min-height:112px;border-radius:30px;background:rgba(255,253,249,.94);border:1px solid rgba(16,20,29,.08);padding:12px 12px 10px;display:grid;place-items:center;gap:6px;backdrop-filter:blur(18px);box-shadow:0 22px 60px rgba(16,20,29,.14);z-index:8;overflow:hidden}
+.fieldCompass:before{content:"";position:absolute;inset:8px;border-radius:24px;border:1px solid rgba(243,111,47,.10);pointer-events:none}
+.fieldCompassDial{width:74px;height:74px;border-radius:50%;border:2px solid rgba(243,111,47,.18);display:grid;place-items:center;position:relative;background:radial-gradient(circle at 50% 42%,#fff 0%,#fffdf9 58%,#f6eee6 100%);box-shadow:inset 0 0 0 1px rgba(16,20,29,.04)}
+.fieldCompassDial:before{content:"";position:absolute;inset:8px;border-radius:50%;border:1px dashed rgba(16,20,29,.14)}
+.fieldCompassDial:after{content:"";position:absolute;inset:18px;border-radius:50%;border:1px solid rgba(243,111,47,.12)}
+.fieldCompassRose{position:absolute;inset:14px;border-radius:50%;background:conic-gradient(from 0deg, rgba(243,111,47,.10), rgba(243,111,47,0) 18%, rgba(16,20,29,.02) 32%, rgba(243,111,47,.10) 50%, rgba(243,111,47,0) 68%, rgba(16,20,29,.02) 82%, rgba(243,111,47,.10))}
+.fieldNorthLabel{position:absolute;top:8px;font-size:11px;font-weight:950;letter-spacing:.12em;color:var(--orange)}
+.fieldNeedleWrap{position:absolute;inset:0;display:grid;place-items:center;transition:transform .12s linear;will-change:transform}
+.fieldNeedle{width:8px;height:42px;position:relative;display:block;clip-path:polygon(50% 0, 88% 38%, 63% 38%, 63% 100%, 37% 100%, 37% 38%, 12% 38%);background:linear-gradient(180deg,var(--orange2) 0%,var(--orange) 45%,#ffb37f 100%);filter:drop-shadow(0 8px 12px rgba(243,111,47,.26))}
+.fieldNeedle:after{content:"";position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:8px;height:18px;border-radius:999px;background:linear-gradient(180deg,#182235,#33405f)}
+.fieldCompassCenter{position:absolute;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--orange);box-shadow:0 0 0 3px rgba(243,111,47,.12)}
+.fieldCompassMeta{display:grid;justify-items:center;gap:1px}
+.fieldCompassMeta strong{font-size:19px;line-height:1;color:var(--ink)}
+.fieldCompassMeta small{font-size:10px;line-height:1.1;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:900}
+.fieldPin{min-width:144px;max-width:204px;padding:12px 14px;border-radius:20px;background:rgba(255,253,249,.92)}
+.fieldPinHead{display:flex;align-items:center;gap:10px}
+.fieldPinLabel{display:flex;align-items:center;gap:8px;min-width:0;flex:1}
+.fieldPinLabelText{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fieldPinDir{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(243,111,47,.10);border:1px solid rgba(243,111,47,.18);color:var(--orange);flex:0 0 auto}
+.fieldPinDirArrow{display:inline-grid;place-items:center;width:14px;height:14px;transform-origin:50% 50%;transition:transform .10s linear;will-change:transform}
+.fieldPinDirArrow svg{width:14px;height:14px;display:block;fill:currentColor}
+.fieldPinIcon{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(243,111,47,.14);color:var(--orange);flex:0 0 auto}
+.fieldPinIcon svg{width:15px;height:15px;display:block;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.fieldPin small{display:flex;align-items:center;gap:6px;margin-top:5px;color:var(--muted);font-weight:780}
+.fieldPin small b{font-size:10px;color:rgba(16,20,29,.38)}
+.fieldPin.placePin .fieldPinIcon{background:rgba(37,167,101,.11);color:#178653}
+.fieldPin.placePin .fieldPinDir{background:rgba(37,167,101,.10);border-color:rgba(37,167,101,.18);color:#178653}
+.fieldStatusIcon svg{width:30px;height:30px;display:block;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.fieldActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.fieldActions .btn{min-height:58px;display:flex;align-items:center;justify-content:center;gap:10px}
+.fieldActions .actionIcon{display:inline-grid;place-items:center;width:20px;height:20px;font-size:18px;line-height:1}
+.fieldActionHidden{display:none !important}
+@media(max-width:700px){
+  .fieldStage{height:80vh;min-height:620px;border-radius:24px}
+  .fieldTop{left:12px;right:12px;top:12px}
+  .fieldClose{width:66px;height:66px;font-size:38px;border-radius:22px}
+  .fieldCompass{width:98px;min-height:98px;padding:10px 10px 8px;border-radius:26px}
+  .fieldCompassDial{width:64px;height:64px}
+  .fieldNeedle{height:36px}
+  .fieldPin{min-width:112px;max-width:164px;padding:9px 10px;border-radius:16px}
+  .fieldPinLabel{gap:6px}
+  .fieldPinIcon{width:24px;height:24px}
+  .fieldPinDir{width:24px;height:24px}
+  .fieldActions{grid-template-columns:1fr 1fr;gap:10px}
+}
+
+
+/* v7.8 — refinamento dos botões AR e Simular Casa */
+.fieldInfo.compact{grid-template-columns:1fr 1fr}
+.fieldActions.v78{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.fieldActions.v78 .btn{min-height:58px;padding:0 14px}
+.fieldPins.hidden{display:none}
+.houseSimCard{width:min(980px,100%);max-height:min(92vh,calc(100dvh - 24px));overflow:auto;background:#fffdf9;border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow2)}
+.houseSimHead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fffdf9;z-index:2}
+.houseSimHead h2{margin:0;font-size:30px;letter-spacing:-.04em}
+.houseSimBody{padding:20px;display:grid;grid-template-columns:minmax(280px,360px) 1fr;gap:18px}
+.houseSimPreview{border:1px solid var(--line);border-radius:24px;background:#f7f1e9;padding:12px}
+.houseSimPreview img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px;display:block}
+.houseStyleGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.houseStyleOption{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--line);border-radius:18px;background:#fff;font-weight:800;color:var(--ink)}
+.houseStyleOption input{accent-color:var(--orange);width:18px;height:18px}
+.houseSimGenerate{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.houseSimResults{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+.houseResultCard{border:1px solid var(--line);border-radius:22px;background:#fff;padding:12px;display:grid;gap:10px}
+.houseResultCard img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:16px;background:#f4efe8;cursor:zoom-in}
+.houseResultCard h4{margin:0;font-size:20px}
+.houseResultCard p{margin:0;color:var(--muted);font-size:14px;line-height:1.45}
+.houseResultMeta{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.houseLoading{padding:18px;border-radius:20px;border:1px dashed var(--line);background:#fff;color:var(--muted);font-weight:700}
+.hiddenGps{display:none !important}
+@media(max-width:820px){
+  .houseSimBody{grid-template-columns:1fr}
+  .houseStyleGrid,.houseSimResults{grid-template-columns:1fr}
+  .fieldActions.v78{grid-template-columns:1fr 1fr}
+}
+
+
+/* v7.9 — correção dos botões AR e mídias funcionais */
+.fieldActions.v78 .btn.primary{
+  background:linear-gradient(180deg,var(--orange2),var(--orange));
+  color:#fff;
+  border-color:rgba(243,111,47,.28);
+  box-shadow:0 12px 28px rgba(243,111,47,.22);
+}
+.fieldActions.v78 .btn.primary:hover{filter:brightness(.98)}
+.fieldMediaOverlay{z-index:260;background:rgba(17,23,33,.46);backdrop-filter:blur(10px);padding:16px}
+.fieldMediaOverlay.show{display:grid;place-items:center}
+.fieldMediaCard{width:min(760px,100%);max-height:min(92vh,calc(100dvh - 28px));overflow:auto;background:#fffdf9;border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow2)}
+.fieldMediaHead{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;padding:20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fffdf9;z-index:2}
+.fieldMediaHead h2{margin:0;font-size:26px;letter-spacing:-.04em}
+.fieldMediaBody{padding:20px}
+.fieldMediaGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.fieldMediaGrid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:16px;border:1px solid var(--line);cursor:pointer;background:#f7f1e9}
+.mediaList{display:grid;gap:8px;margin-top:12px}
+.mediaList a,.mediaList span{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 14px;border-radius:16px;background:#f7f1e9;border:1px solid var(--line);color:var(--ink);font-weight:800}
+.mediaList small{color:var(--muted);font-weight:700}
+.mediaEmpty{padding:18px;border:1px dashed var(--line);border-radius:18px;color:var(--muted);background:#fff}
+.zoomModalImage{display:block;max-width:100%;max-height:74vh;margin:auto;border-radius:20px;object-fit:contain;background:#111}
+.zoomCard{width:min(980px,100%);background:#111721;border-radius:28px;overflow:hidden;box-shadow:var(--shadow2)}
+.zoomHead{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;color:#fff;background:#111721}
+.zoomHead b{font-size:16px}
+.zoomBody{padding:10px;background:#111721}
+.zoomableImage{cursor:zoom-in}
+@media(max-width:700px){
+  .fieldMediaOverlay{padding:8px}
+  .fieldMediaCard{border-radius:22px;max-height:calc(100dvh - 16px)}
+  .fieldMediaHead,.fieldMediaBody{padding:14px}
+  .fieldMediaGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+
+/* v8.2 — AR translúcida + pins clicáveis + mídia simplificada */
+.fieldPins{pointer-events:auto}
+.fieldPin,.fieldCompass,.fieldStatus{background:rgba(255,253,249,.70)!important;backdrop-filter:blur(18px) saturate(1.1)!important;-webkit-backdrop-filter:blur(18px) saturate(1.1)!important}
+.fieldPin{cursor:pointer;transition:transform .16s ease, box-shadow .16s ease, background .16s ease}
+.fieldPin:hover,.fieldPin:active{transform:translateY(-2px);box-shadow:0 18px 44px rgba(16,20,29,.18);background:rgba(255,253,249,.80)!important}
+.fieldPinHead{pointer-events:none}
+.fieldPin small{pointer-events:none}
+.fieldClose{width:50px!important;height:50px!important;border-radius:18px!important;font-size:28px!important;line-height:1!important}
+@media(max-width:700px){.fieldClose{width:44px!important;height:44px!important;border-radius:16px!important;font-size:24px!important}}
+.fieldStatus{cursor:pointer}
+.fieldMediaCard.compact .fieldMediaHead{align-items:center}
+.fieldMediaCompactIntro{margin:0 0 14px;color:var(--muted)}
+.mediaUnifiedList{display:grid;gap:8px;margin-top:10px}
+.mediaUnifiedList div{padding:10px 12px;border-radius:14px;background:#f7f1e9;border:1px solid var(--line);font-weight:700;color:var(--ink);font-size:14px}
+.arPointModal .modalBody{display:grid;gap:16px}
+.arPointHero{display:flex;gap:14px;align-items:center;padding:16px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,rgba(255,253,249,.96),rgba(247,241,233,.92))}
+.arPointIcon{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:rgba(243,111,47,.12);color:var(--orange);border:1px solid rgba(243,111,47,.20);font-size:26px;flex:0 0 auto}
+.arPointHero h3{margin:0 0 4px;font-size:22px}
+.arPointHero p{margin:0;color:var(--muted)}
+
+
+/* v8.1 — CTA financeiro em cada imagem gerada por IA */
+.houseResultCard .houseFinancialCta{
+  width:100%;
+  min-height:46px;
+  border-radius:14px;
+  font-weight:950;
+  margin-top:4px;
+}
+.houseResultCard .houseResultNote{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.35;
+  margin-top:-2px;
+}
+
+
+/* v8.2 — atalho IA nos cards e salvamento manual na galeria */
+.houseSimToolbar{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 4px}
+.houseSimToolbar .btn{flex:1 1 240px}
+@media(max-width:760px){.houseSimToolbar{display:grid;grid-template-columns:1fr}}
+
+
+/* v8.9 — Mapa interativo Futura Casa */
+.mapSection{padding-top:18px}
+.mapExperience{position:relative;border-radius:34px;background:linear-gradient(180deg,#121824,#0e1420);box-shadow:var(--shadow2);overflow:hidden;border:1px solid rgba(16,20,29,.10)}
+.mapHeaderBar{position:absolute;z-index:8;left:18px;right:18px;top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:none}
+.mapBrandPill,.mapProject{display:inline-flex;align-items:center;gap:10px;border-radius:999px;background:rgba(255,253,249,.88);backdrop-filter:blur(14px);border:1px solid rgba(16,20,29,.08);box-shadow:0 14px 40px rgba(16,20,29,.12);padding:11px 14px;font-weight:900;color:var(--ink)}
+.mapBrandPill .stackIcon{color:var(--orange);font-size:17px;transform:rotate(90deg);display:inline-block}
+.mapProject{background:rgba(17,23,33,.90);color:#fff;letter-spacing:.02em}
+.interactiveMapFrame{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,430px);min-height:720px}
+.mapViewport{position:relative;min-height:720px;overflow:hidden;background:#efe7dc}
+.mapInner{position:absolute;inset:0;transform:scale(var(--mapZoom,1));transform-origin:center center;transition:transform .24s ease}
+.mapInner img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.02) contrast(.99)}
+.mapLotsLayer{position:absolute;inset:0;z-index:4}
+.mapLotButton{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);min-width:46px;height:38px;padding:0 11px;border-radius:999px;border:1px solid rgba(17,23,33,.16);background:rgba(255,253,249,.82);backdrop-filter:blur(10px);box-shadow:0 12px 32px rgba(16,20,29,.16);font-weight:950;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:5px;transition:transform .18s ease, background .18s ease, box-shadow .18s ease}
+.mapLotButton:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 4px rgba(243,111,47,.16)}
+.mapLotButton[data-status="reserved"]:before{background:var(--orange2)}
+.mapLotButton[data-status="sold"]{opacity:.62;background:rgba(255,255,255,.62)}
+.mapLotButton[data-status="sold"]:before{background:#9ca3af}
+.mapLotButton.selected{background:linear-gradient(180deg,var(--orange2),var(--orange));color:#fff;border-color:rgba(243,111,47,.55);box-shadow:0 18px 54px rgba(243,111,47,.34);transform:translate(-50%,-50%) scale(1.14);z-index:7}
+.mapLotButton.selected:before{background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.22)}
+.mapControls{position:absolute;z-index:8;left:20px;bottom:118px;display:grid;overflow:hidden;border-radius:22px;box-shadow:0 18px 50px rgba(16,20,29,.14)}
+.mapControls button{width:54px;height:54px;border:0;background:rgba(255,253,249,.92);font-size:28px;font-weight:900;color:var(--ink);border-bottom:1px solid var(--line)}
+.mapControls button:last-child{border-bottom:0}
+.mapCompass{position:absolute;z-index:8;right:22px;top:88px;width:70px;height:70px;border-radius:50%;background:rgba(255,253,249,.92);box-shadow:0 18px 48px rgba(16,20,29,.14);display:grid;place-items:center;border:1px solid rgba(16,20,29,.08)}
+.mapCompass span{position:absolute;top:9px;font-weight:950;font-size:12px}
+.mapCompass b{color:var(--orange);font-size:31px;line-height:1}
+.mapLegendChips{position:absolute;z-index:8;left:92px;right:18px;bottom:22px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.mapLegendChips span{display:inline-flex;align-items:center;gap:8px;background:rgba(255,253,249,.90);border:1px solid rgba(16,20,29,.08);box-shadow:0 10px 30px rgba(16,20,29,.10);border-radius:999px;padding:10px 12px;font-weight:800;color:var(--muted)}
+.mapLegendChips i{width:14px;height:14px;border-radius:50%;display:inline-block;border:1px solid rgba(16,20,29,.10)}
+.mapLegendChips .available{background:#ffe6a7}.mapLegendChips .reserved{background:var(--orange)}.mapLegendChips .sold{background:#a6a6a6}.mapLegendChips .green{background:#75a843}.mapLegendChips .water{background:#4aa6d8}
+.mapSelection{background:linear-gradient(180deg,#fffdf9,#fbf5ed);border-left:1px solid rgba(16,20,29,.08);padding:26px;display:flex;align-items:stretch}
+.mapCard{width:100%;align-self:center;background:rgba(255,253,249,.94);border:1px solid var(--line);border-radius:30px;padding:22px;box-shadow:var(--shadow);display:grid;gap:15px}
+.mapCardTop{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.mapCard .tag{width:max-content}
+.mapMiniLot{width:122px;min-width:122px;aspect-ratio:1;border-radius:22px;background:linear-gradient(135deg,#f4e7d6,#fff8eb);border:1px solid var(--line);position:relative;overflow:hidden}
+.mapMiniLot:before{content:"";position:absolute;left:42px;top:18px;width:44px;height:86px;border:2px solid var(--orange);border-radius:8px;transform:rotate(13deg);background:rgba(243,111,47,.22)}
+.mapMiniLot b{position:absolute;inset:0;display:grid;place-items:center;font-size:30px;color:var(--ink)}
+.mapCard h3{font-size:30px;line-height:1.05;margin:0;letter-spacing:-.04em}
+.mapCard .price{font-size:38px;color:var(--orange);font-weight:950;letter-spacing:-.04em}
+.mapSpecs{display:flex;gap:8px;flex-wrap:wrap}
+.mapSpecs span{padding:9px 12px;background:#f8f2ea;border:1px solid var(--line);border-radius:14px;color:var(--muted);font-weight:850}
+.mapActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mapActions .wide{grid-column:1/-1}
+@media(max-width:960px){
+  .interactiveMapFrame{grid-template-columns:1fr;min-height:auto}
+  .mapViewport{min-height:620px}
+  .mapSelection{border-left:0;border-top:1px solid rgba(16,20,29,.08);padding:18px}
+  .mapCard{border-radius:28px}
+}
+@media(max-width:700px){
+  .mapExperience{border-radius:26px;margin-left:-6px;margin-right:-6px}
+  .mapHeaderBar{top:12px;left:12px;right:12px}
+  .mapProject{display:none}
+  .mapBrandPill{font-size:13px;padding:10px 12px}
+  .mapViewport{min-height:560px}
+  .mapControls{left:12px;bottom:112px}
+  .mapControls button{width:46px;height:46px}
+  .mapCompass{right:12px;top:68px;width:58px;height:58px}
+  .mapLegendChips{left:12px;right:12px;bottom:12px;gap:7px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}
+  .mapLegendChips span{white-space:nowrap;padding:9px 11px;font-size:13px}
+  .mapLotButton{min-width:38px;height:32px;font-size:13px;padding:0 9px}
+  .mapCardTop{display:block}.mapMiniLot{float:right;margin-left:12px;margin-bottom:8px;width:106px;min-width:106px}
+  .mapCard h3{font-size:26px}.mapCard .price{font-size:32px}
+  .mapActions{grid-template-columns:1fr}
+}
+
+
+/* v8.4 — Mapa híbrido: imagem verdadeira + mapa convencional filtrável */
+.mapSection .sectionHead h2{max-width:760px}
+.mapSelection.mapHybridPanel{display:grid;align-content:start;gap:16px;overflow:auto}
+.mapSelection.mapHybridPanel #mapSelectionCard{display:block}
+.mapFinder{width:100%;background:rgba(255,253,249,.94);border:1px solid var(--line);border-radius:28px;padding:18px;box-shadow:0 14px 42px rgba(16,20,29,.08)}
+.mapFinderHead{display:grid;gap:6px;margin-bottom:14px}
+.mapFinderHead h3{margin:0;font-size:25px;letter-spacing:-.04em}
+.mapFinderHead p{margin:0}
+.mapFiltersGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.mapFiltersGrid .full{grid-column:1/-1}
+.mapListCount{font-size:13px;font-weight:850;color:var(--muted);margin:4px 0 10px}
+.mapConventionalList{display:grid;gap:10px;max-height:440px;overflow:auto;padding-right:3px}
+.mapLotRow{width:100%;border:1px solid var(--line);background:#fffdf9;border-radius:18px;padding:12px;text-align:left;display:grid;gap:9px;cursor:pointer;color:var(--ink);transition:transform .16s ease, border-color .16s ease, box-shadow .16s ease, background .16s ease}
+.mapLotRow:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(16,20,29,.08)}
+.mapLotRow.selected{border-color:rgba(243,111,47,.45);background:#fff6ef;box-shadow:0 14px 34px rgba(243,111,47,.14)}
+.mapLotRowTop{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.mapLotRow h4{margin:0;font-size:18px;line-height:1.1}
+.mapLotRow .rowMeta{display:flex;gap:6px;flex-wrap:wrap}
+.mapLotRow .rowMeta span{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:6px 9px;color:var(--muted);font-weight:800;font-size:12px;background:#f8f2ea}
+.statusBadge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:950;border-radius:999px;padding:7px 9px;border:1px solid var(--line);white-space:nowrap}
+.statusBadge:before{content:"";width:9px;height:9px;border-radius:50%;background:var(--orange)}
+.statusBadge.available{color:#166534;background:#f0fbef}.statusBadge.available:before{background:#7aa22e}
+.statusBadge.reserved{color:#9a4b13;background:#fff2e7}.statusBadge.reserved:before{background:var(--orange)}
+.statusBadge.sold{color:#5b6472;background:#f1f1f1}.statusBadge.sold:before{background:#9ca3af}
+.mapLotsLayer{pointer-events:none}
+.mapSelectedMarker{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-100%);z-index:7;display:grid;place-items:center;pointer-events:none}
+.mapSelectedMarker .pinBubble{min-width:92px;border-radius:18px;background:linear-gradient(180deg,var(--orange2),var(--orange));color:#fff;font-weight:950;padding:10px 12px;box-shadow:0 18px 54px rgba(243,111,47,.32);border:1px solid rgba(255,255,255,.38);text-align:center}
+.mapSelectedMarker .pinBubble small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.88}
+.mapSelectedMarker .pinPoint{width:18px;height:18px;border-radius:50%;background:#fff;border:5px solid var(--orange);box-shadow:0 0 0 9px rgba(243,111,47,.18);margin-top:-1px}
+.mapImageHint{position:absolute;z-index:8;left:18px;top:78px;background:rgba(255,253,249,.88);border:1px solid rgba(16,20,29,.08);border-radius:18px;padding:10px 12px;color:var(--muted);font-weight:850;box-shadow:0 14px 38px rgba(16,20,29,.10);backdrop-filter:blur(12px)}
+.mapImageHint b{color:var(--orange)}
+.mapLotButton{display:none!important}
+@media(max-width:960px){
+  .mapConventionalList{max-height:none}
+}
+@media(max-width:700px){
+  .mapImageHint{top:60px;left:12px;right:84px;font-size:12px}
+  .mapFiltersGrid{grid-template-columns:1fr}
+  .mapFiltersGrid .full{grid-column:auto}
+  .mapFinder{border-radius:22px;padding:14px}
+  .mapLotRow h4{font-size:17px}
+}
+
+
+/* v8.5 — correções de zoom, campos visíveis e subjanela de lotes */
+.mapFinder .field label{color:var(--ink)!important;font-weight:900;opacity:1}
+.mapFinder .field select,
+.mapFinder .field input{
+  width:100%;
+  color:var(--ink)!important;
+  background:#fffdf9!important;
+  border:1px solid var(--line)!important;
+  border-radius:16px!important;
+  min-height:50px;
+  padding:0 14px;
+  font-weight:800;
+  font-size:15px;
+  opacity:1!important;
+  -webkit-text-fill-color:var(--ink)!important;
+}
+.mapFinder .field input::placeholder{color:#9aa0aa!important;-webkit-text-fill-color:#9aa0aa!important}
+.mapListWindow{
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:rgba(255,253,249,.72);
+  padding:10px;
+  max-height:min(520px,48vh);
+  overflow:auto;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
+  overscroll-behavior:contain;
+}
+.mapListWindow .mapConventionalList{max-height:none!important;overflow:visible!important;padding-right:0}
+.mapControls{pointer-events:auto!important;z-index:20!important}
+.mapControls button{cursor:pointer;touch-action:manipulation;user-select:none;-webkit-tap-highlight-color:transparent}
+.mapViewport{touch-action:pan-y}
+.mapInner{will-change:transform}
+.mapZoomBadge{
+  position:absolute;
+  z-index:10;
+  left:22px;
+  bottom:235px;
+  background:rgba(17,23,33,.82);
+  color:#fff;
+  border-radius:999px;
+  padding:8px 11px;
+  font-size:12px;
+  font-weight:900;
+  opacity:0;
+  transform:translateY(6px);
+  transition:.18s ease;
+  pointer-events:none;
+}
+.mapZoomBadge.show{opacity:1;transform:translateY(0)}
+.mapFiltersGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:960px){
+  .mapListWindow{max-height:min(500px,46vh)}
+  .mapConventionalList{max-height:none!important}
+}
+@media(max-width:700px){
+  .mapFiltersGrid{grid-template-columns:1fr 1fr}
+  .mapFiltersGrid .full{grid-column:1/-1}
+  .mapListWindow{max-height:440px}
+  .mapZoomBadge{left:14px;bottom:212px}
+}
+
+
+/* v8.7 — botão Ver no mapa na lista convencional */
+.mapLotRow{cursor:default}
+.mapLotRowActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px}
+.mapLotRowActions .btn{min-height:42px;border-radius:14px;font-size:14px;padding:0 12px}
+@media(max-width:700px){
+  .mapLotRowActions{grid-template-columns:1fr}
+}
+
+
+/* v8.8 — lista convencional com apenas Ver no mapa */
+.mapLotRowActions{display:grid!important;grid-template-columns:1fr!important;gap:8px;margin-top:2px}
+.mapLotRow{cursor:pointer}
+.mapLotRow .btn.primary.small{min-height:44px}
+
+
+/* v8.9 — mapa visual mais limpo e menos aproximado */
+.mapHeaderBar,
+.mapImageHint,
+.mapLegendChips{
+  display:none!important;
+}
+.mapViewport{
+  min-height:auto!important;
+  aspect-ratio:4/3;
+  background:#efe7dc;
+}
+.mapInner{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  background:#efe7dc!important;
+}
+.mapInner img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+}
+.mapSelectedMarker{
+  transform:translate(-50%,-50%)!important;
+}
+.mapSelectedMarker .pinBubble{
+  display:none!important;
+}
+.mapSelectedMarker .pinPoint{
+  width:24px!important;
+  height:24px!important;
+  border-radius:50%!important;
+  background:var(--orange)!important;
+  border:4px solid #fff!important;
+  box-shadow:0 0 0 9px rgba(243,111,47,.22),0 14px 34px rgba(16,20,29,.22)!important;
+  margin:0!important;
+}
+.mapControls{
+  bottom:18px!important;
+  left:18px!important;
+}
+.mapCompass{
+  top:18px!important;
+  right:18px!important;
+}
+.mapZoomBadge{
+  bottom:142px!important;
+}
+@media(max-width:700px){
+  .mapViewport{aspect-ratio:4/3;min-height:auto!important}
+  .mapControls{left:12px!important;bottom:12px!important}
+  .mapCompass{right:12px!important;top:12px!important}
+  .mapZoomBadge{left:12px!important;bottom:112px!important}
+}
+
+
+
+/* v9.5 — marcador com etiqueta translúcida de quadra e lote */
+.mapSelectedMarker{
+  transform:translate(-50%,-58%)!important;
+}
+.mapSelectedMarker .pinBubble{
+  display:flex!important;
+  align-items:center;
+  gap:8px;
+  min-width:auto!important;
+  white-space:nowrap;
+  margin-bottom:10px;
+  padding:8px 12px!important;
+  border-radius:999px!important;
+  background:rgba(255,253,249,.78)!important;
+  color:var(--ink)!important;
+  border:1px solid rgba(255,255,255,.72)!important;
+  box-shadow:0 10px 26px rgba(16,20,29,.14)!important;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  font-weight:900!important;
+  font-size:13px!important;
+  line-height:1.05!important;
+}
+.mapSelectedMarker .pinBubble small{display:none!important}
+.mapSelectedMarker .pinQuadra{color:var(--muted);font-weight:850;letter-spacing:.01em}
+.mapSelectedMarker .pinDivider{color:var(--orange);font-weight:950}
+.mapSelectedMarker .pinLote{color:var(--orangeDeep);font-weight:950}
+.mapSelectedMarker .pinPoint{
+  width:24px!important;
+  height:24px!important;
+  border-radius:50%!important;
+  background:var(--orange)!important;
+  border:4px solid #fff!important;
+  box-shadow:0 0 0 9px rgba(243,111,47,.22),0 14px 34px rgba(16,20,29,.22)!important;
+  margin:0 auto!important;
+}
+@media(max-width:700px){
+  .mapSelectedMarker{transform:translate(-50%,-55%)!important}
+  .mapSelectedMarker .pinBubble{font-size:12px!important;padding:7px 10px!important;gap:6px;margin-bottom:8px;max-width:calc(100vw - 120px);overflow:hidden;text-overflow:ellipsis}
+  .mapSelectedMarker .pinPoint{width:22px!important;height:22px!important}
+}
+
+
+/* v9.1 — Ver no mapa com rolagem direta e robusta */
+.mapLotRowActions .btn.primary.small{
+  min-height:48px;
+  font-size:15px;
+}
+.mapLotRowActions .btn.primary.small:after{
+  content:" ↑";
+  font-weight:950;
+}
+.mapViewport{
+  scroll-margin-top:120px;
+}
+#mapa{
+  scroll-margin-top:110px;
+}
+
+
+/* v9.2 — configuração de juros remuneratórios e correção */
+.financeConfigSummary{
+  display:grid;
+  gap:10px;
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:16px;
+  background:linear-gradient(180deg,#fffdf9,#fbf5ed);
+}
+.financeConfigSummary b{font-size:22px}
+.financeConfigSummary p{margin:0;color:var(--muted);line-height:1.45}
+.financeConfigGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.financeConfigGrid .full{grid-column:1/-1}
+.financeConfigHelp{padding:14px 16px;border-radius:18px;background:#fff7ec;border:1px solid #ead7be;color:#765733;line-height:1.45}
+.financeConfigHelp b{color:#4c3824}
+@media(max-width:700px){.financeConfigGrid{grid-template-columns:1fr}.financeConfigGrid .full{grid-column:auto}}
+
+
+/* v9.3 — ordem, botões laranja e mapa + lotes */
+.heroActions .btn,
+.cardActions .btn,
+.fieldActions .btn,
+.mapLotRowActions .btn,
+.mapSelectionActions .btn,
+.actions .btn.orangeScope,
+#openFinanceSettings{
+  background:linear-gradient(180deg,var(--orange2),var(--orange)) !important;
+  color:#fff !important;
+  border:0 !important;
+}
+.heroActions .btn{min-width:200px}
+#lotes{scroll-margin-top:110px}
+#mapa{scroll-margin-top:110px}
+
+
+/* v9.4 — modelos financeiros adicionais */
+#system option{font-weight:800}
+.resultGrid .res b#resSystemNote{
+  font-size:17px;
+  line-height:1.25;
+}
+
+
+/* v9.5 — inclusão do SACOC */
+.resultGrid .res b#resSystemNote{font-size:15px;line-height:1.22}
+
+
+
+/* v9.6 — PDF + mapa premium */
+.simActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.simActions .btn{width:100%}
+@media(max-width:760px){.simActions{grid-template-columns:1fr}}
+
+.mapExperience{
+  background:linear-gradient(180deg,#f5ede4 0%,#efe4d7 100%);
+  border:1px solid rgba(17,23,33,.08);
+  box-shadow:0 30px 90px rgba(16,20,29,.14), inset 0 1px 0 rgba(255,255,255,.45);
+}
+.interactiveMapFrame{grid-template-columns:minmax(0,1.12fr) minmax(360px,.88fr);min-height:760px}
+.mapViewport{
+  min-height:760px;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255,255,255,.92), transparent 24%),
+    radial-gradient(circle at 88% 14%, rgba(243,111,47,.08), transparent 22%),
+    linear-gradient(180deg,#ece0d0 0%,#e4d6c4 100%);
+}
+.mapViewport::before{
+  content:"";
+  position:absolute;
+  inset:16px;
+  border-radius:30px;
+  background:linear-gradient(180deg,rgba(255,255,255,.32),rgba(255,255,255,.10));
+  border:1px solid rgba(255,255,255,.32);
+  pointer-events:none;
+  z-index:0;
+}
+.mapInner{
+  position:absolute;
+  inset:24px;
+  border-radius:28px;
+  overflow:hidden;
+  box-shadow:0 28px 60px rgba(16,20,29,.14);
+  background:#f8f1e8;
+}
+.mapInner img{
+  object-fit:contain;
+  background:#f8f1e8;
+  filter:saturate(1.04) contrast(1.05) brightness(1.01);
+}
+.mapHeaderBar{left:24px;right:24px;top:24px}
+.mapBrandPill,.mapProject{
+  background:rgba(255,253,249,.72);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(17,23,33,.08);
+  box-shadow:0 14px 40px rgba(16,20,29,.08);
+}
+.mapProject{color:var(--ink);font-weight:900}
+.mapControls{
+  left:38px;
+  bottom:46px;
+  border-radius:20px;
+  overflow:hidden;
+  background:rgba(255,253,249,.78);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(17,23,33,.08);
+  box-shadow:0 18px 42px rgba(16,20,29,.14);
+}
+.mapControls button{
+  width:50px;
+  height:50px;
+  font-size:26px;
+  background:transparent;
+  color:#1a2433;
+  border-bottom:1px solid rgba(17,23,33,.08);
+}
+.mapControls button:hover{background:rgba(255,255,255,.62)}
+.mapZoomBadge{
+  left:40px;
+  bottom:160px;
+  padding:8px 10px;
+  border-radius:999px;
+  background:rgba(17,23,33,.80);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:0 14px 28px rgba(16,20,29,.18);
+}
+.mapCompass{
+  right:38px;
+  top:102px;
+  width:78px;
+  height:78px;
+  border-radius:50%;
+  background:rgba(255,253,249,.72);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(17,23,33,.08);
+  box-shadow:0 18px 44px rgba(16,20,29,.12);
+}
+.mapCompass span{font-size:13px;color:#435062;letter-spacing:.18em}
+.mapCompass b{font-size:24px;color:var(--orange);text-shadow:0 6px 18px rgba(243,111,47,.20)}
+.mapImageHint{display:none!important}
+.mapLegendChips{
+  left:24px;
+  right:24px;
+  bottom:18px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.mapLegendChips span{
+  background:rgba(255,253,249,.74);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(17,23,33,.08);
+  color:#425062;
+  font-weight:800;
+  padding:8px 12px;
+  border-radius:999px;
+  box-shadow:0 8px 22px rgba(16,20,29,.08);
+}
+.mapSelectedMarker{transform:translate(-50%,-100%);}
+.mapSelectedMarker .pinBubble{
+  min-width:auto;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border-radius:16px;
+  background:rgba(255,252,248,.78);
+  color:var(--ink);
+  font-weight:950;
+  padding:10px 14px;
+  border:1px solid rgba(243,111,47,.22);
+  box-shadow:0 18px 48px rgba(16,20,29,.16);
+  backdrop-filter:blur(14px);
+}
+.mapSelectedMarker .pinBubble small{display:none}
+.mapSelectedMarker .pinQuadra{color:var(--orange);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.mapSelectedMarker .pinDivider{opacity:.45}
+.mapSelectedMarker .pinLote{color:#101721;font-size:14px}
+.mapSelectedMarker .pinPoint{
+  width:16px;height:16px;border-radius:50%;background:var(--orange);
+  border:4px solid #fff;box-shadow:0 0 0 9px rgba(243,111,47,.16),0 16px 30px rgba(16,20,29,.16);margin-top:6px
+}
+.mapSelection{background:linear-gradient(180deg,#fffdf9 0%,#fbf4eb 100%)}
+.mapSelection .mapCard,.mapFinder{
+  box-shadow:0 18px 50px rgba(16,20,29,.06);
+}
+@media(max-width:960px){
+  .interactiveMapFrame{grid-template-columns:1fr;min-height:auto}
+  .mapViewport{min-height:620px}
+  .mapInner{inset:18px}
+}
+@media(max-width:700px){
+  .mapViewport{min-height:560px}
+  .mapHeaderBar{left:16px;right:16px;top:16px}
+  .mapBrandPill,.mapProject{padding:9px 12px;font-size:12px}
+  .mapControls{left:24px;bottom:34px}
+  .mapZoomBadge{left:24px;bottom:144px}
+  .mapCompass{right:24px;top:92px;width:70px;height:70px}
+  .mapLegendChips{left:16px;right:16px;bottom:14px}
+  .mapSelectedMarker .pinBubble{padding:9px 12px;gap:6px}
+}
+
+
+
+/* v10.2 - PDF com imagens e mapa mais sofisticado */
+.mapViewport{
+  background:linear-gradient(180deg,#efe4d7 0%,#e5d7c6 100%)!important;
+}
+.mapInner{
+  inset:28px!important;
+  border-radius:30px!important;
+  background:#f7efe4!important;
+  border:1px solid rgba(17,23,33,.10)!important;
+  box-shadow:0 32px 86px rgba(16,20,29,.18), inset 0 1px 0 rgba(255,255,255,.50)!important;
+}
+.mapInner img{
+  object-fit:contain!important;
+  background:#f7efe4!important;
+  filter:contrast(1.02) saturate(.98) brightness(.995)!important;
+}
+.mapExperience{
+  background:linear-gradient(145deg,#f3eadf 0%,#e9dccb 48%,#d8c6b3 100%)!important;
+}
+#savePdfChoice{
+  background:linear-gradient(180deg,#ff9658,#f36f2f)!important;
+  color:#fff!important;
+}
+@media(max-width:700px){
+  .mapInner{inset:18px!important;border-radius:22px!important}
+}
+
+
+/* v9.8 — cadastro completo de lotes e coordenadas centrais */
+.mapLotRow .rowMeta span:last-child{background:#fff6ee;color:var(--orange);border-color:rgba(243,111,47,.22)}
+.mapListCount strong{color:var(--orange)}
+
+
+/* v9.9 — Reserva e Assistente */
+.journeySuite{padding-top:22px}
+.journeySuiteGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.journeyServiceCard{
+  border:1px solid var(--line);
+  background:linear-gradient(180deg,#fffdf9,#fbf4eb);
+  border-radius:26px;
+  padding:18px;
+  text-align:left;
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  box-shadow:0 18px 46px rgba(16,20,29,.08);
+  color:var(--ink);
+  min-height:138px;
+}
+.journeyServiceCard:hover{transform:translateY(-2px);box-shadow:0 22px 56px rgba(16,20,29,.12)}
+.serviceIcon{
+  width:54px;height:54px;min-width:54px;border-radius:18px;
+  display:grid;place-items:center;
+  background:linear-gradient(180deg,#ffefe6,#fff7ef);
+  color:var(--orange);border:1px solid rgba(243,111,47,.18);
+  font-weight:950;font-size:25px;
+}
+.journeyServiceCard h3{margin:0 0 6px;font-size:20px;letter-spacing:-.03em}
+.journeyServiceCard p{margin:0;color:var(--muted);line-height:1.42}
+.reservationPanel{
+  margin-top:16px;
+  border:1px solid var(--line);
+  border-radius:28px;
+  background:rgba(255,253,249,.88);
+  box-shadow:0 18px 48px rgba(16,20,29,.08);
+  padding:18px;
+  display:none;
+}
+.reservationPanel.show{display:block}
+.reservationCardInline{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.reservationCardInline h3{margin:0 0 5px;font-size:22px}
+.reservationCardInline p{margin:0;color:var(--muted)}
+.reservationBadge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 13px;border-radius:999px;
+  background:#fff4ea;color:var(--orange);
+  font-weight:950;border:1px solid rgba(243,111,47,.20);
+}
+.reserveStatusReserved{
+  display:inline-flex;align-items:center;gap:6px;
+  border-radius:999px;padding:7px 11px;
+  background:#fff4ea;color:#9a4b13;font-weight:950;border:1px solid rgba(243,111,47,.20);
+  font-size:12px;
+}
+.reserveStatusReserved:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--orange)}
+.reservationProtocol{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  background:#111721;color:#fff;border-radius:16px;padding:12px 14px;font-weight:800
+}
+.reserveModalGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.reserveModalGrid .full{grid-column:1/-1}
+.reserveSummary{
+  border:1px solid var(--line);border-radius:20px;padding:16px;
+  background:linear-gradient(180deg,#fffdf9,#fbf4eb);
+  display:grid;gap:8px;
+}
+.reserveSummaryLine{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #efe4d8;padding-bottom:8px}
+.reserveSummaryLine:last-child{border-bottom:0;padding-bottom:0}
+.reserveSummaryLine span{color:var(--muted);font-weight:700}
+.reserveSummaryLine b{text-align:right}
+.mapLotRow.reservedByUser,.menuCard.reservedByUser{
+  outline:2px solid rgba(243,111,47,.25);
+  background:linear-gradient(180deg,#fff7ef,#fffdf9);
+}
+@media(max-width:960px){.journeySuiteGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){
+  .journeySuiteGrid{grid-template-columns:1fr}
+  .journeyServiceCard{min-height:auto}
+  .reserveModalGrid{grid-template-columns:1fr}
+  .reserveModalGrid .full{grid-column:auto}
+}
+
+
+/* v10.0 — Wellness e Assistente */
+.wellnessJourneyCard{display:grid!important}
+.wellnessCardImage{
+  width:100%;
+  margin-top:14px;
+  border-radius:22px;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  border:1px solid rgba(17,23,33,.08);
+  box-shadow:0 16px 36px rgba(16,20,29,.10);
+}
+.wellnessPage{scroll-margin-top:110px}
+.wellnessHero{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(320px,520px);
+  gap:24px;
+  align-items:center;
+  background:linear-gradient(135deg,#111721 0%,#1b2831 48%,#41623f 100%);
+  border-radius:36px;
+  padding:34px;
+  color:#fff;
+  box-shadow:var(--shadow2);
+  overflow:hidden;
+}
+.wellnessHero h2{
+  font-size:clamp(36px,5vw,72px);
+  line-height:.98;
+  letter-spacing:-.065em;
+  margin:8px 0 14px;
+}
+.wellnessHero p{color:rgba(255,255,255,.78);font-size:18px;line-height:1.55;max-width:720px}
+.wellnessHero img{
+  width:100%;
+  border-radius:30px;
+  box-shadow:0 30px 80px rgba(0,0,0,.25);
+  background:#fff;
+}
+.wellnessHeroActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.wellnessGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:24px}
+.wellnessTip{
+  background:linear-gradient(180deg,#fffdf9,#fbf4eb);
+  border:1px solid var(--line);
+  border-radius:26px;
+  padding:20px;
+  box-shadow:0 16px 42px rgba(16,20,29,.07);
+}
+.wellnessTip span{
+  display:inline-flex;
+  width:42px;height:42px;
+  border-radius:15px;
+  background:#fff1e8;
+  color:var(--orange);
+  align-items:center;
+  justify-content:center;
+  font-weight:950;
+  margin-bottom:12px;
+}
+.wellnessTip h3{margin:0 0 8px;font-size:20px}
+.wellnessTip p{margin:0;color:var(--muted);line-height:1.45}
+.wellnessLayout{display:grid;grid-template-columns:1.45fr .85fr;gap:18px;margin-top:22px}
+.wellnessProducts,.doctorColumn{
+  background:#fffdf9;
+  border:1px solid var(--line);
+  border-radius:30px;
+  padding:22px;
+  box-shadow:0 18px 48px rgba(16,20,29,.08);
+}
+.sectionHead.compact{margin-bottom:16px}
+.wellnessProductGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.wellnessProductGrid article{
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:#fbf5ed;
+  padding:16px;
+}
+.wellnessProductGrid b{font-size:17px}
+.wellnessProductGrid p{color:var(--muted);margin:7px 0 0;line-height:1.42}
+.doctorColumn h3{font-size:30px;line-height:1.05;letter-spacing:-.04em;margin:14px 0}
+.doctorColumn p,.doctorColumn li{color:var(--muted);line-height:1.55}
+.doctorColumn ul{padding-left:20px}
+.doctorColumn small{display:block;color:#8a7280;border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+@media(max-width:960px){
+  .wellnessHero,.wellnessLayout{grid-template-columns:1fr}
+  .wellnessGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:700px){
+  .wellnessHero{padding:24px;border-radius:28px}
+  .wellnessGrid,.wellnessProductGrid{grid-template-columns:1fr}
+  .wellnessHeroActions{display:grid}
+}
+
+
+/* v10.1 — Catálogo, combos, casas prontas e wellness sem CTAs duplicados */
+.journeySuiteGrid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+.wellnessHero{grid-template-columns:minmax(0,1fr) minmax(300px,500px)}
+.wellnessHero p{margin-bottom:0}
+.wellnessCardImage{background:#fffdf9}
+@media(max-width:960px){.journeySuiteGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:700px){.journeySuiteGrid{grid-template-columns:1fr!important}}
+
+
+/* v10.2 — Check-in Wellness em janela específica */
+.wellnessJourneyCard{
+  position:relative;
+  cursor:default!important;
+}
+.wellnessOpenButton{
+  width:100%;
+  margin-top:14px;
+  min-height:46px;
+  border-radius:16px;
+}
+.wellnessCardImage{
+  cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.wellnessCardImage:hover{
+  transform:translateY(-2px);
+  box-shadow:0 22px 48px rgba(16,20,29,.16);
+}
+.wellnessModalCard{
+  width:min(1040px,100%)!important;
+}
+.wellnessModalHero{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(260px,420px);
+  gap:20px;
+  align-items:center;
+  padding:22px;
+  border-radius:26px;
+  background:linear-gradient(135deg,#111721 0%,#1b2831 54%,#41623f 100%);
+  color:#fff;
+}
+.wellnessModalHero h2{
+  margin:6px 0 10px;
+  font-size:clamp(30px,4.5vw,56px);
+  line-height:1;
+  letter-spacing:-.055em;
+}
+.wellnessModalHero p{
+  margin:0;
+  color:rgba(255,255,255,.78);
+  line-height:1.55;
+}
+.wellnessModalHero img{
+  width:100%;
+  border-radius:22px;
+  background:#fff;
+  box-shadow:0 22px 56px rgba(0,0,0,.24);
+}
+.wellnessModalGrid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin-top:16px;
+}
+.wellnessModalItem{
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:16px;
+  background:#fffdf9;
+}
+.wellnessModalItem span{
+  display:inline-flex;
+  width:36px;
+  height:36px;
+  border-radius:13px;
+  align-items:center;
+  justify-content:center;
+  background:#fff1e8;
+  color:var(--orange);
+  font-weight:950;
+  margin-bottom:10px;
+}
+.wellnessModalItem h3{margin:0 0 7px;font-size:18px}
+.wellnessModalItem p{margin:0;color:var(--muted);line-height:1.42}
+.wellnessModalTwo{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:14px;
+  margin-top:14px;
+}
+.wellnessDoctorBox,.wellnessProductsBox{
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:18px;
+  background:linear-gradient(180deg,#fffdf9,#fbf4eb);
+}
+.wellnessDoctorBox h3,.wellnessProductsBox h3{margin:8px 0 10px;font-size:24px;line-height:1.05}
+.wellnessDoctorBox p,.wellnessDoctorBox li,.wellnessProductsBox p{color:var(--muted);line-height:1.5}
+.wellnessDoctorBox ul{padding-left:18px;margin-bottom:0}
+.wellnessProductPills{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.wellnessProductPills span{
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:8px 11px;
+  background:#fff;
+  font-weight:800;
+  color:#5e6775;
+}
+@media(max-width:820px){
+  .wellnessModalHero,.wellnessModalTwo{grid-template-columns:1fr}
+  .wellnessModalGrid{grid-template-columns:1fr}
+}
+
+
+/* v10.3 — wellness dedicada, teaser na principal e loja wellness */
+.wellnessOfferMini{display:grid;gap:10px;margin-top:14px;padding:16px;border-radius:22px;background:linear-gradient(180deg,#fffdf9,#fbf3ea);border:1px solid var(--line);box-shadow:0 14px 36px rgba(16,20,29,.08)}
+.wellnessOfferMini .offerTop{display:flex;align-items:center;gap:14px}
+.wellnessOfferMini .offerTop img{width:76px;height:76px;object-fit:contain;border-radius:18px;background:#fff;border:1px solid var(--line);padding:10px;box-shadow:0 10px 24px rgba(16,20,29,.08)}
+.wellnessOfferMini h4{margin:0;font-size:18px;line-height:1.08}
+.wellnessOfferMini p{margin:0;color:var(--muted);line-height:1.42}
+.wellnessOfferMini .priceRow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.wellnessOfferMini .priceRow b{font-size:24px;color:var(--orange);letter-spacing:-.03em}
+.wellnessJourneyCard .wellnessCardImage{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:22px;border:1px solid var(--line);background:#f7f1e9;margin-top:8px}
+.wellnessTeaserCard{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:18px;align-items:center;padding:26px;border-radius:30px;background:linear-gradient(180deg,#fffdf9,#fbf3ea);border:1px solid var(--line);box-shadow:var(--shadow)}
+.wellnessTeaserActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.wellnessFeaturedProduct{padding:20px;border-radius:24px;background:#fff;border:1px solid var(--line);box-shadow:0 18px 44px rgba(16,20,29,.08);display:grid;gap:12px}
+.wellnessFeaturedProduct img{width:110px;max-width:100%;height:auto;object-fit:contain;border-radius:18px;background:#fff;padding:10px;border:1px solid var(--line)}
+.wellnessFeaturedProduct h3{margin:0;font-size:24px;line-height:1.02}
+.wellnessFeaturedProduct p{margin:0;color:var(--muted);line-height:1.45}
+.wellnessFeaturedProduct .price{font-size:30px;color:var(--orange)}
+.wellnessStoreGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:22px}
+.wellnessStoreCard{padding:18px;border-radius:24px;background:#fff;border:1px solid var(--line);box-shadow:0 18px 44px rgba(16,20,29,.08);display:grid;gap:10px}
+.wellnessStoreCard.featured{grid-column:span 2;grid-template-columns:180px minmax(0,1fr);align-items:center;background:linear-gradient(180deg,#fffdf9,#fbf3ea)}
+.wellnessStoreCard .brandLogo{width:100%;max-width:180px;height:auto;object-fit:contain;border-radius:20px;background:#fff;padding:14px;border:1px solid var(--line)}
+.wellnessStoreCard .productPreview{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px;border:1px solid var(--line);background:#f7f1e9}
+.wellnessStoreCard h4{margin:0;font-size:20px;line-height:1.06}
+.wellnessStoreCard p{margin:0;color:var(--muted);line-height:1.45}
+.wellnessStoreCard .meta{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.wellnessStoreCard .meta b{font-size:22px;color:var(--orange);letter-spacing:-.03em}
+.wellnessStoreCard ul{margin:0;padding-left:18px;color:var(--muted)}
+.wellnessModalHero img{aspect-ratio:16/10;object-fit:cover}
+@media(max-width:980px){
+  .wellnessTeaserCard{grid-template-columns:1fr}
+  .wellnessStoreCard.featured{grid-column:auto;grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  .wellnessOfferMini .offerTop{align-items:flex-start}
+  .wellnessOfferMini .offerTop img{width:64px;height:64px}
+  .wellnessStoreGrid{grid-template-columns:1fr}
+  .wellnessStoreCard.featured{grid-column:auto;grid-template-columns:1fr}
+  .wellnessFeaturedProduct{padding:18px}
+  .wellnessTeaserCard{padding:22px}
+}
+
+
+/* v10.4 — premium wellness patch */
+.wellnessJourneyCard,.wellnessTeaserCard,.wellnessStoreCard.featured,.wellnessFeaturedProduct{position:relative;overflow:hidden}
+.wellnessJourneyCard:before,.wellnessTeaserCard:before,.wellnessStoreCard.featured:before,.wellnessFeaturedProduct:before{content:"";position:absolute;inset:auto -10% -35% auto;width:280px;height:280px;background:radial-gradient(circle,rgba(243,111,47,.12),transparent 68%);pointer-events:none}
+.wellnessJourneyCard .wellnessCardImage,.wellnessModalHero img{display:block;box-shadow:0 24px 64px rgba(16,20,29,.18)}
+.wellnessOfferMini .offerTop img,.wellnessFeaturedProduct img,.wellnessStoreCard .brandLogo{display:block;background:#fff;border-radius:22px;box-shadow:0 18px 44px rgba(16,20,29,.12)}
+.wellnessFeaturedProduct{background:linear-gradient(180deg,#fffdf9,#f9f1e7)}
+.wellnessModalHero{background:linear-gradient(135deg,#fffdf9 0%,#f8f1e7 55%,#eef6ef 100%);border-radius:28px;padding:20px;border:1px solid var(--line)}
+.wellnessStoreCard.featured{border-color:rgba(243,111,47,.28);box-shadow:0 22px 64px rgba(16,20,29,.11)}
+.wellnessModalTwo .wellnessProductsBox,.wellnessModalTwo .wellnessDoctorBox{background:linear-gradient(180deg,#fffdf9,#fbf4ea)}
