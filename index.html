@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v10.2 Check-in Wellness</title>
+<title>Futura Casa | v10.3 Wellness Separada</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -1234,6 +1234,47 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
   .wellnessModalGrid{grid-template-columns:1fr}
 }
 
+
+/* v10.3 — wellness dedicada, teaser na principal e loja wellness */
+.wellnessOfferMini{display:grid;gap:10px;margin-top:14px;padding:16px;border-radius:22px;background:linear-gradient(180deg,#fffdf9,#fbf3ea);border:1px solid var(--line);box-shadow:0 14px 36px rgba(16,20,29,.08)}
+.wellnessOfferMini .offerTop{display:flex;align-items:center;gap:14px}
+.wellnessOfferMini .offerTop img{width:76px;height:76px;object-fit:contain;border-radius:18px;background:#fff;border:1px solid var(--line);padding:10px;box-shadow:0 10px 24px rgba(16,20,29,.08)}
+.wellnessOfferMini h4{margin:0;font-size:18px;line-height:1.08}
+.wellnessOfferMini p{margin:0;color:var(--muted);line-height:1.42}
+.wellnessOfferMini .priceRow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.wellnessOfferMini .priceRow b{font-size:24px;color:var(--orange);letter-spacing:-.03em}
+.wellnessJourneyCard .wellnessCardImage{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:22px;border:1px solid var(--line);background:#f7f1e9;margin-top:8px}
+.wellnessTeaserCard{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:18px;align-items:center;padding:26px;border-radius:30px;background:linear-gradient(180deg,#fffdf9,#fbf3ea);border:1px solid var(--line);box-shadow:var(--shadow)}
+.wellnessTeaserActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.wellnessFeaturedProduct{padding:20px;border-radius:24px;background:#fff;border:1px solid var(--line);box-shadow:0 18px 44px rgba(16,20,29,.08);display:grid;gap:12px}
+.wellnessFeaturedProduct img{width:110px;max-width:100%;height:auto;object-fit:contain;border-radius:18px;background:#fff;padding:10px;border:1px solid var(--line)}
+.wellnessFeaturedProduct h3{margin:0;font-size:24px;line-height:1.02}
+.wellnessFeaturedProduct p{margin:0;color:var(--muted);line-height:1.45}
+.wellnessFeaturedProduct .price{font-size:30px;color:var(--orange)}
+.wellnessStoreGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:22px}
+.wellnessStoreCard{padding:18px;border-radius:24px;background:#fff;border:1px solid var(--line);box-shadow:0 18px 44px rgba(16,20,29,.08);display:grid;gap:10px}
+.wellnessStoreCard.featured{grid-column:span 2;grid-template-columns:180px minmax(0,1fr);align-items:center;background:linear-gradient(180deg,#fffdf9,#fbf3ea)}
+.wellnessStoreCard .brandLogo{width:100%;max-width:180px;height:auto;object-fit:contain;border-radius:20px;background:#fff;padding:14px;border:1px solid var(--line)}
+.wellnessStoreCard .productPreview{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px;border:1px solid var(--line);background:#f7f1e9}
+.wellnessStoreCard h4{margin:0;font-size:20px;line-height:1.06}
+.wellnessStoreCard p{margin:0;color:var(--muted);line-height:1.45}
+.wellnessStoreCard .meta{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.wellnessStoreCard .meta b{font-size:22px;color:var(--orange);letter-spacing:-.03em}
+.wellnessStoreCard ul{margin:0;padding-left:18px;color:var(--muted)}
+.wellnessModalHero img{aspect-ratio:16/10;object-fit:cover}
+@media(max-width:980px){
+  .wellnessTeaserCard{grid-template-columns:1fr}
+  .wellnessStoreCard.featured{grid-column:auto;grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  .wellnessOfferMini .offerTop{align-items:flex-start}
+  .wellnessOfferMini .offerTop img{width:64px;height:64px}
+  .wellnessStoreGrid{grid-template-columns:1fr}
+  .wellnessStoreCard.featured{grid-column:auto;grid-template-columns:1fr}
+  .wellnessFeaturedProduct{padding:18px}
+  .wellnessTeaserCard{padding:22px}
+}
+
 </style>
 </head>
 <body>
@@ -1243,13 +1284,13 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
       <img class="brandMain" src="assets/img/img-002-2bbccd1661190fb9.png" alt="Futura Casa">
     </a>
     <nav class="nav">
-      <a href="#jornada" class="active">Jornada</a><a href="#wellness">Wellness</a><a href="#mapa">Mapa</a><a href="#lotes">Lotes</a><a href="#casas">Casas</a><a href="#combos">Combos</a><a href="#adicionais">Adicionais</a><a href="#bandeja">Simulação</a><a href="#atendimento">Atendimento</a><a href="#" id="openLotRegistryMenu">Cadastrar lote</a>
+      <a href="#jornada" class="active">Jornada</a><a href="#" data-open-wellness-modal>Wellness</a><a href="#mapa">Mapa</a><a href="#lotes">Lotes</a><a href="#casas">Casas</a><a href="#combos">Combos</a><a href="#adicionais">Adicionais</a><a href="#bandeja">Simulação</a><a href="#atendimento">Atendimento</a><a href="#" id="openLotRegistryMenu">Cadastrar lote</a>
     </nav>
     <a class="btn primary" href="#bandeja">Ver minha escolha</a>
     <button class="hamb" id="hamb">☰</button>
   </div>
   <nav class="mobile" id="mobile">
-    <a href="#jornada">Jornada</a><a href="#wellness">Wellness</a><a href="#mapa">Mapa</a><a href="#lotes">Lotes</a><a href="#casas">Casas</a><a href="#combos">Combos</a><a href="#adicionais">Adicionais</a><a href="#bandeja">Simulação</a><a href="#atendimento">Atendimento</a><a href="#" id="openLotRegistryMobile">Cadastrar lote</a>
+    <a href="#jornada">Jornada</a><a href="#" data-open-wellness-modal>Wellness</a><a href="#mapa">Mapa</a><a href="#lotes">Lotes</a><a href="#casas">Casas</a><a href="#combos">Combos</a><a href="#adicionais">Adicionais</a><a href="#bandeja">Simulação</a><a href="#atendimento">Atendimento</a><a href="#" id="openLotRegistryMobile">Cadastrar lote</a>
   </nav>
 </header>
 
@@ -1303,59 +1344,43 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
       </button>
       <article class="journeyServiceCard wellnessJourneyCard">
         <span class="serviceIcon">⌁</span>
-        <div><h3>Check-in Wellness</h3><p>Abra uma janela exclusiva com dicas, produtos wellness e curadoria de qualidade de vida.</p></div>
-        <button class="btn primary wellnessOpenButton" type="button" data-open-wellness-modal>Abrir Check-in Wellness</button>
+        <div><h3>Check-in Wellness</h3><p>Abra uma janela dedicada de bem-estar com curadoria, produtos, conteúdo e um acesso rápido para a página exclusiva wellness.</p></div>
+        <button class="btn primary wellnessOpenButton" type="button" data-open-wellness-modal>Abrir página Wellness</button>
         <img class="wellnessCardImage" src="assets/img/wellness-futura-casa.png" alt="Preview Wellness Futura Casa" role="button" tabindex="0" data-open-wellness-modal>
+        <div class="wellnessOfferMini">
+          <div class="offerTop">
+            <img src="assets/img/arquitetura-dos-sentidos-logo.png" alt="Arquitetura dos Sentidos">
+            <div>
+              <span class="tag">Produto wellness em oferta</span>
+              <h4>Arquitetura dos Sentidos • Kit Aromaterapia</h4>
+              <p>Difusor cerâmico, blend relaxante e curadoria para ambientes de acolhimento e bem-estar.</p>
+            </div>
+          </div>
+          <div class="priceRow"><b>R$ 289,00</b><button class="btn primary small" type="button" data-open-wellness-modal>Ver na loja wellness</button></div>
+        </div>
       </article>
     </div>
     <div class="reservationPanel" id="reservationPanel"></div>
   </section>
 
 
-  <section class="wrap section wellnessPage" id="wellness">
-    <div class="wellnessHero">
+  <section class="wrap section" id="wellness">
+    <div class="wellnessTeaserCard">
       <div>
         <div class="eyebrow">Check-in Wellness</div>
-        <h2>Bem-estar para morar melhor.</h2>
-        <p>Uma curadoria Futura Casa com ideias simples para transformar casa, rotina e lote em uma experiência de vida mais saudável, confortável e conectada à natureza.</p>
+        <h2>Wellness em página dedicada.</h2>
+        <p class="muted">Na página principal, mantemos apenas o acesso rápido ao universo wellness e um produto em destaque. A experiência completa abre em uma janela exclusiva com imagem ilustrativa, coluna médica e loja de bem-estar.</p>
+        <div class="wellnessTeaserActions">
+          <button class="btn primary" type="button" data-open-wellness-modal>Abrir página wellness</button>
+        </div>
       </div>
-      <img src="assets/img/wellness-futura-casa.png" alt="Wellness Futura Casa">
-    </div>
-
-    <div class="wellnessGrid" id="wellnessTips">
-      <article class="wellnessTip"><span>01</span><h3>Luz natural pela manhã</h3><p>Priorize ambientes com claridade, ventilação e abertura para áreas verdes. A luz ajuda a organizar a rotina e melhora a sensação de energia.</p></article>
-      <article class="wellnessTip"><span>02</span><h3>Pausa verde diária</h3><p>Reserve alguns minutos para caminhar, respirar e observar o entorno. Jardins, varandas e áreas verdes tornam a casa mais restauradora.</p></article>
-      <article class="wellnessTip"><span>03</span><h3>Sono e silêncio</h3><p>Pense na implantação da casa considerando privacidade, menor ruído e boa circulação de ar nos quartos.</p></article>
-      <article class="wellnessTip"><span>04</span><h3>Movimento na rotina</h3><p>Escolha caminhos agradáveis para caminhada, bicicleta e deslocamentos curtos dentro do empreendimento.</p></article>
-    </div>
-
-    <div class="wellnessLayout">
-      <section class="wellnessProducts" id="wellnessProducts">
-        <div class="sectionHead compact">
-          <div><div class="eyebrow">Produtos wellness</div><h2>Itens que elevam a experiência da casa.</h2><p class="muted">Sugestões para composição do projeto e dos adicionais.</p></div>
-        </div>
-        <div class="wellnessProductGrid">
-          <article><b>Projeto de paisagismo</b><p>Jardim frontal, espécies adequadas ao clima e pontos de contemplação.</p></article>
-          <article><b>Iluminação de conforto</b><p>Luz quente, cenas noturnas e iluminação funcional para circulação.</p></article>
-          <article><b>Água e ar</b><p>Espaço para filtro, purificação, ventilação cruzada e áreas bem arejadas.</p></article>
-          <article><b>Espaço gourmet saudável</b><p>Ambiente para refeições em família, horta e preparo de alimentos frescos.</p></article>
-          <article><b>Kit energia solar</b><p>Eficiência energética e previsibilidade de consumo para a casa.</p></article>
-          <article><b>Academia compacta</b><p>Canto para alongamento, equipamentos leves e rotina de movimento.</p></article>
-        </div>
-      </section>
-
-      <aside class="doctorColumn">
-        <span class="tag">Coluna do médico</span>
-        <h3>Qualidade de vida começa no desenho da rotina.</h3>
-        <p><b>Dr. Rafael Monteiro, médico convidado</b></p>
-        <p>Uma casa que favorece sono, luz natural, ventilação, movimento e convivência tende a facilitar escolhas melhores no dia a dia. Bem-estar não depende apenas de grandes mudanças: pequenos rituais consistentes já transformam a experiência de morar.</p>
-        <ul>
-          <li>Tenha horários mais regulares para sono e refeições.</li>
-          <li>Inclua pausas de respiração e caminhada.</li>
-          <li>Prefira espaços iluminados, arejados e com contato visual com o verde.</li>
-        </ul>
-        <small>Conteúdo educativo. Para orientações individuais, consulte um profissional de saúde.</small>
-      </aside>
+      <div class="wellnessFeaturedProduct">
+        <span class="tag">Oferta wellness</span>
+        <img src="assets/img/arquitetura-dos-sentidos-logo.png" alt="Arquitetura dos Sentidos">
+        <h3>Kit Aromaterapia • Arquitetura dos Sentidos</h3>
+        <p>Aromaterapia residencial com difusor, óleos essenciais e uma proposta de atmosfera sensorial para receber, relaxar e dormir melhor.</p>
+        <div class="price">R$ 289,00</div>
+      </div>
     </div>
   </section>
 
@@ -5052,6 +5077,47 @@ function proposalPdfHtml(){
 .mapLotRow .rowMeta span:last-child{background:#fff6ee;color:var(--orange);border-color:rgba(243,111,47,.22)}
 .mapListCount strong{color:var(--orange)}
 
+
+/* v10.3 — wellness dedicada, teaser na principal e loja wellness */
+.wellnessOfferMini{display:grid;gap:10px;margin-top:14px;padding:16px;border-radius:22px;background:linear-gradient(180deg,#fffdf9,#fbf3ea);border:1px solid var(--line);box-shadow:0 14px 36px rgba(16,20,29,.08)}
+.wellnessOfferMini .offerTop{display:flex;align-items:center;gap:14px}
+.wellnessOfferMini .offerTop img{width:76px;height:76px;object-fit:contain;border-radius:18px;background:#fff;border:1px solid var(--line);padding:10px;box-shadow:0 10px 24px rgba(16,20,29,.08)}
+.wellnessOfferMini h4{margin:0;font-size:18px;line-height:1.08}
+.wellnessOfferMini p{margin:0;color:var(--muted);line-height:1.42}
+.wellnessOfferMini .priceRow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.wellnessOfferMini .priceRow b{font-size:24px;color:var(--orange);letter-spacing:-.03em}
+.wellnessJourneyCard .wellnessCardImage{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:22px;border:1px solid var(--line);background:#f7f1e9;margin-top:8px}
+.wellnessTeaserCard{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:18px;align-items:center;padding:26px;border-radius:30px;background:linear-gradient(180deg,#fffdf9,#fbf3ea);border:1px solid var(--line);box-shadow:var(--shadow)}
+.wellnessTeaserActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.wellnessFeaturedProduct{padding:20px;border-radius:24px;background:#fff;border:1px solid var(--line);box-shadow:0 18px 44px rgba(16,20,29,.08);display:grid;gap:12px}
+.wellnessFeaturedProduct img{width:110px;max-width:100%;height:auto;object-fit:contain;border-radius:18px;background:#fff;padding:10px;border:1px solid var(--line)}
+.wellnessFeaturedProduct h3{margin:0;font-size:24px;line-height:1.02}
+.wellnessFeaturedProduct p{margin:0;color:var(--muted);line-height:1.45}
+.wellnessFeaturedProduct .price{font-size:30px;color:var(--orange)}
+.wellnessStoreGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:22px}
+.wellnessStoreCard{padding:18px;border-radius:24px;background:#fff;border:1px solid var(--line);box-shadow:0 18px 44px rgba(16,20,29,.08);display:grid;gap:10px}
+.wellnessStoreCard.featured{grid-column:span 2;grid-template-columns:180px minmax(0,1fr);align-items:center;background:linear-gradient(180deg,#fffdf9,#fbf3ea)}
+.wellnessStoreCard .brandLogo{width:100%;max-width:180px;height:auto;object-fit:contain;border-radius:20px;background:#fff;padding:14px;border:1px solid var(--line)}
+.wellnessStoreCard .productPreview{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px;border:1px solid var(--line);background:#f7f1e9}
+.wellnessStoreCard h4{margin:0;font-size:20px;line-height:1.06}
+.wellnessStoreCard p{margin:0;color:var(--muted);line-height:1.45}
+.wellnessStoreCard .meta{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.wellnessStoreCard .meta b{font-size:22px;color:var(--orange);letter-spacing:-.03em}
+.wellnessStoreCard ul{margin:0;padding-left:18px;color:var(--muted)}
+.wellnessModalHero img{aspect-ratio:16/10;object-fit:cover}
+@media(max-width:980px){
+  .wellnessTeaserCard{grid-template-columns:1fr}
+  .wellnessStoreCard.featured{grid-column:auto;grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  .wellnessOfferMini .offerTop{align-items:flex-start}
+  .wellnessOfferMini .offerTop img{width:64px;height:64px}
+  .wellnessStoreGrid{grid-template-columns:1fr}
+  .wellnessStoreCard.featured{grid-column:auto;grid-template-columns:1fr}
+  .wellnessFeaturedProduct{padding:18px}
+  .wellnessTeaserCard{padding:22px}
+}
+
 </style>
 </head>
 <body>
@@ -5439,8 +5505,8 @@ function openWellnessModal(){
     <div class="modalHead">
       <div>
         <span class="tag">Check-in Wellness</span>
-        <h2>Bem-estar Futura Casa</h2>
-        <p class="muted">Uma janela exclusiva para conectar moradia, rotina e qualidade de vida.</p>
+        <h2>Página Wellness Futura Casa</h2>
+        <p class="muted">Uma página dedicada de bem-estar, qualidade de vida e produtos selecionados para a casa.</p>
       </div>
       <button class="btn light small" data-close-modal>Fechar</button>
     </div>
@@ -5448,49 +5514,83 @@ function openWellnessModal(){
       <div class="wellnessModalHero">
         <div>
           <div class="eyebrow">Check-in Wellness</div>
-          <h2>Moradia pensada para viver melhor.</h2>
-          <p>Explore dicas práticas, produtos de bem-estar e orientações de qualidade de vida para transformar a escolha do lote e da casa em uma experiência mais saudável.</p>
+          <h2>Bem-estar para morar melhor.</h2>
+          <p>Uma página exclusiva da Futura Casa com conteúdo de bem-estar, uma loja curada e soluções que conectam casa, natureza, rotina e qualidade de vida. Explore ideias para viver com mais conforto, presença e saúde.</p>
         </div>
-        <img src="assets/img/wellness-futura-casa.png" alt="Wellness Futura Casa">
+        <img src="assets/img/wellness-futura-casa.png" alt="Casal correndo em parque, imagem ilustrativa da seção wellness">
       </div>
 
       <div class="wellnessModalGrid">
-        <article class="wellnessModalItem"><span>01</span><h3>Luz natural</h3><p>Priorize ambientes que recebam claridade pela manhã e favoreçam uma rotina mais ativa.</p></article>
-        <article class="wellnessModalItem"><span>02</span><h3>Contato com verde</h3><p>Varandas, jardins e áreas verdes ajudam a criar pausas restauradoras no dia a dia.</p></article>
-        <article class="wellnessModalItem"><span>03</span><h3>Sono e conforto</h3><p>Pense na implantação da casa para privacidade, silêncio, ventilação e temperatura agradável.</p></article>
+        <article class="wellnessModalItem"><span>01</span><h3>Movimento e natureza</h3><p>O contato com áreas verdes e percursos de caminhada ajuda a transformar o cotidiano da casa em uma rotina mais ativa e restauradora.</p></article>
+        <article class="wellnessModalItem"><span>02</span><h3>Rotina de autocuidado</h3><p>Luz natural, silêncio, ventilação, aromas e organização dos ambientes apoiam sono melhor, foco e relaxamento.</p></article>
+        <article class="wellnessModalItem"><span>03</span><h3>Curadoria de produtos</h3><p>A Futura Casa pode incorporar soluções wellness ao projeto, ao combo e aos adicionais da proposta comercial.</p></article>
       </div>
 
       <div class="wellnessModalTwo">
-        <section class="wellnessProductsBox">
-          <span class="tag">Produtos wellness</span>
-          <h3>Itens para elevar a experiência da casa</h3>
-          <p>Algumas soluções podem ser incorporadas ao projeto, ao combo ou aos adicionais da proposta.</p>
-          <div class="wellnessProductPills">
-            <span>Paisagismo</span>
-            <span>Iluminação de conforto</span>
-            <span>Energia solar</span>
-            <span>Horta gourmet</span>
-            <span>Academia compacta</span>
-            <span>Ventilação cruzada</span>
-          </div>
-        </section>
-
         <aside class="wellnessDoctorBox">
           <span class="tag">Coluna do médico</span>
-          <h3>Qualidade de vida começa na rotina.</h3>
-          <p><b>Dr. Rafael Monteiro, médico convidado</b></p>
-          <p>Uma casa que favorece luz natural, sono, movimento e convivência facilita escolhas saudáveis sem depender de grandes mudanças.</p>
+          <h3>Qualidade de vida se constrói no dia a dia.</h3>
+          <p><b>Dr. Marcelo Viana, médico convidado</b></p>
+          <p>Quando a moradia favorece movimento, descanso, convivência, verde e rituais simples de autocuidado, fica muito mais fácil sustentar escolhas saudáveis. O ambiente não resolve tudo, mas ele pode facilitar muito a vida.</p>
           <ul>
-            <li>Crie pequenos rituais diários de pausa.</li>
-            <li>Valorize caminhada e contato visual com o verde.</li>
-            <li>Planeje ambientes para descanso e silêncio.</li>
+            <li>Reserve horários consistentes para sono, luz natural e refeições.</li>
+            <li>Inclua pequenas caminhadas e pausas de respiração ao longo do dia.</li>
+            <li>Prefira ambientes com ventilação, vista para o verde e estímulos sensoriais equilibrados.</li>
           </ul>
         </aside>
+
+        <section class="wellnessProductsBox">
+          <span class="tag">Loja wellness</span>
+          <h3>Itens que podem ser vendidos neste espaço</h3>
+          <p>Produtos e serviços com potencial comercial dentro da jornada wellness da Futura Casa.</p>
+          <div class="wellnessStoreGrid">
+            <article class="wellnessStoreCard featured">
+              <img class="brandLogo" src="assets/img/arquitetura-dos-sentidos-logo.png" alt="Logomarca Arquitetura dos Sentidos">
+              <div>
+                <span class="tag">Produto em destaque</span>
+                <h4>Arquitetura dos Sentidos • Aromaterapia residencial</h4>
+                <p>Marca autoral voltada ao bem-estar sensorial da casa. Kit com difusor, óleos essenciais e orientações de uso para criar atmosferas de acolhimento, foco e relaxamento.</p>
+                <div class="meta"><b>R$ 289,00</b><span class="tag">Oferta wellness</span></div>
+                <ul>
+                  <li>Difusor cerâmico decorativo</li>
+                  <li>Blend Calmaria e blend Vitalidade</li>
+                  <li>Guia rápido de uso por ambiente</li>
+                </ul>
+              </div>
+            </article>
+            <article class="wellnessStoreCard">
+              <h4>Curadoria de paisagismo biofílico</h4>
+              <p>Projeto para jardim, varanda ou recantos de contemplação integrados ao lifestyle do lote e da casa.</p>
+              <div class="meta"><b>R$ 3.900,00</b><span class="tag">Serviço</span></div>
+            </article>
+            <article class="wellnessStoreCard">
+              <h4>Kit iluminação circadiana</h4>
+              <p>Luminárias, cenas de luz e orientação para conforto visual, acolhimento noturno e melhor leitura de rotina.</p>
+              <div class="meta"><b>R$ 2.450,00</b><span class="tag">Casa inteligente</span></div>
+            </article>
+            <article class="wellnessStoreCard">
+              <h4>Horta gourmet saudável</h4>
+              <p>Kit para cultivo doméstico com irrigação básica, ervas aromáticas e consultoria de implantação.</p>
+              <div class="meta"><b>R$ 1.290,00</b><span class="tag">Lifestyle</span></div>
+            </article>
+            <article class="wellnessStoreCard">
+              <h4>Purificação de água e ar</h4>
+              <p>Solução compacta para bem-estar diário com foco em respiração, hidratação e conforto ambiental.</p>
+              <div class="meta"><b>R$ 1.690,00</b><span class="tag">Bem-estar</span></div>
+            </article>
+            <article class="wellnessStoreCard">
+              <h4>Sessão de organização e rotina</h4>
+              <p>Atendimento guiado para compor hábitos de autocuidado, ambientes mais fluidos e rotina doméstica consciente.</p>
+              <div class="meta"><b>R$ 690,00</b><span class="tag">Consultoria</span></div>
+            </article>
+          </div>
+        </section>
       </div>
 
       <div class="actions">
         <button class="btn primary" data-open-assistente>Falar com assistente</button>
-        <a class="btn primary" href="#lotes" data-close-modal>Ver lotes em oferta</a>
+        <a class="btn primary" href="#lotes" data-close-modal>Reservar oportunidade</a>
+        <a class="btn primary" href="#mapa" data-close-modal>Catálogo de lotes</a>
       </div>
     </div>
   `, 'wellnessModalCard');
