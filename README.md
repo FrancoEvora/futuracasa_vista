@@ -1,9 +1,18 @@
-Futura Casa v10.3 — Wellness Separada
+# Futura Casa v10.5 — GitHub Light
 
-Principais ajustes:
-- Wellness removida da página principal como seção completa; agora há apenas acesso rápido + produto em oferta.
-- Página wellness dedicada em janela/modal exclusiva.
-- Nova imagem ilustrativa realista da seção wellness.
-- Inclusão da marca Arquitetura dos Sentidos e oferta de aromaterapia.
-- Inclusão de loja wellness com itens comercializáveis.
-- Catálogo de lotes direciona ao mapa interativo; reservar oportunidade direciona aos lotes em oferta.
+Versão organizada para GitHub/Vercel.
+
+Estrutura:
+- `index.html` leve, sem imagens em base64
+- `assets/css/app.css`
+- `assets/js/app.js`
+- `assets/img/` com todas as imagens usadas pela plataforma
+
+Para publicar:
+1. Suba todo o conteúdo desta pasta para o repositório.
+2. Mantenha `index.html` na raiz.
+3. Mantenha a pasta `assets` na raiz.
+4. Na Vercel, use projeto estático, sem build command.
+
+Observação:
+A versão anterior usava imagens embutidas no HTML para evitar falhas de carregamento; esta versão separa os arquivos corretamente para reduzir o tamanho do `index.html`.
