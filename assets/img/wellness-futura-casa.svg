@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fff7ef"/>
+      <stop offset="0.55" stop-color="#eaf3e3"/>
+      <stop offset="1" stop-color="#d7e8d1"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="72%" cy="25%" r="38%">
+      <stop offset="0" stop-color="#ffb176" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#ffb176" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#151922" flood-opacity=".16"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="720" rx="54" fill="url(#bg)"/>
+  <rect width="1200" height="720" rx="54" fill="url(#sun)"/>
+  <path d="M0 560 C170 500 210 610 360 555 C520 496 562 383 742 429 C934 477 1016 398 1200 334 L1200 720 L0 720 Z" fill="#8cbf7a" opacity=".34"/>
+  <path d="M0 621 C210 567 284 646 444 604 C638 553 672 482 844 508 C1030 536 1090 493 1200 457 L1200 720 L0 720 Z" fill="#477a48" opacity=".22"/>
+  <g filter="url(#shadow)">
+    <rect x="92" y="100" width="430" height="470" rx="40" fill="#fffdf9" opacity=".92"/>
+    <path d="M158 274 L306 168 L454 274" fill="none" stroke="#f36f2f" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M202 264 v184 h208 V264" fill="none" stroke="#152033" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="306" cy="394" r="48" fill="#f36f2f" opacity=".12"/>
+    <path d="M252 426 C292 368 318 368 358 426" fill="none" stroke="#477a48" stroke-width="16" stroke-linecap="round"/>
+    <path d="M306 318 C285 292 283 258 306 235 C329 258 327 292 306 318Z" fill="#477a48"/>
+    <text x="145" y="500" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="800" fill="#151922">Wellness em casa</text>
+    <text x="145" y="538" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#697280">Rotina, natureza e conforto</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="594" y="108" width="470" height="310" rx="42" fill="#fffdf9" opacity=".88"/>
+    <circle cx="704" cy="250" r="78" fill="#fff2e9"/>
+    <path d="M704 202 v96" stroke="#f36f2f" stroke-width="18" stroke-linecap="round"/>
+    <path d="M650 272 C684 224 724 224 758 272" fill="none" stroke="#477a48" stroke-width="18" stroke-linecap="round"/>
+    <path d="M826 202 C875 154 933 174 948 224 C898 241 855 238 826 202Z" fill="#77a765" opacity=".85"/>
+    <path d="M805 285 C862 247 930 268 970 320 C902 348 846 336 805 285Z" fill="#477a48" opacity=".78"/>
+    <text x="610" y="489" font-family="Arial, Helvetica, sans-serif" font-size="50" font-weight="900" fill="#151922">Check-in Wellness</text>
+    <text x="610" y="536" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#697280">Bem-estar antes da proposta.</text>
+  </g>
+  <g opacity=".9">
+    <circle cx="1004" cy="115" r="46" fill="#f36f2f" opacity=".18"/>
+    <circle cx="1037" cy="104" r="20" fill="#f36f2f" opacity=".30"/>
+    <path d="M103 656 C172 632 201 650 266 626" fill="none" stroke="#fff" stroke-opacity=".65" stroke-width="10" stroke-linecap="round"/>
+    <path d="M772 630 C858 590 910 622 1022 578" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="10" stroke-linecap="round"/>
+  </g>
+</svg>

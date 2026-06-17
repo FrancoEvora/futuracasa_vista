@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v10.1 Catálogo Wellness</title>
+<title>Futura Casa | v10.2 Check-in Wellness</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -916,7 +916,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 
 
 
-/* v10.1 - PDF com imagens e mapa mais sofisticado */
+/* v10.2 - PDF com imagens e mapa mais sofisticado */
 .mapViewport{
   background:linear-gradient(180deg,#efe4d7 0%,#e5d7c6 100%)!important;
 }
@@ -1129,6 +1129,111 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 @media(max-width:960px){.journeySuiteGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:700px){.journeySuiteGrid{grid-template-columns:1fr!important}}
 
+
+/* v10.2 — Check-in Wellness em janela específica */
+.wellnessJourneyCard{
+  position:relative;
+  cursor:default!important;
+}
+.wellnessOpenButton{
+  width:100%;
+  margin-top:14px;
+  min-height:46px;
+  border-radius:16px;
+}
+.wellnessCardImage{
+  cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.wellnessCardImage:hover{
+  transform:translateY(-2px);
+  box-shadow:0 22px 48px rgba(16,20,29,.16);
+}
+.wellnessModalCard{
+  width:min(1040px,100%)!important;
+}
+.wellnessModalHero{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(260px,420px);
+  gap:20px;
+  align-items:center;
+  padding:22px;
+  border-radius:26px;
+  background:linear-gradient(135deg,#111721 0%,#1b2831 54%,#41623f 100%);
+  color:#fff;
+}
+.wellnessModalHero h2{
+  margin:6px 0 10px;
+  font-size:clamp(30px,4.5vw,56px);
+  line-height:1;
+  letter-spacing:-.055em;
+}
+.wellnessModalHero p{
+  margin:0;
+  color:rgba(255,255,255,.78);
+  line-height:1.55;
+}
+.wellnessModalHero img{
+  width:100%;
+  border-radius:22px;
+  background:#fff;
+  box-shadow:0 22px 56px rgba(0,0,0,.24);
+}
+.wellnessModalGrid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin-top:16px;
+}
+.wellnessModalItem{
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:16px;
+  background:#fffdf9;
+}
+.wellnessModalItem span{
+  display:inline-flex;
+  width:36px;
+  height:36px;
+  border-radius:13px;
+  align-items:center;
+  justify-content:center;
+  background:#fff1e8;
+  color:var(--orange);
+  font-weight:950;
+  margin-bottom:10px;
+}
+.wellnessModalItem h3{margin:0 0 7px;font-size:18px}
+.wellnessModalItem p{margin:0;color:var(--muted);line-height:1.42}
+.wellnessModalTwo{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:14px;
+  margin-top:14px;
+}
+.wellnessDoctorBox,.wellnessProductsBox{
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:18px;
+  background:linear-gradient(180deg,#fffdf9,#fbf4eb);
+}
+.wellnessDoctorBox h3,.wellnessProductsBox h3{margin:8px 0 10px;font-size:24px;line-height:1.05}
+.wellnessDoctorBox p,.wellnessDoctorBox li,.wellnessProductsBox p{color:var(--muted);line-height:1.5}
+.wellnessDoctorBox ul{padding-left:18px;margin-bottom:0}
+.wellnessProductPills{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.wellnessProductPills span{
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:8px 11px;
+  background:#fff;
+  font-weight:800;
+  color:#5e6775;
+}
+@media(max-width:820px){
+  .wellnessModalHero,.wellnessModalTwo{grid-template-columns:1fr}
+  .wellnessModalGrid{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
@@ -1196,11 +1301,12 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
         <span class="serviceIcon">✦</span>
         <div><h3>Assistente Futura Casa</h3><p>Peça ajuda para comparar lotes, simular ou falar com um especialista.</p></div>
       </button>
-      <button class="journeyServiceCard wellnessJourneyCard" type="button" data-open-checkin>
+      <article class="journeyServiceCard wellnessJourneyCard">
         <span class="serviceIcon">⌁</span>
-        <div><h3>Check-in Wellness</h3><p>Entre na página de bem-estar da Futura Casa.</p></div>
-        <img class="wellnessCardImage" src="assets/img/wellness-futura-casa.png" alt="Wellness Futura Casa">
-      </button>
+        <div><h3>Check-in Wellness</h3><p>Abra uma janela exclusiva com dicas, produtos wellness e curadoria de qualidade de vida.</p></div>
+        <button class="btn primary wellnessOpenButton" type="button" data-open-wellness-modal>Abrir Check-in Wellness</button>
+        <img class="wellnessCardImage" src="assets/img/wellness-futura-casa.png" alt="Preview Wellness Futura Casa" role="button" tabindex="0" data-open-wellness-modal>
+      </article>
     </div>
     <div class="reservationPanel" id="reservationPanel"></div>
   </section>
@@ -5327,6 +5433,69 @@ function openAssistenteModal(){
   `);
 }
 
+
+function openWellnessModal(){
+  openModal(`
+    <div class="modalHead">
+      <div>
+        <span class="tag">Check-in Wellness</span>
+        <h2>Bem-estar Futura Casa</h2>
+        <p class="muted">Uma janela exclusiva para conectar moradia, rotina e qualidade de vida.</p>
+      </div>
+      <button class="btn light small" data-close-modal>Fechar</button>
+    </div>
+    <div class="modalBody">
+      <div class="wellnessModalHero">
+        <div>
+          <div class="eyebrow">Check-in Wellness</div>
+          <h2>Moradia pensada para viver melhor.</h2>
+          <p>Explore dicas práticas, produtos de bem-estar e orientações de qualidade de vida para transformar a escolha do lote e da casa em uma experiência mais saudável.</p>
+        </div>
+        <img src="assets/img/wellness-futura-casa.png" alt="Wellness Futura Casa">
+      </div>
+
+      <div class="wellnessModalGrid">
+        <article class="wellnessModalItem"><span>01</span><h3>Luz natural</h3><p>Priorize ambientes que recebam claridade pela manhã e favoreçam uma rotina mais ativa.</p></article>
+        <article class="wellnessModalItem"><span>02</span><h3>Contato com verde</h3><p>Varandas, jardins e áreas verdes ajudam a criar pausas restauradoras no dia a dia.</p></article>
+        <article class="wellnessModalItem"><span>03</span><h3>Sono e conforto</h3><p>Pense na implantação da casa para privacidade, silêncio, ventilação e temperatura agradável.</p></article>
+      </div>
+
+      <div class="wellnessModalTwo">
+        <section class="wellnessProductsBox">
+          <span class="tag">Produtos wellness</span>
+          <h3>Itens para elevar a experiência da casa</h3>
+          <p>Algumas soluções podem ser incorporadas ao projeto, ao combo ou aos adicionais da proposta.</p>
+          <div class="wellnessProductPills">
+            <span>Paisagismo</span>
+            <span>Iluminação de conforto</span>
+            <span>Energia solar</span>
+            <span>Horta gourmet</span>
+            <span>Academia compacta</span>
+            <span>Ventilação cruzada</span>
+          </div>
+        </section>
+
+        <aside class="wellnessDoctorBox">
+          <span class="tag">Coluna do médico</span>
+          <h3>Qualidade de vida começa na rotina.</h3>
+          <p><b>Dr. Rafael Monteiro, médico convidado</b></p>
+          <p>Uma casa que favorece luz natural, sono, movimento e convivência facilita escolhas saudáveis sem depender de grandes mudanças.</p>
+          <ul>
+            <li>Crie pequenos rituais diários de pausa.</li>
+            <li>Valorize caminhada e contato visual com o verde.</li>
+            <li>Planeje ambientes para descanso e silêncio.</li>
+          </ul>
+        </aside>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" data-open-assistente>Falar com assistente</button>
+        <a class="btn primary" href="#lotes" data-close-modal>Ver lotes em oferta</a>
+      </div>
+    </div>
+  `, 'wellnessModalCard');
+}
+
 function sendAssistenteRequest(){
   const payload = {
     createdAt:new Date().toISOString(),
@@ -5448,10 +5617,9 @@ function saveCheckin(){
       openAssistenteModal();
       return;
     }
-    if(event.target.closest('[data-open-checkin]')){
+    if(event.target.closest('[data-open-checkin]') || event.target.closest('[data-open-wellness-modal]')){
       event.preventDefault();
-      document.querySelector('#wellness')?.scrollIntoView({behavior:'smooth'});
-      toast('Abrindo Check-in Wellness.');
+      openWellnessModal();
       return;
     }
     if(event.target.closest('[data-service-catalog]')){
@@ -5519,6 +5687,14 @@ function saveCheckin(){
 
   renderReservationPanel();
 })();
+
+
+document.addEventListener('keydown', (event)=>{
+  if((event.key === 'Enter' || event.key === ' ') && event.target?.matches?.('[data-open-wellness-modal]')){
+    event.preventDefault();
+    openWellnessModal();
+  }
+});
 
 </script>
 </body>
