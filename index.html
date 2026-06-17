@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v9.9 Reserva e Concierge</title>
+<title>Futura Casa | v10.0 Wellness e Assistente</title>
 <meta name="theme-color" content="#f5efe7">
 <link rel="icon" type="image/png" href="assets/img/img-001-d63b2218650763a6.png">
 <style>
@@ -916,7 +916,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 
 
 
-/* v9.9 - PDF com imagens e mapa mais sofisticado */
+/* v10.0 - PDF com imagens e mapa mais sofisticado */
 .mapViewport{
   background:linear-gradient(180deg,#efe4d7 0%,#e5d7c6 100%)!important;
 }
@@ -949,7 +949,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
 .mapListCount strong{color:var(--orange)}
 
 
-/* v9.9 — Reserva e Concierge */
+/* v9.9 — Reserva e Assistente */
 .journeySuite{padding-top:22px}
 .journeySuiteGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
 .journeyServiceCard{
@@ -1028,6 +1028,98 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
   .reserveModalGrid .full{grid-column:auto}
 }
 
+
+/* v10.0 — Wellness e Assistente */
+.wellnessJourneyCard{display:grid!important}
+.wellnessCardImage{
+  width:100%;
+  margin-top:14px;
+  border-radius:22px;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  border:1px solid rgba(17,23,33,.08);
+  box-shadow:0 16px 36px rgba(16,20,29,.10);
+}
+.wellnessPage{scroll-margin-top:110px}
+.wellnessHero{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(320px,520px);
+  gap:24px;
+  align-items:center;
+  background:linear-gradient(135deg,#111721 0%,#1b2831 48%,#41623f 100%);
+  border-radius:36px;
+  padding:34px;
+  color:#fff;
+  box-shadow:var(--shadow2);
+  overflow:hidden;
+}
+.wellnessHero h2{
+  font-size:clamp(36px,5vw,72px);
+  line-height:.98;
+  letter-spacing:-.065em;
+  margin:8px 0 14px;
+}
+.wellnessHero p{color:rgba(255,255,255,.78);font-size:18px;line-height:1.55;max-width:720px}
+.wellnessHero img{
+  width:100%;
+  border-radius:30px;
+  box-shadow:0 30px 80px rgba(0,0,0,.25);
+  background:#fff;
+}
+.wellnessHeroActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.wellnessGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:24px}
+.wellnessTip{
+  background:linear-gradient(180deg,#fffdf9,#fbf4eb);
+  border:1px solid var(--line);
+  border-radius:26px;
+  padding:20px;
+  box-shadow:0 16px 42px rgba(16,20,29,.07);
+}
+.wellnessTip span{
+  display:inline-flex;
+  width:42px;height:42px;
+  border-radius:15px;
+  background:#fff1e8;
+  color:var(--orange);
+  align-items:center;
+  justify-content:center;
+  font-weight:950;
+  margin-bottom:12px;
+}
+.wellnessTip h3{margin:0 0 8px;font-size:20px}
+.wellnessTip p{margin:0;color:var(--muted);line-height:1.45}
+.wellnessLayout{display:grid;grid-template-columns:1.45fr .85fr;gap:18px;margin-top:22px}
+.wellnessProducts,.doctorColumn{
+  background:#fffdf9;
+  border:1px solid var(--line);
+  border-radius:30px;
+  padding:22px;
+  box-shadow:0 18px 48px rgba(16,20,29,.08);
+}
+.sectionHead.compact{margin-bottom:16px}
+.wellnessProductGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.wellnessProductGrid article{
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:#fbf5ed;
+  padding:16px;
+}
+.wellnessProductGrid b{font-size:17px}
+.wellnessProductGrid p{color:var(--muted);margin:7px 0 0;line-height:1.42}
+.doctorColumn h3{font-size:30px;line-height:1.05;letter-spacing:-.04em;margin:14px 0}
+.doctorColumn p,.doctorColumn li{color:var(--muted);line-height:1.55}
+.doctorColumn ul{padding-left:20px}
+.doctorColumn small{display:block;color:#8a7280;border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+@media(max-width:960px){
+  .wellnessHero,.wellnessLayout{grid-template-columns:1fr}
+  .wellnessGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:700px){
+  .wellnessHero{padding:24px;border-radius:28px}
+  .wellnessGrid,.wellnessProductGrid{grid-template-columns:1fr}
+  .wellnessHeroActions{display:grid}
+}
+
 </style>
 </head>
 <body>
@@ -1037,13 +1129,13 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
       <img class="brandMain" src="assets/img/img-002-2bbccd1661190fb9.png" alt="Futura Casa">
     </a>
     <nav class="nav">
-      <a href="#jornada" class="active">Jornada</a><a href="#mapa">Mapa</a><a href="#lotes">Lotes</a><a href="#casas">Casas</a><a href="#combos">Combos</a><a href="#adicionais">Adicionais</a><a href="#bandeja">Simulação</a><a href="#atendimento">Atendimento</a><a href="#" id="openLotRegistryMenu">Cadastrar lote</a>
+      <a href="#jornada" class="active">Jornada</a><a href="#wellness">Wellness</a><a href="#mapa">Mapa</a><a href="#lotes">Lotes</a><a href="#casas">Casas</a><a href="#combos">Combos</a><a href="#adicionais">Adicionais</a><a href="#bandeja">Simulação</a><a href="#atendimento">Atendimento</a><a href="#" id="openLotRegistryMenu">Cadastrar lote</a>
     </nav>
     <a class="btn primary" href="#bandeja">Ver minha escolha</a>
     <button class="hamb" id="hamb">☰</button>
   </div>
   <nav class="mobile" id="mobile">
-    <a href="#jornada">Jornada</a><a href="#mapa">Mapa</a><a href="#lotes">Lotes</a><a href="#casas">Casas</a><a href="#combos">Combos</a><a href="#adicionais">Adicionais</a><a href="#bandeja">Simulação</a><a href="#atendimento">Atendimento</a><a href="#" id="openLotRegistryMobile">Cadastrar lote</a>
+    <a href="#jornada">Jornada</a><a href="#wellness">Wellness</a><a href="#mapa">Mapa</a><a href="#lotes">Lotes</a><a href="#casas">Casas</a><a href="#combos">Combos</a><a href="#adicionais">Adicionais</a><a href="#bandeja">Simulação</a><a href="#atendimento">Atendimento</a><a href="#" id="openLotRegistryMobile">Cadastrar lote</a>
   </nav>
 </header>
 
@@ -1072,7 +1164,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
       <div>
         <div class="eyebrow">Minha Jornada</div>
         <h2>Catálogo, reserva e atendimento assistido.</h2>
-        <p class="muted">Uma experiência inspirada em hotelaria: escolha, reserve, faça check-in da proposta e acione o concierge comercial.</p>
+        <p class="muted">Uma experiência inspirada em hotelaria: escolha o produto, acione o assistente e avance para uma jornada wellness.</p>
       </div>
     </div>
     <div class="journeySuiteGrid">
@@ -1082,18 +1174,72 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
       </button>
       <button class="journeyServiceCard" type="button" data-open-reserve-current>
         <span class="serviceIcon">✓</span>
-        <div><h3>Reservar oportunidade</h3><p>Bloqueie o lote ou combo por tempo limitado para iniciar a negociação.</p></div>
+        <div><h3>Reservar oportunidade</h3><p>Vá para os lotes em oferta e reserve diretamente a partir do lote escolhido.</p></div>
       </button>
-      <button class="journeyServiceCard" type="button" data-open-concierge>
+      <button class="journeyServiceCard" type="button" data-open-assistente>
         <span class="serviceIcon">✦</span>
-        <div><h3>Concierge Futura Casa</h3><p>Peça ajuda para comparar lotes, simular ou falar com um especialista.</p></div>
+        <div><h3>Assistente Futura Casa</h3><p>Peça ajuda para comparar lotes, simular ou falar com um especialista.</p></div>
       </button>
-      <button class="journeyServiceCard" type="button" data-open-checkin>
+      <button class="journeyServiceCard wellnessJourneyCard" type="button" data-open-checkin>
         <span class="serviceIcon">⌁</span>
-        <div><h3>Check-in da proposta</h3><p>Pré-cadastro para acelerar atendimento e negociação.</p></div>
+        <div><h3>Check-in Wellness</h3><p>Entre na página de bem-estar da Futura Casa.</p></div>
+        <img class="wellnessCardImage" src="assets/img/wellness-futura-casa.svg" alt="Wellness Futura Casa">
       </button>
     </div>
     <div class="reservationPanel" id="reservationPanel"></div>
+  </section>
+
+
+  <section class="wrap section wellnessPage" id="wellness">
+    <div class="wellnessHero">
+      <div>
+        <div class="eyebrow">Check-in Wellness</div>
+        <h2>Bem-estar para morar melhor.</h2>
+        <p>Uma curadoria Futura Casa com ideias simples para transformar casa, rotina e lote em uma experiência de vida mais saudável, confortável e conectada à natureza.</p>
+        <div class="wellnessHeroActions">
+          <a class="btn primary" href="#wellnessTips">Ver dicas de bem-estar</a>
+          <a class="btn primary" href="#wellnessProducts">Produtos wellness</a>
+          <button class="btn primary" type="button" data-open-assistente>Falar com assistente</button>
+        </div>
+      </div>
+      <img src="assets/img/wellness-futura-casa.svg" alt="Wellness Futura Casa">
+    </div>
+
+    <div class="wellnessGrid" id="wellnessTips">
+      <article class="wellnessTip"><span>01</span><h3>Luz natural pela manhã</h3><p>Priorize ambientes com claridade, ventilação e abertura para áreas verdes. A luz ajuda a organizar a rotina e melhora a sensação de energia.</p></article>
+      <article class="wellnessTip"><span>02</span><h3>Pausa verde diária</h3><p>Reserve alguns minutos para caminhar, respirar e observar o entorno. Jardins, varandas e áreas verdes tornam a casa mais restauradora.</p></article>
+      <article class="wellnessTip"><span>03</span><h3>Sono e silêncio</h3><p>Pense na implantação da casa considerando privacidade, menor ruído e boa circulação de ar nos quartos.</p></article>
+      <article class="wellnessTip"><span>04</span><h3>Movimento na rotina</h3><p>Escolha caminhos agradáveis para caminhada, bicicleta e deslocamentos curtos dentro do empreendimento.</p></article>
+    </div>
+
+    <div class="wellnessLayout">
+      <section class="wellnessProducts" id="wellnessProducts">
+        <div class="sectionHead compact">
+          <div><div class="eyebrow">Produtos wellness</div><h2>Itens que elevam a experiência da casa.</h2><p class="muted">Sugestões para composição do projeto e dos adicionais.</p></div>
+        </div>
+        <div class="wellnessProductGrid">
+          <article><b>Projeto de paisagismo</b><p>Jardim frontal, espécies adequadas ao clima e pontos de contemplação.</p></article>
+          <article><b>Iluminação de conforto</b><p>Luz quente, cenas noturnas e iluminação funcional para circulação.</p></article>
+          <article><b>Água e ar</b><p>Espaço para filtro, purificação, ventilação cruzada e áreas bem arejadas.</p></article>
+          <article><b>Espaço gourmet saudável</b><p>Ambiente para refeições em família, horta e preparo de alimentos frescos.</p></article>
+          <article><b>Kit energia solar</b><p>Eficiência energética e previsibilidade de consumo para a casa.</p></article>
+          <article><b>Academia compacta</b><p>Canto para alongamento, equipamentos leves e rotina de movimento.</p></article>
+        </div>
+      </section>
+
+      <aside class="doctorColumn">
+        <span class="tag">Coluna do médico</span>
+        <h3>Qualidade de vida começa no desenho da rotina.</h3>
+        <p><b>Dr. Rafael Monteiro, médico convidado</b></p>
+        <p>Uma casa que favorece sono, luz natural, ventilação, movimento e convivência tende a facilitar escolhas melhores no dia a dia. Bem-estar não depende apenas de grandes mudanças: pequenos rituais consistentes já transformam a experiência de morar.</p>
+        <ul>
+          <li>Tenha horários mais regulares para sono e refeições.</li>
+          <li>Inclua pausas de respiração e caminhada.</li>
+          <li>Prefira espaços iluminados, arejados e com contato visual com o verde.</li>
+        </ul>
+        <small>Conteúdo educativo. Para orientações individuais, consulte um profissional de saúde.</small>
+      </aside>
+    </div>
   </section>
 
   <section class="wrap section">
@@ -1279,7 +1425,7 @@ a{color:inherit;text-decoration:none} button,input,select{font:inherit} button{c
     <div class="card">
       <div class="sectionHead">
         <div><div class="eyebrow">Atendimento</div><h2>Pronto para transformar a escolha em negociação?</h2><p class="muted">Depois de montar a bandeja, envie a proposta para um consultor validar disponibilidade, prazo, fluxo e condições.</p></div>
-        <div class="actions"><button class="btn primary" id="sendConsultantBottom">Enviar proposta ao consultor</button><button class="btn primary" id="openScheduleModal">Agendar apresentação</button><button class="btn primary" data-open-concierge>Concierge Futura Casa</button><button class="btn primary" data-open-checkin>Check-in da proposta</button></div>
+        <div class="actions"><button class="btn primary" id="sendConsultantBottom">Enviar proposta ao consultor</button><button class="btn primary" id="openScheduleModal">Agendar apresentação</button><button class="btn primary" data-open-assistente>Assistente Futura Casa</button><button class="btn primary" data-open-checkin>Check-in Wellness</button></div>
       </div>
     </div>
   </section>
@@ -4884,10 +5030,10 @@ function saveProposalPdf(){
 })();
 
 
-/* v9.9 — Reserva, Concierge e Check-in */
+/* v9.9 — Reserva, Assistente e Check-in */
 const RESERVATION_KEY = 'fc_reservation_v99';
 const CHECKIN_KEY = 'fc_checkin_v99';
-const CONCIERGE_KEY = 'fc_concierge_v99';
+const CONCIERGE_KEY = 'fc_assistente_v99';
 
 function currentReservation(){
   try{
@@ -5142,17 +5288,17 @@ function renderReservationPanel(){
       </div>
       <div class="actions" style="margin-top:0">
         <button class="btn primary" data-open-reservation-details>Ver reserva</button>
-        <button class="btn primary" data-open-concierge>Concierge</button>
+        <button class="btn primary" data-open-assistente>Assistente</button>
       </div>
     </div>`;
 }
 
-function openConciergeModal(){
+function openAssistenteModal(){
   const b = buyerData();
   openModal(`
     <div class="modalHead">
       <div>
-        <span class="tag">Concierge Futura Casa</span>
+        <span class="tag">Assistente Futura Casa</span>
         <h2>Como podemos ajudar?</h2>
         <p class="muted">Solicite apoio para escolher, comparar, simular ou agendar atendimento.</p>
       </div>
@@ -5160,27 +5306,27 @@ function openConciergeModal(){
     </div>
     <div class="modalBody">
       <div class="reserveModalGrid">
-        <div class="modalField"><label>Nome</label><input id="conciergeName" type="text" value="${b.name || ''}"></div>
-        <div class="modalField"><label>WhatsApp</label><input id="conciergePhone" type="tel" value="${b.phone || ''}"></div>
-        <div class="modalField full"><label>Tipo de apoio</label><select id="conciergeType"><option>Escolher melhor lote</option><option>Comparar dois lotes</option><option>Simulação personalizada</option><option>Agendar visita</option><option>Documentação e proposta</option><option>Dúvida sobre obra/casa</option></select></div>
-        <div class="modalField full"><label>Mensagem</label><textarea id="conciergeMessage" placeholder="Conte o que você gostaria de avaliar."></textarea></div>
+        <div class="modalField"><label>Nome</label><input id="assistenteName" type="text" value="${b.name || ''}"></div>
+        <div class="modalField"><label>WhatsApp</label><input id="assistentePhone" type="tel" value="${b.phone || ''}"></div>
+        <div class="modalField full"><label>Tipo de apoio</label><select id="assistenteType"><option>Escolher melhor lote</option><option>Comparar dois lotes</option><option>Simulação personalizada</option><option>Agendar visita</option><option>Documentação e proposta</option><option>Dúvida sobre obra/casa</option></select></div>
+        <div class="modalField full"><label>Mensagem</label><textarea id="assistenteMessage" placeholder="Conte o que você gostaria de avaliar."></textarea></div>
       </div>
-      <div class="actions"><button class="btn primary" id="sendConciergeRequest">Enviar pedido ao concierge</button><button class="btn light" data-close-modal>Cancelar</button></div>
+      <div class="actions"><button class="btn primary" id="sendAssistenteRequest">Enviar pedido ao assistente</button><button class="btn light" data-close-modal>Cancelar</button></div>
     </div>
   `);
 }
 
-function sendConciergeRequest(){
+function sendAssistenteRequest(){
   const payload = {
     createdAt:new Date().toISOString(),
-    name: $('#conciergeName')?.value || '',
-    phone: $('#conciergePhone')?.value || '',
-    type: $('#conciergeType')?.value || '',
-    message: $('#conciergeMessage')?.value || '',
+    name: $('#assistenteName')?.value || '',
+    phone: $('#assistentePhone')?.value || '',
+    type: $('#assistenteType')?.value || '',
+    message: $('#assistenteMessage')?.value || '',
     reservation: currentReservation()?.id || ''
   };
   localStorage.setItem(CONCIERGE_KEY, JSON.stringify(payload));
-  const text = `Concierge Futura Casa
+  const text = `Assistente Futura Casa
 Nome: ${payload.name || '-'}
 WhatsApp: ${payload.phone || '-'}
 Tipo: ${payload.type}
@@ -5188,7 +5334,7 @@ Reserva: ${payload.reservation || '-'}
 Mensagem: ${payload.message || '-'}`;
   window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
   closeModal();
-  toast('Pedido de concierge preparado para envio.');
+  toast('Pedido do assistente preparado para envio.');
 }
 
 function openCheckinModal(){
@@ -5196,8 +5342,8 @@ function openCheckinModal(){
   openModal(`
     <div class="modalHead">
       <div>
-        <span class="tag">Check-in da proposta</span>
-        <h2>Pré-cadastro comercial</h2>
+        <span class="tag">Check-in Wellness</span>
+        <h2>Check-in Wellness</h2>
         <p class="muted">Preencha preferências para acelerar o atendimento do consultor.</p>
       </div>
       <button class="btn light small" data-close-modal>Fechar</button>
@@ -5230,7 +5376,7 @@ function saveCheckin(){
   };
   localStorage.setItem(CHECKIN_KEY, JSON.stringify(payload));
   closeModal();
-  toast('Check-in da proposta salvo.');
+  toast('Check-in Wellness salvo.');
 }
 
 (function(){
@@ -5275,19 +5421,26 @@ function saveCheckin(){
       openReserveModal(reserveMap.dataset.mapReserve);
       return;
     }
-    if(event.target.closest('[data-open-reserve-current]') || event.target.closest('#reserveProposal')){
+    if(event.target.closest('[data-open-reserve-current]')){
+      event.preventDefault();
+      document.querySelector('#lotes')?.scrollIntoView({behavior:'smooth'});
+      toast('Escolha um lote em oferta para reservar.');
+      return;
+    }
+    if(event.target.closest('#reserveProposal')){
       event.preventDefault();
       openReserveModal(state.lot?.id || selectedMapLotId || '');
       return;
     }
-    if(event.target.closest('[data-open-concierge]')){
+    if(event.target.closest('[data-open-assistente]')){
       event.preventDefault();
-      openConciergeModal();
+      openAssistenteModal();
       return;
     }
     if(event.target.closest('[data-open-checkin]')){
       event.preventDefault();
-      openCheckinModal();
+      document.querySelector('#wellness')?.scrollIntoView({behavior:'smooth'});
+      toast('Abrindo Check-in Wellness.');
       return;
     }
     if(event.target.closest('[data-service-catalog]')){
@@ -5330,9 +5483,9 @@ function saveCheckin(){
       toast('Reserva local cancelada.');
       return;
     }
-    if(event.target.closest('#sendConciergeRequest')){
+    if(event.target.closest('#sendAssistenteRequest')){
       event.preventDefault();
-      sendConciergeRequest();
+      sendAssistenteRequest();
       return;
     }
     if(event.target.closest('#saveCheckin')){

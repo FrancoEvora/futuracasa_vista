@@ -1,19 +1,14 @@
-# Futura Casa v9.9 — Reserva e Concierge
+# Futura Casa v10.0 — Wellness e Assistente
 
-Nova versão inspirada em experiência de hotel/resort:
-- seção **Minha Jornada** com quatro cards:
-  - Catálogo Futura Casa;
-  - Reservar oportunidade;
-  - Concierge Futura Casa;
-  - Check-in da proposta;
-- botão **Reservar lote** nos cards de lote;
-- botão **Reservar lote** no card do lote selecionado no mapa;
-- botão **Reservar esta proposta** no final do simulador financeiro;
-- janela de reserva com dados do comprador, validade da reserva, resumo financeiro e protocolo;
-- painel de reserva ativa na página;
-- status reservado aplicado localmente ao lote e ao mapa;
-- janela de Concierge para solicitar atendimento especializado;
-- janela de Check-in da proposta para pré-cadastro comercial;
-- opção de copiar ou enviar a reserva ao consultor.
-
-Observação: nesta versão de protótipo, reservas e check-ins são salvos no navegador via localStorage. Em produção, isso deve ser integrado ao backoffice/CRM.
+Ajustes desta versão:
+- o card **Reservar oportunidade** agora leva apenas para o item 1, **Lotes em oferta**;
+- o termo **Concierge** foi substituído por **Assistente Futura Casa**;
+- o card **Check-in da proposta** virou **Check-in Wellness**;
+- o Check-in Wellness leva para uma nova página/seção Wellness da Futura Casa;
+- adicionada imagem wellness abaixo do card Check-in Wellness;
+- criada página Wellness com:
+  - dicas de bem-estar;
+  - produtos wellness para a casa;
+  - coluna de médico convidado falando sobre qualidade de vida;
+  - CTA para falar com o Assistente Futura Casa;
+- a função de reserva continua disponível nos cards de lote, no mapa e no simulador.
