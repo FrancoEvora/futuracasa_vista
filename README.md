@@ -1,13 +1,9 @@
-# Futura Casa v10.2 — Check-in Wellness em janela
+Futura Casa v10.3 — Wellness Separada
 
-Ajustes desta versão:
-- o card **Check-in Wellness** agora tem um botão próprio: **Abrir Check-in Wellness**;
-- a imagem abaixo do botão funciona como preview clicável;
-- ao clicar no botão ou na imagem, abre uma janela específica de Wellness;
-- a janela traz:
-  - imagem Wellness;
-  - dicas de bem-estar;
-  - produtos wellness;
-  - coluna de médico convidado;
-  - botão para falar com o Assistente Futura Casa;
-- a página Wellness continua disponível na navegação, mas o acesso principal do card agora é pela janela.
+Principais ajustes:
+- Wellness removida da página principal como seção completa; agora há apenas acesso rápido + produto em oferta.
+- Página wellness dedicada em janela/modal exclusiva.
+- Nova imagem ilustrativa realista da seção wellness.
+- Inclusão da marca Arquitetura dos Sentidos e oferta de aromaterapia.
+- Inclusão de loja wellness com itens comercializáveis.
+- Catálogo de lotes direciona ao mapa interativo; reservar oportunidade direciona aos lotes em oferta.
