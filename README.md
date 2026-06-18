@@ -1,18 +1,16 @@
-# Futura Casa v10.5 — GitHub Light
+# Futura Casa v10.6 — Single GitHub
 
-Versão organizada para GitHub/Vercel.
+Versão criada para quando o GitHub não aceita a pasta de imagens.
 
-Estrutura:
-- `index.html` leve, sem imagens em base64
-- `assets/css/app.css`
-- `assets/js/app.js`
-- `assets/img/` com todas as imagens usadas pela plataforma
+Esta versão possui:
+- apenas `index.html` na raiz;
+- sem pasta `assets`;
+- imagens comprimidas e embutidas no próprio HTML;
+- tamanho reduzido em relação à versão anterior com imagens em base64 grandes.
 
-Para publicar:
-1. Suba todo o conteúdo desta pasta para o repositório.
-2. Mantenha `index.html` na raiz.
-3. Mantenha a pasta `assets` na raiz.
-4. Na Vercel, use projeto estático, sem build command.
+Como publicar:
+1. Crie/abra o repositório no GitHub.
+2. Envie apenas `index.html` e, se quiser, este `README.md`.
+3. Na Vercel, publique como projeto estático, sem build command.
 
-Observação:
-A versão anterior usava imagens embutidas no HTML para evitar falhas de carregamento; esta versão separa os arquivos corretamente para reduzir o tamanho do `index.html`.
+Observação: por usar imagens embutidas, o HTML fica maior que uma página simples, mas não depende de pasta de imagens.
