@@ -1,9 +1,9 @@
-# Futura Casa v12.1 — Refinamento UI, Mapa e AR
+# Futura Casa v12.2 — P2 Compacto + PWA
 
-Ajustes:
-- Removido o botão/caixa sobreposta que aparecia sobre os cards.
-- Melhorado o alinhamento geral dos textos, títulos e cards.
-- Mapa visual refinado com aparência mais profissional, menos infantil.
-- Adicionado botão **Ver no local (AR)** nos cards de lote.
-- Adicionado card de apoio **Ver no local (AR)** nas ferramentas.
-- Renomeado “Realidade aumentada” para uma expressão mais simples ao cliente: **Ver no local (AR)**.
+Implementação direta do P2:
+- mapa de lotes com pontos tappáveis e lote selecionado mais legível;
+- contraste de texto reforçado;
+- botões com visual mais flat e cor de marca #C95A35;
+- PWA com manifest e service worker;
+- página principal mais curta com carrosséis horizontais;
+- Wellness movido para `wellness.html`, com apenas um CTA compacto na página principal.
