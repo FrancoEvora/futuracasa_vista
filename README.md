@@ -1,11 +1,22 @@
-# Futura Casa v10.7 — Wellness Loja
+# Futura Casa v10.8 — Wellness Comercial
 
-Ajustes:
-- Texto do modal Wellness corrigido para melhor leitura.
-- Botão renomeado para Check-in Wellness.
-- Produto wellness em oferta não se repete na página principal.
-- Seção Wellness reposicionada entre Lotes/Mapa e Casas.
-- Loja wellness estruturada com produtos vendáveis.
-- Aromaterapia com marca Arquitetura dos Sentidos.
-- Consulta de avaliação de bem-estar integrada à experiência de compra do lote.
-- Versão single-file para GitHub: sem pasta de imagens.
+Versão single-file para GitHub.
+
+Novidades:
+- Loja Wellness com estrutura comercial:
+  - categorias;
+  - produtos;
+  - SKU;
+  - preço;
+  - sacola wellness;
+  - adicionar à proposta;
+  - enviar pedido ao assistente.
+- Marca Arquitetura dos Sentidos estruturada como linha de aromaterapia.
+- Coluna do Médico estruturada comercialmente:
+  - avaliação inicial;
+  - relatório Casa & Rotina;
+  - assinatura mensal de conteúdo;
+  - palestra para moradores/compradores.
+- Fluxo de avaliação de bem-estar.
+- Perguntas para pauta da coluna médica.
+- Aviso educativo: não substitui consulta médica individual.
