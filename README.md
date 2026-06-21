@@ -1,22 +1,10 @@
-# Futura Casa v10.8 — Wellness Comercial
+# Futura Casa v10.9 — Wellness UX + Backend
 
-Versão single-file para GitHub.
+Ajustes:
+- Correção de sobreposição de textos na janela Wellness.
+- Janela Wellness em tela cheia, limitada pelo navegador.
+- Ícone Wellness alterado para coração.
+- Correção de Casa Armonia para Casa Harmonia.
+- Backend Wellness criado em `backend-wellness.html`.
 
-Novidades:
-- Loja Wellness com estrutura comercial:
-  - categorias;
-  - produtos;
-  - SKU;
-  - preço;
-  - sacola wellness;
-  - adicionar à proposta;
-  - enviar pedido ao assistente.
-- Marca Arquitetura dos Sentidos estruturada como linha de aromaterapia.
-- Coluna do Médico estruturada comercialmente:
-  - avaliação inicial;
-  - relatório Casa & Rotina;
-  - assinatura mensal de conteúdo;
-  - palestra para moradores/compradores.
-- Fluxo de avaliação de bem-estar.
-- Perguntas para pauta da coluna médica.
-- Aviso educativo: não substitui consulta médica individual.
+Senha do backend: 1234.
