@@ -1,9 +1,13 @@
-# Futura Casa v12.2 — P2 Compacto + PWA
+# Futura Casa v12.3 — Jornada Enxuta
 
-Implementação direta do P2:
-- mapa de lotes com pontos tappáveis e lote selecionado mais legível;
-- contraste de texto reforçado;
-- botões com visual mais flat e cor de marca #C95A35;
-- PWA com manifest e service worker;
-- página principal mais curta com carrosséis horizontais;
-- Wellness movido para `wellness.html`, com apenas um CTA compacto na página principal.
+Ajustes:
+- removido Check-in Wellness do bloco de atendimento;
+- removida linha do tempo superior redundante;
+- removidos cards 1-5 redundantes;
+- removidas ferramentas/menus redundantes do fluxo principal;
+- removido botão flutuante/continuar sobreposto;
+- ao escolher um lote, a plataforma simula "somente lote" por padrão;
+- o cliente ainda pode ir para Casas ou Lote + Casa pelo menu inferior;
+- mapa ganhou botão de alinhamento e zoom inicial menor;
+- mapa passa a ficar contido dentro da janela no mobile;
+- mantido botão de AR como "Ver no local (AR)".

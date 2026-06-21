@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v12.2 P2 Compacto</title>
+<title>Futura Casa | v12.3 Jornada Enxuta</title>
 <meta name="theme-color" content="#f5efe7">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -2270,6 +2270,126 @@ body{
   .clientBottomNav{bottom:max(8px,env(safe-area-inset-bottom))!important}
 }
 
+
+/* v12.3 — jornada mais enxuta, mapa alinhável e suporte a somente lote */
+.clientTimeline,
+.coreJourney,
+.platformModules,
+.storyRail,
+.continueDock,
+#dockNext{
+  display:none!important;
+}
+body{
+  padding-bottom:calc(128px + env(safe-area-inset-bottom))!important;
+}
+.topin{min-height:88px!important}
+.logo img{width:170px!important}
+.sectionHead .eyebrow{
+  letter-spacing:.16em;
+}
+.sectionHead h2{
+  line-height:1.05!important;
+}
+.sectionHead p{
+  line-height:1.45!important;
+}
+#atendimento .actions{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  width:100%;
+}
+#atendimento .actions .btn{
+  width:100%;
+}
+
+/* mapa dentro da janela */
+.mapExperience{
+  padding:10px!important;
+}
+.interactiveMapFrame{
+  grid-template-columns:1fr!important;
+  min-height:auto!important;
+}
+.mapSelection{
+  border-left:0!important;
+  border-top:1px solid var(--line)!important;
+}
+.mapViewport{
+  aspect-ratio:1/1!important;
+  min-height:auto!important;
+  height:auto!important;
+  overflow:hidden!important;
+  border-radius:24px!important;
+  background:#fffdf9!important;
+}
+.mapInner{
+  inset:0!important;
+  display:grid!important;
+  place-items:center!important;
+  transform-origin:center center!important;
+  background:#fffdf9!important;
+}
+.mapInner img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  background:#fffdf9!important;
+}
+.mapLotsLayer{
+  inset:0!important;
+  pointer-events:none;
+}
+.mapSelectedMarker{
+  pointer-events:none;
+}
+.mapControls{
+  left:16px!important;
+  bottom:18px!important;
+  z-index:30!important;
+  border-radius:20px!important;
+}
+.mapControls button{
+  width:48px!important;
+  height:48px!important;
+  font-size:24px!important;
+}
+.mapControls #mapReset{
+  font-size:19px!important;
+}
+.mapZoomBadge{
+  left:16px!important;
+  bottom:178px!important;
+}
+.mapCompass{
+  right:16px!important;
+  top:16px!important;
+  width:62px!important;
+  height:62px!important;
+}
+.mapHeaderBar{
+  display:none!important;
+}
+.mapCard{
+  box-shadow:none!important;
+}
+@media(max-width:760px){
+  .mapViewport{
+    aspect-ratio:1/1!important;
+    max-height:72vh!important;
+  }
+  .mapSelection{
+    padding:18px!important;
+  }
+  .mapActions{
+    grid-template-columns:1fr!important;
+  }
+  .sectionHead h2{
+    font-size:32px!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -2285,29 +2405,19 @@ body{
   <nav class="mobile" id="mobile"><a href="#inicio">Início</a><a href="#lotes">Lotes</a><a href="#casas">Casas</a><a href="#bandeja">Simular</a><a href="#atendimento">Consultor</a><a href="#" data-open-assistente>Assistente</a></nav>
 </header>
 
-<div class="clientTimeline" id="clientTimeline">
-  <div class="wrap timelineScroller">
-    <button class="timeStep active" data-step-target="#lotes" data-step-index="1"><span>1</span><b>Lote</b></button>
-    <button class="timeStep" data-step-target="#casas" data-step-index="2"><span>2</span><b>Casa</b></button>
-    <button class="timeStep" data-step-target="#combos" data-step-index="3"><span>3</span><b>Lote + casa</b></button>
-    <button class="timeStep" data-step-target="#bandeja" data-step-index="4"><span>4</span><b>Simular</b></button>
-    <button class="timeStep" data-step-target="#atendimento" data-step-index="5"><span>5</span><b>Reservar</b></button>
-  </div>
-</div>
-
 <main>
   <section class="wrap hero guidedHero" id="inicio">
     <div class="guidedHeroGrid">
       <div>
         <div class="eyebrow">Futura Casa</div>
         <h1>O jeito mais simples de transformar um lote na sua futura casa.</h1>
-        <p>Escolha o lote, combine com uma casa, simule o valor e envie sua proposta para um consultor. Você pode fazer tudo no seu ritmo, passo a passo.</p>
+        <p>Escolha apenas o lote ou combine lote + casa. Depois simule o valor e envie sua proposta para um consultor.</p>
 
         <div class="startChoices">
           <button class="startChoice primaryStart" data-core-target="#lotes" type="button">
             <span>01</span>
-            <b>Quero escolher um lote</b>
-            <small>Comece pela localização e veja as oportunidades disponíveis.</small>
+            <b>Quero comprar apenas o lote</b>
+            <small>Escolha a localização e simule o lote sem precisar escolher uma casa agora.</small>
           </button>
           <button class="startChoice" data-core-target="#combos" type="button">
             <span>02</span>
@@ -2342,84 +2452,8 @@ body{
         <a class="btn primary" href="#lotes">Começar agora</a>
       </aside>
     </div>
-
-    <div class="storyRail" aria-label="Atalhos principais">
-      <button data-core-target="#lotes"><span>🏡</span><b>Lotes</b></button>
-      <button data-core-target="#mapa"><span>🗺️</span><b>Mapa</b></button>
-      <button data-core-target="#casas"><span>🏠</span><b>Casas</b></button>
-      <button data-core-target="#combos"><span>✨</span><b>Lote + casa</b></button>
-      <button data-core-target="#bandeja"><span>💳</span><b>Simular</b></button>
-      <button data-core-target="#atendimento"><span>🤝</span><b>Consultor</b></button>
-      <button data-open-assistente type="button"><span>💬</span><b>Assistente</b></button>
-    </div>
-  </section>
-
-  <section class="wrap section coreJourney" id="jornada-principal">
-    <div class="sectionHead">
-      <div>
-        <div class="eyebrow">Como funciona</div>
-        <h2>Você monta sua escolha em 5 passos.</h2>
-        <p class="muted">A linha abaixo mostra onde você está. Toque em uma etapa para navegar quando quiser.</p>
-      </div>
-    </div>
-
-    <div class="guidedSteps">
-      <button class="guidedStepCard" data-core-target="#lotes" type="button">
-        <span>1</span><h3>Escolha o lote</h3><p>Veja localização, metragem, preço, detalhes e mapa.</p>
-      </button>
-      <button class="guidedStepCard" data-core-target="#casas" type="button">
-        <span>2</span><h3>Escolha a casa</h3><p>Conheça modelos, fachadas, interiores e padrões.</p>
-      </button>
-      <button class="guidedStepCard" data-core-target="#combos" type="button">
-        <span>3</span><h3>Monte lote + casa</h3><p>Combine as opções para chegar em uma solução completa.</p>
-      </button>
-      <button class="guidedStepCard" data-core-target="#bandeja" type="button">
-        <span>4</span><h3>Simule o valor</h3><p>Ajuste entrada, prazo, parcelas e modelo financeiro.</p>
-      </button>
-      <button class="guidedStepCard" data-core-target="#atendimento" type="button">
-        <span>5</span><h3>Reserve ou fale com consultor</h3><p>Envie sua escolha e avance para a negociação.</p>
-      </button>
-    </div>
-  </section>
-
-  <section class="wrap section journeySuite platformModules" id="jornada">
-    <div class="sectionHead">
-      <div>
-        <div class="eyebrow">Ferramentas de apoio</div>
-        <h2>Use apenas quando quiser mais segurança para decidir.</h2>
-        <p class="muted">Essas opções ajudam a visualizar melhor o lote, comparar escolhas e personalizar sua futura casa.</p>
-      </div>
-    </div>
-
-    <div class="platformModuleGrid supportTools">
-      <button class="platformModuleCard" type="button" data-core-target="#mapa">
-        <span class="moduleIcon">🗺️</span>
-        <div><h3>Ver pelo mapa</h3><p>Encontre o lote no mapa do empreendimento e compare a posição.</p></div>
-      </button>
-      <button class="platformModuleCard arSupportCard" type="button" data-open-ar-current>
-        <span class="moduleIcon">◎</span>
-        <div><h3>Ver no local (AR)</h3><p>Use a câmera do celular para se orientar no empreendimento durante a visita.</p></div>
-      </button>
-      <button class="platformModuleCard" type="button" data-open-assistente>
-        <span class="moduleIcon">💬</span>
-        <div><h3>Falar com assistente</h3><p>Peça ajuda para escolher, comparar ou entender os próximos passos.</p></div>
-      </button>
-      <a class="platformModuleCard" href="wellness.html">
-        <span class="moduleIcon">♥</span>
-        <div><h3>Adicionar bem-estar</h3><p>Veja itens e serviços opcionais para deixar a casa mais completa.</p></div>
-      </a>
-      <button class="platformModuleCard" type="button" data-core-target="#atendimento">
-        <span class="moduleIcon">📅</span>
-        <div><h3>Agendar atendimento</h3><p>Converse com um consultor e tire dúvidas antes de reservar.</p></div>
-      </button>
-    </div>
-    <div class="reservationPanel" id="reservationPanel"></div>
-  </section>
-
-
-  
-
-  <section class="wrap section">
+</section>
+<section class="wrap section">
     <div class="grid4">
       <button class="card journeyCard" type="button" data-journey="lot" aria-label="Abrir jornada Somente lote"><div class="eyebrow">Entrada</div><h3>Somente lote</h3><p class="muted">Trave localização e decida a casa depois.</p><span class="journeyHint">Abrir jornada <b>→</b></span></button>
       <button class="card journeyCard" type="button" data-journey="home" aria-label="Abrir jornada Somente casa"><div class="eyebrow">Residência</div><h3>Somente casa</h3><p class="muted">Para quem já possui lote ou quer conhecer o custo da construção.</p><span class="journeyHint">Abrir jornada <b>→</b></span></button>
@@ -2431,7 +2465,7 @@ body{
 
   <section class="wrap section" id="lotes">
     <div class="sectionHead">
-      <div><div class="eyebrow">Passo 1 de 5</div><h2>Escolha o lote.</h2><p class="muted">Comece pela localização. Depois você poderá combinar esse lote com uma casa e simular uma proposta.</p></div>
+      <div><div class="eyebrow">Lotes em oferta</div><h2>Escolha o lote.</h2><p class="muted">Você pode simular somente o lote ou combinar com uma casa depois.</p></div>
       <div class="modebar"><button class="mode active" data-filter-lot="all">Todos</button><button class="mode" data-filter-lot="Parque das Árvores">Parque das Árvores</button><button class="mode" data-filter-lot="Solaris Residencial Resort">Solaris</button></div>
     </div>
     <div class="grid4" id="lotGrid"></div>
@@ -2463,6 +2497,7 @@ body{
           <div class="mapControls">
             <button type="button" id="mapZoomIn" aria-label="Aproximar mapa">+</button>
             <button type="button" id="mapZoomOut" aria-label="Afastar mapa">−</button>
+            <button type="button" id="mapReset" aria-label="Alinhar mapa" title="Alinhar mapa">⤢</button>
           </div>
           <div class="mapZoomBadge" id="mapZoomBadge">100%</div>
 
@@ -2523,14 +2558,14 @@ body{
 
 <section class="wrap section" id="casas">
     <div class="sectionHead">
-      <div><div class="eyebrow">Passo 2 de 5</div><h2>Escolha o modelo de casa.</h2><p class="muted">Veja fachadas, interiores e valores de referência. Depois combine com o lote escolhido.</p></div>
+      <div><div class="eyebrow">Casa opcional</div><h2>Escolha o modelo de casa.</h2><p class="muted">Se quiser apenas o lote, pule esta etapa e siga direto para a simulação.</p></div>
       <div class="modebar"><button class="mode active" data-filter-home="all">Todas</button><button class="mode" data-filter-home="entrada">Entrada</button><button class="mode" data-filter-home="premium">Premium</button><button class="mode" data-filter-home="alto">Alto padrão</button></div>
     </div>
     <div class="grid3" id="homeGrid"></div>
   </section>
 
   <section class="wrap section" id="combos">
-    <div class="sectionHead"><div><div class="eyebrow">Passo 3 de 5</div><h2>Monte lote + casa.</h2><p class="muted">Escolha uma combinação pronta ou ajuste lote e casa até encontrar a opção que faz sentido para você.</p></div></div>
+    <div class="sectionHead"><div><div class="eyebrow">Lote + casa</div><h2>Monte uma solução completa.</h2><p class="muted">Use esta etapa se quiser combinar lote, casa e adicionais em uma proposta única.</p></div></div>
     <div class="grid3" id="comboGrid"></div>
   </section>
 
@@ -2540,7 +2575,7 @@ body{
   </section>
 
   <section class="wrap section" id="bandeja">
-    <div class="sectionHead"><div><div class="eyebrow">Passo 4 de 5</div><h2>Simule sua proposta.</h2><p class="muted">Ajuste entrada, prazo, parcelas e modelo financeiro para entender a condição estimada antes de falar com o consultor.</p></div><div class="actions"><button class="btn primary" id="openFinanceSettings" type="button">Configurar juros e correção</button></div></div>
+    <div class="sectionHead"><div><div class="eyebrow">Simulação</div><h2>Simule sua proposta.</h2><p class="muted">Você pode simular somente o lote, somente a casa ou lote + casa.</p></div><div class="actions"><button class="btn primary" id="openFinanceSettings" type="button">Configurar juros e correção</button></div></div>
     <div class="grid2">
       <div class="tray">
         <h2>Sua escolha</h2><p class="muted">Aqui aparece o que você escolheu. Se faltar algo, volte ao passo anterior.</p>
@@ -2617,7 +2652,7 @@ body{
     <div class="card">
       <div class="sectionHead">
         <div><div class="eyebrow">Atendimento</div><h2>Pronto para transformar a escolha em negociação?</h2><p class="muted">Depois de montar a bandeja, envie a proposta para um consultor validar disponibilidade, prazo, fluxo e condições.</p></div>
-        <div class="actions"><button class="btn primary" id="sendConsultantBottom">Enviar proposta ao consultor</button><button class="btn primary" id="openScheduleModal">Agendar apresentação</button><button class="btn primary" data-open-assistente>Assistente Futura Casa</button><button class="btn primary" data-open-checkin>Check-in Wellness</button></div>
+        <div class="actions"><button class="btn primary" id="sendConsultantBottom">Enviar proposta ao consultor</button><button class="btn primary" id="openScheduleModal">Agendar apresentação</button><button class="btn primary" data-open-assistente>Assistente Futura Casa</button></div>
       </div>
     </div>
   </section>
@@ -2630,10 +2665,6 @@ body{
   <button data-core-target="#bandeja"><span>◉</span><b>Simular</b></button>
   <button data-core-target="#atendimento"><span>↗</span><b>Enviar</b></button>
 </nav>
-
-  <button class="btn primary" id="dockNext" type="button">Continuar</button>
-</div>
-
 <div class="modal" id="detailModal"></div>
 <div class="modal fieldMediaOverlay" id="fieldMediaModal"></div>
 <div class="modal fieldMediaOverlay" id="houseSimModal"></div>
@@ -4944,7 +4975,7 @@ const MAP_LOTS = [{"id":"map-sol-A01","number":"01","quadra":"A","project":"Sola
 
 
 let selectedMapLotId = 'map-sol-A01';
-let mapZoom = 0.92;
+let mapZoom = 0.74;
 
 function mapLotToPlatformLot(mapLot){
   return {
@@ -5235,8 +5266,10 @@ function initInteractiveMap(){
 
   const zoomIn = document.getElementById('mapZoomIn');
   const zoomOut = document.getElementById('mapZoomOut');
-  const doZoomIn = (event)=>{ event?.preventDefault?.(); mapZoom = Math.min(1.75, +(mapZoom + .18).toFixed(2)); applyMapZoom(); };
-  const doZoomOut = (event)=>{ event?.preventDefault?.(); mapZoom = Math.max(0.82, +(mapZoom - .18).toFixed(2)); applyMapZoom(); };
+  const mapReset = document.getElementById('mapReset');
+  const doZoomIn = (event)=>{ event?.preventDefault?.(); mapZoom = Math.min(1.55, +(mapZoom + .16).toFixed(2)); applyMapZoom(); };
+  const doZoomOut = (event)=>{ event?.preventDefault?.(); mapZoom = Math.max(0.62, +(mapZoom - .16).toFixed(2)); applyMapZoom(); };
+  const doMapReset = (event)=>{ event?.preventDefault?.(); mapZoom = 0.74; applyMapZoom(); toast('Mapa alinhado.'); };
   if(zoomIn){
     zoomIn.onclick = doZoomIn;
     zoomIn.onpointerdown = doZoomIn;
@@ -5244,6 +5277,10 @@ function initInteractiveMap(){
   if(zoomOut){
     zoomOut.onclick = doZoomOut;
     zoomOut.onpointerdown = doZoomOut;
+  }
+  if(mapReset){
+    mapReset.onclick = doMapReset;
+    mapReset.onpointerdown = doMapReset;
   }
   applyMapZoom();
 }
@@ -7365,15 +7402,15 @@ document.addEventListener('click', (event)=>{
     if(lot){
       state.lot = lot;
       state.customLotPrice = lot.price;
-      state.mode = 'combo';
-      $('#buyMode').value = 'combo';
+      state.mode = 'lot';
+      $('#buyMode').value = 'lot';
       syncPriceInputs();
       renderAll();
       const preview = document.getElementById('heroPreviewLot');
       if(preview) preview.textContent = lot.name;
-      toast('Lote escolhido. Agora escolha uma casa.');
-      scrollToClientTarget('#casas');
-      setGuideStepBySelector('#casas');
+      toast('Lote escolhido. Você pode simular só o lote ou escolher uma casa depois.');
+      scrollToClientTarget('#bandeja');
+      setGuideStepBySelector('#bandeja');
     }
     return;
   }
