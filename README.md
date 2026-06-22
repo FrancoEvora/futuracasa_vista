@@ -1,30 +1,20 @@
-# Futura Casa v13.3 — Status Comercial Provisório
+# Futura Casa v14.0 — Mapa Profissional
 
-Atualização aplicada:
-- Foram sorteados status provisórios para os 249 lotes comerciais do Solaris.
-- Distribuição:
-  - 149 disponíveis ≈ 60%
-  - 75 vendidos ≈ 30%
-  - 25 reservados ≈ 10%
+Nova linha v14.
 
-Critério:
-- Sorteio determinístico, com seed interna `futura-casa-solaris-status-v13.3`, para que a mesma distribuição possa ser reproduzida.
-- Quadras K e L foram mantidas como áreas não comerciais / referência, fora da distribuição de estoque comercial.
+Correções principais:
+- Uma única base de mapa (`solaris-mapa-master-v14.jpg`) passa a ser usada no mapa geral e no detalhamento do lote.
+- O setor de águas foi incorporado ao mapa mestre de forma sutil e consistente.
+- Removida a bagunça visual de bolhas de quadras espalhadas sobre o mapa.
+- O mapa mostra somente:
+  - a quadra selecionada;
+  - o lote selecionado;
+  - o setor de águas;
+  - legenda discreta.
+- O detalhamento do lote agora mostra o mesmo mapa mestre com o lote destacado.
+- A lista de lotes continua filtrada por quadra e status.
+- Mantidos os status provisórios: 60% disponíveis, 30% vendidos e 10% reservados.
+- Mantidos Corretores, Leads, Wellness e Blogs.
 
-Arquivo adicional:
-- `solaris-status-comercial-provisorio-v13.3.csv`
-
-Resumo por quadra:
-- Quadra A: 18 disponíveis, 6 reservados, 15 vendidos
-- Quadra B: 13 disponíveis, 2 reservados, 8 vendidos
-- Quadra C: 20 disponíveis, 5 reservados, 9 vendidos
-- Quadra D: 14 disponíveis, 5 reservados, 10 vendidos
-- Quadra E: 22 disponíveis, 1 reservados, 10 vendidos
-- Quadra F: 12 disponíveis, 2 reservados, 3 vendidos
-- Quadra G: 10 disponíveis, 1 reservados, 8 vendidos
-- Quadra H: 16 disponíveis, 1 reservados, 4 vendidos
-- Quadra I: 14 disponíveis, 2 reservados, 6 vendidos
-- Quadra J: 10 disponíveis, 0 reservados, 2 vendidos
-
-Observação:
-Esta distribuição é apenas provisória. Quando a planilha oficial de status/preços for enviada, esses status devem ser substituídos pela base comercial real.
+Observação técnica:
+Esta versão ainda usa posições visuais aproximadas calculadas a partir do mapa mestre. A versão de produção deve converter o DXF em SVG/GeoJSON com polígonos reais por quadra e lote.
