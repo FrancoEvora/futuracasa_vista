@@ -1,18 +1,14 @@
-# Futura Casa v13.1 — Mapa Comercial por Quadras
+# Futura Casa v13.2 — Seleção de Lotes no Mapa
 
-Ajustes desta versão:
-- Nova estrutura de mapa comercial por quadras.
-- Uso da imagem oficial anexada como mapa principal.
-- Inclusão do Setor de Águas/represa em azul na imagem do mapa, conforme a referência enviada.
-- Mapa começa por quadra, não por dezenas de pins/lotes sobrepostos.
-- Ao selecionar uma quadra, a lista mostra apenas os lotes daquela quadra.
-- Cada lote tem ações:
-  - Escolher este lote
-  - Ver detalhes
-  - Simular só o lote
-  - Ver no local (AR)
-- Mantido o módulo de corretores e leads da v13.0.
-- Mantida a página Wellness e os blogs.
+Correção:
+- Os cards de lotes dentro da quadra agora são selecionáveis.
+- Cada card ganhou botão explícito `Selecionar`.
+- Ao tocar no card ou no botão, o lote selecionado atualiza o card principal.
+- O card ativo fica visualmente destacado.
+- Após a seleção, a interface retorna para o card do lote selecionado.
 
-Observação:
-Esta versão continua sendo um protótipo funcional em HTML single-file. O próximo passo ideal em produção é converter o mapa em SVG clicável com polígonos reais de quadras/lotes.
+Mantido:
+- Mapa comercial por quadras.
+- Imagem oficial do mapa com Setor de Águas.
+- Corretores, leads, painel do corretor e backoffice.
+- Wellness e blogs.

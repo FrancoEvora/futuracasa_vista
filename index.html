@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v13.1 Mapa Comercial por Quadras</title>
+<title>Futura Casa | v13.2 Seleção de Lotes no Mapa</title>
 <meta name="theme-color" content="#f5efe7">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -2656,6 +2656,43 @@ section:has(.journeyCard){display:none!important}
   }
   .commercialQuadraPoint small{display:none}
   .commercialWaterTag{left:5%;bottom:7%;font-size:11px}
+}
+
+
+/* v13.2 — seleção clara dos cards de lote no mapa comercial */
+.commercialLotRow{
+  user-select:none;
+}
+.commercialLotRow.active{
+  background:linear-gradient(180deg,#fff7ef,#fffdf9)!important;
+  border-color:rgba(201,90,53,.58)!important;
+  box-shadow:0 18px 48px rgba(201,90,53,.18)!important;
+}
+.commercialLotRow.active h4{
+  color:var(--brand,#C95A35)!important;
+}
+.commercialLotRowFooter{
+  margin-top:12px;
+  display:flex;
+  justify-content:flex-end;
+}
+.commercialLotRowFooter .btn{
+  min-height:40px!important;
+  border-radius:999px!important;
+  padding:0 16px!important;
+  font-size:13px!important;
+}
+.commercialLotRow[role="button"]{
+  cursor:pointer;
+}
+.commercialLotRow[role="button"]:focus-visible{
+  outline:3px solid rgba(201,90,53,.25);
+  outline-offset:3px;
+}
+@media(max-width:560px){
+  .commercialLotRowFooter .btn{
+    width:100%;
+  }
 }
 
 </style>
@@ -8114,17 +8151,53 @@ function renderCommercialSelectedLot(){
     </div>
   </div>`;
 }
+function selectCommercialLotInPanel(id,{scrollToSelected=true}={}){
+  const lot = MAP_LOTS.find(l=>l.id===id);
+  if(!lot) return;
+  commercialSelectedLotId = id;
+  renderCommercialSelectedLot();
+  renderCommercialLotList();
+  trackPartnerEvent?.('commercial_map_lot_select',{id, quadra:lot.quadra, lot:lot.number});
+  toast(`Lote ${lot.number} selecionado na Quadra ${lot.quadra}.`);
+  if(scrollToSelected){
+    setTimeout(()=>document.getElementById('commercialSelectedLot')?.scrollIntoView({behavior:'smooth', block:'nearest'}), 40);
+  }
+}
+function bindCommercialLotRows(){
+  const list = document.getElementById('commercialLotList');
+  if(!list) return;
+  list.querySelectorAll('[data-commercial-lot]').forEach(row=>{
+    row.onclick = (event)=>{
+      if(event.target.closest('button')) return;
+      selectCommercialLotInPanel(row.dataset.commercialLot,{scrollToSelected:true});
+    };
+  });
+  list.querySelectorAll('[data-commercial-select]').forEach(btn=>{
+    btn.onclick = (event)=>{
+      event.preventDefault();
+      event.stopPropagation();
+      selectCommercialLotInPanel(btn.dataset.commercialSelect,{scrollToSelected:true});
+    };
+  });
+}
 function renderCommercialLotList(){
   const list = document.getElementById('commercialLotList');
   if(!list) return;
   const lots = commercialLots();
-  list.innerHTML = lots.map(l=>`<article class="commercialLotRow ${l.id===commercialSelectedLotId?'active':''}" data-commercial-lot="${l.id}">
-    <div class="commercialLotRowTop">
-      <h4>Lote ${l.number}</h4>
-      <span class="statusBadge ${l.status}">${commercialStatusLabel(l.status)}</span>
-    </div>
-    <div class="commercialLotMeta"><span>${Math.round(l.area)} m²</span><span>${l.dims}</span><span>${fmt(l.price)}</span></div>
-  </article>`).join('') || `<div class="commercialLotRow"><p class="muted" style="margin:0">Nenhum lote encontrado nesta quadra com o filtro atual.</p></div>`;
+  list.innerHTML = lots.map(l=>`
+    <article class="commercialLotRow ${l.id===commercialSelectedLotId?'active':''}" data-commercial-lot="${l.id}" role="button" tabindex="0" aria-label="Selecionar lote ${l.number}">
+      <div class="commercialLotRowTop">
+        <h4>Lote ${l.number}</h4>
+        <span class="statusBadge ${l.status}">${commercialStatusLabel(l.status)}</span>
+      </div>
+      <div class="commercialLotMeta"><span>${Math.round(l.area)} m²</span><span>${l.dims}</span><span>${fmt(l.price)}</span></div>
+      <div class="commercialLotRowFooter">
+        <button class="btn ${l.id===commercialSelectedLotId?'primary':'light'} small" type="button" data-commercial-select="${l.id}">
+          ${l.id===commercialSelectedLotId?'Selecionado':'Selecionar'}
+        </button>
+      </div>
+    </article>`).join('') || `<div class="commercialLotRow"><p class="muted" style="margin:0">Nenhum lote encontrado nesta quadra com o filtro atual.</p></div>`;
+  bindCommercialLotRows();
 }
 function renderCommercialMap(){
   commercialSelectFirstLotIfNeeded();
@@ -8170,12 +8243,16 @@ function bindCommercialMap(){
       renderCommercialMap();
       return;
     }
+    const rowSelect = event.target.closest('[data-commercial-select]');
+    if(rowSelect){
+      event.preventDefault();
+      selectCommercialLotInPanel(rowSelect.dataset.commercialSelect,{scrollToSelected:true});
+      return;
+    }
     const lotRow = event.target.closest('[data-commercial-lot]');
     if(lotRow){
       event.preventDefault();
-      commercialSelectedLotId = lotRow.dataset.commercialLot;
-      renderCommercialSelectedLot();
-      renderCommercialLotList();
+      selectCommercialLotInPanel(lotRow.dataset.commercialLot,{scrollToSelected:true});
       return;
     }
     const choose = event.target.closest('[data-commercial-choose]');
