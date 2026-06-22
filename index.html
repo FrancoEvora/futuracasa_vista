@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v12.3 Jornada Enxuta</title>
+<title>Futura Casa | v12.4 Comercial + Blogs</title>
 <meta name="theme-color" content="#f5efe7">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -2390,6 +2390,15 @@ body{
   }
 }
 
+
+/* v12.4 — comercialização mais clara e mapa começando por quadra */
+.startChoice b{font-size:23px!important}
+.startChoice small{font-size:15px!important}
+section:has(.journeyCard){display:none!important}
+.mapFinderHead p::after{
+  content:" Começamos pela Quadra A para facilitar a leitura; altere a quadra quando quiser.";
+}
+
 </style>
 </head>
 <body>
@@ -2411,23 +2420,23 @@ body{
       <div>
         <div class="eyebrow">Futura Casa</div>
         <h1>O jeito mais simples de transformar um lote na sua futura casa.</h1>
-        <p>Escolha apenas o lote ou combine lote + casa. Depois simule o valor e envie sua proposta para um consultor.</p>
+        <p>Escolha o lote, escolha a casa ou monte lote + casa. Depois simule o valor e envie sua proposta para um consultor.</p>
 
         <div class="startChoices">
           <button class="startChoice primaryStart" data-core-target="#lotes" type="button">
             <span>01</span>
-            <b>Quero comprar apenas o lote</b>
-            <small>Escolha a localização e simule o lote sem precisar escolher uma casa agora.</small>
+            <b>Quero lote</b>
+            <small>Escolha a localização, veja o preço e simule apenas o terreno.</small>
+          </button>
+          <button class="startChoice" data-core-target="#casas" type="button">
+            <span>02</span>
+            <b>Quero casa</b>
+            <small>Conheça modelos residenciais para construir no seu lote.</small>
           </button>
           <button class="startChoice" data-core-target="#combos" type="button">
-            <span>02</span>
-            <b>Quero lote + casa</b>
-            <small>Veja combinações prontas para facilitar sua decisão.</small>
-          </button>
-          <button class="startChoice" data-core-target="#bandeja" type="button">
             <span>03</span>
-            <b>Quero simular uma proposta</b>
-            <small>Vá direto para valores, entrada, prazo e parcelas.</small>
+            <b>Quero lote + casa</b>
+            <small>Combine lote e projeto em uma proposta completa.</small>
           </button>
         </div>
       </div>
@@ -2453,17 +2462,7 @@ body{
       </aside>
     </div>
 </section>
-<section class="wrap section">
-    <div class="grid4">
-      <button class="card journeyCard" type="button" data-journey="lot" aria-label="Abrir jornada Somente lote"><div class="eyebrow">Entrada</div><h3>Somente lote</h3><p class="muted">Trave localização e decida a casa depois.</p><span class="journeyHint">Abrir jornada <b>→</b></span></button>
-      <button class="card journeyCard" type="button" data-journey="home" aria-label="Abrir jornada Somente casa"><div class="eyebrow">Residência</div><h3>Somente casa</h3><p class="muted">Para quem já possui lote ou quer conhecer o custo da construção.</p><span class="journeyHint">Abrir jornada <b>→</b></span></button>
-      <button class="card journeyCard" type="button" data-journey="combo" aria-label="Abrir jornada Lote mais casa"><div class="eyebrow">Combo</div><h3>Lote + casa</h3><p class="muted">A experiência completa com previsibilidade de desembolso.</p><span class="journeyHint">Abrir jornada <b>→</b></span></button>
-      <button class="card journeyCard" type="button" data-journey="future" aria-label="Abrir jornada Lote agora mais casa depois"><div class="eyebrow">Flexível</div><h3>Lote agora + casa depois</h3><p class="muted">Compra faseada com casa pré-contratada.</p><span class="journeyHint">Abrir jornada <b>→</b></span></button>
-    </div>
-  </section>
-
-
-  <section class="wrap section" id="lotes">
+<section class="wrap section" id="lotes">
     <div class="sectionHead">
       <div><div class="eyebrow">Lotes em oferta</div><h2>Escolha o lote.</h2><p class="muted">Você pode simular somente o lote ou combinar com uma casa depois.</p></div>
       <div class="modebar"><button class="mode active" data-filter-lot="all">Todos</button><button class="mode" data-filter-lot="Parque das Árvores">Parque das Árvores</button><button class="mode" data-filter-lot="Solaris Residencial Resort">Solaris</button></div>
@@ -5013,7 +5012,7 @@ function statusLabel(status){
   return status === 'reserved' ? 'Reservado' : status === 'sold' ? 'Vendido' : 'Disponível';
 }
 
-const mapFilterState = {status:'available', quadra:'all', query:'', areaMin:'', areaMax:'', priceMin:'', priceMax:''};
+const mapFilterState = {status:'available', quadra:'A', query:'', areaMin:'', areaMax:'', priceMin:'', priceMax:''};
 
 function mapStatusLabel(status){
   return status === 'reserved' ? 'Reservado' : status === 'sold' ? 'Vendido' : 'Disponível';
