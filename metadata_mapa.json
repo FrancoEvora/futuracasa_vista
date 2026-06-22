@@ -1,0 +1,42 @@
+{
+  "source_dxf": "/mnt/data/Projeto Urbanistico_ Monte Carmelo_Solaris_Home_Resort_17-07-25_R03(1).dxf",
+  "crs": "EPSG:31983 - SIRGAS 2000 / UTM zone 23S",
+  "bounds_utm": [
+    233314.15456750593,
+    7926643.192857447,
+    234223.8435040307,
+    7927543.68265304
+  ],
+  "lot_hatches": 255,
+  "lot_outlines": 253,
+  "road_polygons": 34,
+  "green_polygons": 19,
+  "quadra_markers": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L"
+  ],
+  "road_labels": [
+    "Alameda da Aruana",
+    "Alameda da Enseada",
+    "Alameda de Castelhanos",
+    "Alameda de Grumari",
+    "Alameda de Ipanema",
+    "Alameda de Itacaré",
+    "Alameda de Maresias",
+    "Alameda do Farol",
+    "Alameda do Riacho",
+    "Alameda do Rosa",
+    "Alameda dos Cajueiros"
+  ],
+  "note": "Mapa gerado programaticamente a partir do DXF. O Setor de águas é camada contextual desenhada no mesmo sistema UTM; não altera lotes, quadras ou vias do DXF."
+}
