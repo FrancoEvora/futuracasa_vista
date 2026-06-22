@@ -1,30 +1,18 @@
-# Futura Casa v13.0 — Corretores e Leads
+# Futura Casa v13.1 — Mapa Comercial por Quadras
 
-Nova versão com programa de Corretores Parceiros.
-
-Principais recursos:
-- Links rastreáveis por corretor com `?ref=slug`.
-- UTM de campanha, origem e mídia.
-- Persistência de atribuição em localStorage:
-  - origem inicial;
-  - último clique;
-  - corretor responsável;
-  - campanha.
-- Rastreamento de eventos:
-  - page_view;
-  - lot_action;
-  - home_action;
-  - proposal_created;
-  - lead_identified;
-  - wellness_click;
-  - reservation_click;
-  - pdf_download_click.
-- Geração de lead quando o cliente informa dados e envia proposta.
-- Proposta enviada ao WhatsApp do corretor parceiro, quando houver.
-- Página `corretores.html` para gerar links e QR Codes.
-- Página `painel-corretor.html` para o corretor acompanhar seus leads.
-- Página `backoffice-corretores.html` para gestão administrativa.
-- Mantida a jornada comercial da Futura Casa e a página Wellness.
+Ajustes desta versão:
+- Nova estrutura de mapa comercial por quadras.
+- Uso da imagem oficial anexada como mapa principal.
+- Inclusão do Setor de Águas/represa em azul na imagem do mapa, conforme a referência enviada.
+- Mapa começa por quadra, não por dezenas de pins/lotes sobrepostos.
+- Ao selecionar uma quadra, a lista mostra apenas os lotes daquela quadra.
+- Cada lote tem ações:
+  - Escolher este lote
+  - Ver detalhes
+  - Simular só o lote
+  - Ver no local (AR)
+- Mantido o módulo de corretores e leads da v13.0.
+- Mantida a página Wellness e os blogs.
 
 Observação:
-Esta versão é funcional em protótipo usando localStorage. Em produção, os mesmos eventos devem ir para banco de dados / CRM via API.
+Esta versão continua sendo um protótipo funcional em HTML single-file. O próximo passo ideal em produção é converter o mapa em SVG clicável com polígonos reais de quadras/lotes.
