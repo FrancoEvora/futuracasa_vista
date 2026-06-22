@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v12.4 Comercial + Blogs</title>
+<title>Futura Casa | v12.5 Menu Wellness + Envio</title>
 <meta name="theme-color" content="#f5efe7">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -2399,6 +2399,19 @@ section:has(.journeyCard){display:none!important}
   content:" Começamos pela Quadra A para facilitar a leitura; altere a quadra quando quiser.";
 }
 
+
+/* v12.5 — ícones distintos no menu inferior */
+.clientBottomNav button[data-open-wellness-page] span{
+  color:var(--orange)!important;
+  font-size:22px!important;
+}
+.clientBottomNav button[data-open-wellness-page] b{
+  color:var(--orange)!important;
+}
+.clientBottomNav button[data-core-target="#casas"] span{
+  font-size:21px!important;
+}
+
 </style>
 </head>
 <body>
@@ -2660,9 +2673,9 @@ section:has(.journeyCard){display:none!important}
 <nav class="clientBottomNav" aria-label="Navegação rápida">
   <button data-core-target="#inicio"><span>⌂</span><b>Início</b></button>
   <button data-core-target="#lotes"><span>▱</span><b>Lotes</b></button>
-  <button data-core-target="#casas"><span>⌂</span><b>Casas</b></button>
+  <button data-core-target="#casas"><span>▤</span><b>Casas</b></button>
   <button data-core-target="#bandeja"><span>◉</span><b>Simular</b></button>
-  <button data-core-target="#atendimento"><span>↗</span><b>Enviar</b></button>
+  <button type="button" data-open-wellness-page><span>♥</span><b>Wellness</b></button>
 </nav>
 <div class="modal" id="detailModal"></div>
 <div class="modal fieldMediaOverlay" id="fieldMediaModal"></div>
@@ -4448,8 +4461,10 @@ $$('[data-journey]').forEach(card=>{
 $('#entryValue').addEventListener('input',()=>renderTray('entryValue')); $('#entryValue').addEventListener('change',()=>renderTray('entryValue'));
 $('#saveChoice').onclick=()=>{localStorage.setItem('fc_menu_choice_v5', proposalText()); localStorage.setItem('fc_buyer_data', JSON.stringify(buyerData())); toast('Proposta salva.');};
 $('#copyChoice').onclick=()=>{navigator.clipboard?.writeText(proposalText()); toast('Resumo copiado.');};
-$('#sendConsultant').onclick=sendToConsultant;
-$('#sendConsultantBottom').onclick=sendToConsultant;
+$('#sendConsultant').onclick=()=>{
+  document.querySelector('#atendimento')?.scrollIntoView({behavior:'smooth', block:'start'});
+  toast('Agora envie sua proposta ao consultor ou agende uma apresentação.');
+}; $('#sendConsultantBottom').onclick=sendToConsultant;
 $('#openScheduleModal').onclick=openScheduleModal;
 if($('#openFinanceSettings')) $('#openFinanceSettings').onclick=requestFinanceSettingsAccess;
 if($('#openLotRegistryMenu')) $('#openLotRegistryMenu').onclick=(event)=>{event.preventDefault();openLotRegistrationModal();};
@@ -7524,6 +7539,16 @@ if('serviceWorker' in navigator){
     navigator.serviceWorker.register('./sw.js').catch(()=>{});
   });
 }
+
+
+/* v12.5 — menu Wellness e fluxo de envio */
+document.addEventListener('click', (event)=>{
+  const wellnessButton = event.target.closest('[data-open-wellness-page]');
+  if(wellnessButton){
+    event.preventDefault();
+    window.location.href = 'wellness.html';
+  }
+});
 
 </script>
 </body>

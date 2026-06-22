@@ -1,12 +1,8 @@
-# Futura Casa v12.4 — Comercial + Blogs
+# Futura Casa v12.5 — Menu Wellness + Envio
 
 Ajustes:
-- Removidos os cards antigos "Somente lote", "Somente casa", "Lote + casa" da página principal.
-- Menu inicial alterado para:
-  - Quero lote
-  - Quero casa
-  - Quero lote + casa
-- Mapa agora começa filtrado pela primeira quadra, Quadra A, para evitar poluição visual.
-- Página Wellness recebeu foto realista de médica, texto profissional e link para blog da médica.
-- Cards da página Wellness agora conduzem para blogs específicos.
-- Cada blog possui opções de comprar lote, comprar casa, montar lote + casa, comprar produto wellness, simular proposta e falar com consultor.
+- Ícone de Casas diferenciado do ícone de Início no menu inferior.
+- Botão inferior "Enviar" substituído por "Wellness".
+- Botão "Wellness" leva para `wellness.html`.
+- Botão "Enviar proposta ao consultor" dentro da simulação agora leva o cliente para a seção Atendimento.
+- Na seção Atendimento, o botão "Enviar proposta ao consultor" permanece responsável por preparar o envio ao consultor.
