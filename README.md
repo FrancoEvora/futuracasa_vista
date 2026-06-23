@@ -1,12 +1,11 @@
-# Futura Casa v14.1 — Mapa Georreferenciado Fornecido
+# Futura Casa v14.3 — rebuild limpo do mapa correto
 
-Atualização:
-- A imagem enviada pelo usuário foi incorporada como mapa mestre da plataforma:
-  `solaris-mapa-georreferenciado-fornecido-v14-1.jpeg`
-- A mesma imagem é usada no mapa principal e no detalhamento do lote.
-- Foram removidos os pins e marcações artificiais sobre o mapa para não gerar deslocamentos ou falsa precisão.
-- O mapa passa a funcionar como base visual georreferenciada única; a seleção de lote continua pela lista/cards.
-- O próximo passo é converter a imagem + DXF/GeoJSON em camada SVG clicável por lote, mantendo esta imagem como fundo.
+Esta versão foi reconstruída em um HTML novo, sem herdar scripts antigos.
 
-Observação:
-Como a imagem enviada já possui marcações e callout do Setor de Águas, a plataforma não adiciona outra camada de água por cima.
+Correções:
+- usa a imagem georreferenciada enviada como mapa mestre;
+- remove o mapa antigo, logo Solaris antigo, legenda antiga e botão “Alinhar mapa”;
+- remove pins artificiais sobre o mapa;
+- corrige o botão Detalhes do lote;
+- mantém seleção por quadra, status e cards de lote;
+- mapa principal e modal de detalhes usam exatamente a mesma imagem.
