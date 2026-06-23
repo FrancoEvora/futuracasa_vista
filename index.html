@@ -2829,6 +2829,103 @@ section:has(.journeyCard){display:none!important}
   .fcLotList{max-height:390px;}
 }
 
+
+/* v14.5 — marcação visual de quadra e lote sobre o mapa validado */
+.fcMapFrame,
+.fcDetailMap{
+  position:relative;
+}
+.fcMapOverlay,
+.fcDetailOverlay{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:4;
+}
+.fcQuadraHalo{
+  position:absolute;
+  left:var(--x);
+  top:var(--y);
+  transform:translate(-50%,-50%);
+  min-width:96px;
+  height:54px;
+  border-radius:999px;
+  background:rgba(255,253,249,.78);
+  border:2px solid rgba(32,159,159,.55);
+  box-shadow:0 16px 45px rgba(28,34,48,.18);
+  backdrop-filter:blur(10px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--ink);
+  font-size:14px;
+  font-weight:950;
+  letter-spacing:-.02em;
+}
+.fcLotMarker{
+  position:absolute;
+  left:var(--x);
+  top:var(--y);
+  transform:translate(-50%,-112%);
+  display:grid;
+  justify-items:center;
+  gap:5px;
+  filter:drop-shadow(0 16px 30px rgba(28,34,48,.26));
+}
+.fcLotMarkerLabel{
+  background:rgba(255,253,249,.94);
+  border:1px solid rgba(201,90,53,.40);
+  color:var(--ink);
+  border-radius:999px;
+  padding:8px 12px;
+  font-size:12px;
+  font-weight:950;
+  white-space:nowrap;
+  backdrop-filter:blur(10px);
+}
+.fcLotMarkerLabel b{
+  color:var(--brand);
+}
+.fcLotMarkerDot{
+  width:23px;
+  height:23px;
+  border-radius:50%;
+  background:var(--brand);
+  border:5px solid #fff;
+  box-shadow:0 0 0 12px rgba(201,90,53,.24),0 0 0 24px rgba(201,90,53,.08);
+}
+.fcLotMarkerLine{
+  width:2px;
+  height:28px;
+  background:linear-gradient(180deg,rgba(201,90,53,.72),rgba(201,90,53,.08));
+  border-radius:999px;
+}
+.fcMapHelp{
+  margin-top:10px;
+  color:var(--muted);
+  font-size:13px;
+  font-weight:750;
+}
+.fcMapHelp b{
+  color:var(--brand);
+}
+@media(max-width:560px){
+  .fcQuadraHalo{
+    min-width:72px;
+    height:42px;
+    font-size:12px;
+  }
+  .fcLotMarkerLabel{
+    font-size:11px;
+    padding:7px 9px;
+  }
+  .fcLotMarkerDot{
+    width:19px;
+    height:19px;
+    border-width:4px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -2931,7 +3028,8 @@ section:has(.journeyCard){display:none!important}
     <div class="fcMapGrid">
       <section class="fcMapStage">
         <div class="fcMapFrame">
-          <img src="solaris-mapa-georreferenciado-v14-4.jpeg" alt="Mapa georreferenciado Solaris Home Resort">
+          <img src="solaris-mapa-georreferenciado-v14-5.jpeg" alt="Mapa georreferenciado Solaris Home Resort">
+          <div class="fcMapOverlay" id="fcMapOverlay"></div>
         </div>
       </section>
 
@@ -8418,8 +8516,8 @@ renderCommercialMap();
 
 
 /* v14.4 — Mapa validado v14.3 + plataforma completa */
-const mapImageSrc = 'solaris-mapa-georreferenciado-v14-4.jpeg';
-const FC_MAP_IMAGE = 'solaris-mapa-georreferenciado-v14-4.jpeg';
+const mapImageSrc = 'solaris-mapa-georreferenciado-v14-5.jpeg';
+const FC_MAP_IMAGE = 'solaris-mapa-georreferenciado-v14-5.jpeg';
 let fcMapStatus = 'available';
 let fcSelectedQuadra = 'A';
 let fcSelectedLotId = '';
@@ -8588,6 +8686,145 @@ document.addEventListener('click', (event)=>{
   if(modalSim){ event.preventDefault(); closeModal(); fcChooseLot(modalSim.dataset.fcDetailSim, true); return; }
 }, true);
 
+fcRenderMap();
+
+
+/* v14.5 — marcação de quadra/lote sobre a imagem georreferenciada validada */
+const FC_MARK_MAP_IMAGE = 'solaris-mapa-georreferenciado-v14-5.jpeg';
+
+// Centros visuais das quadras na imagem georreferenciada da v14.3/v14.5.
+// Coordenadas em porcentagem da imagem.
+const FC_QUADRA_MARKERS = {
+  A: {x:45.8, y:49.4},
+  B: {x:54.2, y:69.7},
+  C: {x:58.8, y:86.5},
+  D: {x:60.6, y:70.4},
+  E: {x:68.3, y:66.2},
+  F: {x:61.1, y:39.7},
+  G: {x:50.3, y:30.6},
+  H: {x:51.8, y:21.7},
+  I: {x:65.5, y:32.7},
+  J: {x:45.5, y:14.7},
+  K: {x:36.4, y:39.3},
+  L: {x:73.0, y:60.2}
+};
+
+function fcClamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
+function fcLerp(a,b,t){ return a + (b-a)*t; }
+function fcNumber(lot){
+  const n = parseInt(String(lot?.number || lot?.lote || '1').replace(/\D/g,''),10);
+  return Number.isFinite(n) && n > 0 ? n : 1;
+}
+function fcLinePos(n,start,end,count){
+  const t = count <= 1 ? 0 : (n-1)/(count-1);
+  return {x:fcLerp(start.x,end.x,t), y:fcLerp(start.y,end.y,t)};
+}
+function fcTwoRows(n, row1Count, r1a, r1b, r2a, r2b, total){
+  if(n <= row1Count) return fcLinePos(n, r1a, r1b, row1Count);
+  return fcLinePos(n-row1Count, r2a, r2b, Math.max(1,total-row1Count));
+}
+// Posições comerciais aproximadas lote a lote, derivadas visualmente da imagem georreferenciada.
+// Até vir o SVG/GeoJSON clicável, elas servem para orientação clara do usuário sem alterar a base oficial.
+function fcLotPosition(lot){
+  if(!lot) return {x:50,y:50};
+  const q = String(lot.quadra || '').trim().toUpperCase();
+  const n = fcNumber(lot);
+  let p;
+  switch(q){
+    case 'J':
+      p = fcLinePos(n, {x:41.5,y:13.4}, {x:55.6,y:15.0}, 12); break;
+    case 'H':
+      p = fcTwoRows(n, 10, {x:44.7,y:24.0}, {x:58.9,y:25.5}, {x:43.6,y:19.1}, {x:58.0,y:20.9}, 21); break;
+    case 'G':
+      p = fcTwoRows(n, 10, {x:44.5,y:34.0}, {x:57.7,y:35.0}, {x:45.0,y:28.8}, {x:59.2,y:31.2}, 19); break;
+    case 'I':
+      p = fcTwoRows(n, 11, {x:63.0,y:41.0}, {x:72.8,y:38.0}, {x:65.2,y:30.0}, {x:76.0,y:41.2}, 22); break;
+    case 'F':
+      p = fcTwoRows(n, 8, {x:60.8,y:44.5}, {x:66.0,y:36.0}, {x:66.5,y:34.0}, {x:74.5,y:44.0}, 17); break;
+    case 'A':
+      p = fcTwoRows(n, 17, {x:33.0,y:56.5}, {x:56.6,y:54.0}, {x:34.5,y:50.1}, {x:58.2,y:48.0}, 39); break;
+    case 'B':
+      p = fcTwoRows(n, 12, {x:51.8,y:59.5}, {x:53.0,y:81.5}, {x:56.5,y:60.0}, {x:57.0,y:79.5}, 23); break;
+    case 'D':
+      p = fcTwoRows(n, 16, {x:60.7,y:58.5}, {x:60.9,y:81.5}, {x:64.7,y:59.0}, {x:64.4,y:80.0}, 29); break;
+    case 'E':
+      p = fcTwoRows(n, 17, {x:68.1,y:50.5}, {x:68.7,y:78.3}, {x:72.0,y:51.0}, {x:72.2,y:77.0}, 33); break;
+    case 'C':
+      p = fcTwoRows(n, 17, {x:54.0,y:91.0}, {x:73.8,y:91.2}, {x:54.0,y:86.0}, {x:73.8,y:86.0}, 34); break;
+    case 'K':
+      p = {x:36.4,y:39.3}; break;
+    case 'L':
+      p = {x:73.0,y:60.2}; break;
+    default:
+      p = FC_QUADRA_MARKERS[q] || {x:50,y:50};
+  }
+  return {x:fcClamp(p.x,2,98), y:fcClamp(p.y,2,98)};
+}
+function fcMarkerHtml(lot, includeQuadra=true){
+  if(!lot) return '';
+  const q = String(lot.quadra || '').trim().toUpperCase();
+  const qp = FC_QUADRA_MARKERS[q] || fcLotPosition(lot);
+  const lp = fcLotPosition(lot);
+  const label = '<b>Q' + q + '</b> • Lote ' + (lot.number || lot.lote || '');
+  return (includeQuadra ? '<div class="fcQuadraHalo" style="--x:' + qp.x + '%;--y:' + qp.y + '%">Quadra ' + q + '</div>' : '') +
+    '<div class="fcLotMarker" style="--x:' + lp.x + '%;--y:' + lp.y + '%"><div class="fcLotMarkerLabel">' + label + '</div><div class="fcLotMarkerDot"></div><div class="fcLotMarkerLine"></div></div>';
+}
+function fcRenderOverlayMarker(){
+  const overlay = document.getElementById('fcMapOverlay');
+  if(!overlay) return;
+  const lot = fcLotById(fcSelectedLotId);
+  overlay.innerHTML = fcMarkerHtml(lot, true);
+}
+const fcPreviousRenderMap = fcRenderMap;
+fcRenderMap = function(){
+  fcPreviousRenderMap();
+  fcRenderOverlayMarker();
+  const selected = document.getElementById('fcSelectedLot');
+  if(selected && !selected.querySelector('.fcMapHelp')){
+    const lot = fcLotById(fcSelectedLotId);
+    if(lot){
+      const help = document.createElement('div');
+      help.className = 'fcMapHelp';
+      help.innerHTML = 'Marcado no mapa: <b>Quadra ' + lot.quadra + ' • Lote ' + lot.number + '</b>';
+      selected.querySelector('.fcSelectedCard')?.appendChild(help);
+    }
+  }
+};
+function fcOpenLotDetails(id){
+  const lot = fcEnsureLot(id) || fcLotById(id);
+  if(!lot){ toast('Não foi possível abrir os detalhes deste lote.'); return; }
+  const coords = lot.coords || {};
+  const gps = (Number.isFinite(Number(coords.lat)) && Number.isFinite(Number(coords.lng))) ? (Number(coords.lat).toFixed(6) + ', ' + Number(coords.lng).toFixed(6)) : 'Coordenada pendente';
+  const marker = fcMarkerHtml(lot, true);
+  const html = '<div class="modalHead"><div><span class="tag">Solaris Home Resort</span><h2>' + (lot.name || ('Quadra ' + lot.quadra + ' • Lote ' + lot.number)) + '</h2><p class="muted">O lote e a quadra selecionados estão marcados sobre o mapa georreferenciado.</p></div><button class="btn light small" data-close-modal>Fechar</button></div>' +
+    '<div class="modalBody"><div class="fcDetailMap"><img src="' + FC_MARK_MAP_IMAGE + '" alt="Mapa georreferenciado Solaris"><div class="fcDetailOverlay">' + marker + '</div></div>' +
+    '<div class="fcDetailGrid"><div class="fcDetailInfoCard"><h3>Dados do lote</h3><div class="fcMeta">' +
+    '<span>Quadra ' + (lot.quadra || '-') + '</span><span>Lote ' + (lot.number || '-') + '</span><span>' + Math.round(lot.area || 0) + ' m²</span><span>' + (lot.dims || '-') + '</span><span>' + fcStatusLabel(lot.status || 'available') + '</span></div>' +
+    '<p class="muted" style="margin-top:12px">' + (lot.details || 'Lote do Solaris Home Resort.') + '</p></div>' +
+    '<div class="fcDetailInfoCard"><h3>' + fmt(lot.price || 0) + '</h3><p class="muted"><b>Rua:</b> ' + (lot.street || 'Via interna') + '<br><b>GPS:</b> ' + gps + '</p>' +
+    '<div class="fcDetailActions"><button class="btn primary" type="button" data-fc-detail-choose="' + lot.id + '">Escolher este lote</button><div class="row">' +
+    '<button class="btn light" type="button" data-route-lot="' + lot.id + '">Rota</button><button class="btn light" type="button" data-fc-detail-sim="' + lot.id + '">Simular</button></div>' +
+    '<button class="btn light" type="button" data-ar-lot="' + lot.id + '">Ver no local (AR)</button></div></div></div></div>';
+  openModal(html);
+}
+openLotDetails = fcOpenLotDetails;
+// Corrige o botão legado "Ver no mapa" dos cards de lote fora da seção de mapa.
+document.addEventListener('click', function(event){
+  const legacyMap = event.target.closest('[data-map-lot]');
+  if(legacyMap){
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    const id = legacyMap.dataset.mapLot;
+    const lot = fcLotById(id);
+    if(lot){
+      fcSelectedQuadra = lot.quadra;
+      fcSelectedLotId = id;
+      fcRenderMap();
+      document.querySelector('#mapa')?.scrollIntoView({behavior:'smooth', block:'start'});
+      toast('Quadra e lote marcados no mapa.');
+    }
+  }
+}, true);
 fcRenderMap();
 
 </script>

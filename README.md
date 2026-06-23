@@ -1,25 +1,16 @@
-# Futura Casa v14.4 — Plataforma completa + mapa v14.3
+# Futura Casa v14.5 — Mapa com marcação de quadra e lote
 
-Esta versão preserva a plataforma completa da linha anterior e substitui apenas a seção de mapa.
+Base:
+- Plataforma completa preservada da v14.4.
+- Imagem georreferenciada validada da v14.3/v14.5: `solaris-mapa-georreferenciado-v14-5.jpeg`.
 
-Mapa usado:
-- `solaris-mapa-georreferenciado-v14-4.jpeg`
+Correções desta versão:
+- A quadra selecionada passa a ser marcada no mapa.
+- O lote selecionado passa a ser marcado no mapa.
+- O modal de detalhes também mostra o lote e a quadra marcados.
+- O botão `Ver no mapa` dos cards de lote agora leva ao mapa e marca o lote.
+- O botão `Ver detalhes` continua funcionando e agora abre o mapa com marcação.
+- O restante da plataforma foi preservado.
 
-Correções:
-- Remove a seção antiga do mapa comercial com imagem antiga, logo, legenda e bolhas sobrepostas.
-- Usa a imagem georreferenciada validada da v14.3 no mapa principal.
-- Usa a mesma imagem no modal de detalhes do lote.
-- Corrige o botão Ver detalhes do lote.
-- Mantém as demais áreas da plataforma:
-  - início;
-  - lotes;
-  - casas;
-  - simulação;
-  - proposta;
-  - wellness;
-  - corretores;
-  - painel do corretor;
-  - backoffice.
-
-Observação:
-A seleção de lote continua pela lista/cards. O próximo passo técnico será transformar o SVG/GeoJSON em camada clicável real por lote sobre a imagem validada.
+Observação técnica:
+As marcações são uma camada visual sobre a imagem georreferenciada. Para precisão cadastral total de clique/tap em cada lote, o próximo passo é usar o SVG/GeoJSON do urbanístico como camada clicável por polígono.
