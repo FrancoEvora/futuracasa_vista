@@ -1,11 +1,20 @@
-# Futura Casa v14.3 — rebuild limpo do mapa correto
+# Futura Casa v14.0 — Mapa Profissional
 
-Esta versão foi reconstruída em um HTML novo, sem herdar scripts antigos.
+Nova linha v14.
 
-Correções:
-- usa a imagem georreferenciada enviada como mapa mestre;
-- remove o mapa antigo, logo Solaris antigo, legenda antiga e botão “Alinhar mapa”;
-- remove pins artificiais sobre o mapa;
-- corrige o botão Detalhes do lote;
-- mantém seleção por quadra, status e cards de lote;
-- mapa principal e modal de detalhes usam exatamente a mesma imagem.
+Correções principais:
+- Uma única base de mapa (`solaris-mapa-master-v14.jpg`) passa a ser usada no mapa geral e no detalhamento do lote.
+- O setor de águas foi incorporado ao mapa mestre de forma sutil e consistente.
+- Removida a bagunça visual de bolhas de quadras espalhadas sobre o mapa.
+- O mapa mostra somente:
+  - a quadra selecionada;
+  - o lote selecionado;
+  - o setor de águas;
+  - legenda discreta.
+- O detalhamento do lote agora mostra o mesmo mapa mestre com o lote destacado.
+- A lista de lotes continua filtrada por quadra e status.
+- Mantidos os status provisórios: 60% disponíveis, 30% vendidos e 10% reservados.
+- Mantidos Corretores, Leads, Wellness e Blogs.
+
+Observação técnica:
+Esta versão ainda usa posições visuais aproximadas calculadas a partir do mapa mestre. A versão de produção deve converter o DXF em SVG/GeoJSON com polígonos reais por quadra e lote.
