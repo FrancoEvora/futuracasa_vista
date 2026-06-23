@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v14.0 Mapa Profissional</title>
+<title>Futura Casa | v14.4 Plataforma completa + mapa correto</title>
 <meta name="theme-color" content="#f5efe7">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -2713,333 +2713,120 @@ section:has(.journeyCard){display:none!important}
 }
 
 
-/* v14.0 — Mapa profissional: uma única base visual, sem poluição de pins */
-:root{
-  --brand:#C95A35;
-  --brand-dark:#A8431F;
-  --brand-tint:#FCEDE6;
-  --solaris:#209F9F;
-  --solaris-tint:#E4F4F4;
-}
-.v14MapSection{scroll-margin-top:120px}
-.v14MapHead{align-items:flex-end!important}
-.v14MapShell{
+/* v14.4 — mapa georreferenciado validado da v14.3, preservando a plataforma completa */
+:root{--brand:#C95A35;--brand-dark:#A8431F;--brand-tint:#FCEDE6;--solaris:#209F9F;--solaris-tint:#E4F4F4;}
+.fcMapSection{scroll-margin-top:120px;}
+.fcMapHead{align-items:flex-end!important;}
+.fcMapShell{
   background:linear-gradient(180deg,#fffdf9,#fbf4eb);
   border:1px solid var(--line);
   border-radius:34px;
-  box-shadow:0 28px 88px rgba(28,34,48,.12);
+  box-shadow:0 24px 72px rgba(28,34,48,.12);
   padding:18px;
 }
-.v14MapIntro{
+.fcMapTop{
   display:flex;
   align-items:flex-start;
   justify-content:space-between;
-  gap:16px;
-  padding:8px 8px 14px;
+  gap:14px;
+  padding:8px 8px 16px;
 }
-.v14MapIntro h3{
-  margin:8px 0 5px;
-  font-size:32px;
-  letter-spacing:-.045em;
-  line-height:1.04;
-}
-.v14MapIntro p{margin:0;max-width:720px}
-.v14QuadraStrip{
+.fcMapTop h3{font-size:32px;letter-spacing:-.04em;margin:8px 0 6px;line-height:1.02;}
+.fcMapTop p{margin:0;max-width:780px;}
+.fcQuadraTabs{
   display:flex;
   gap:9px;
   overflow:auto;
+  padding:4px 6px 16px;
   scrollbar-width:none;
-  padding:2px 6px 16px;
 }
-.v14QuadraStrip::-webkit-scrollbar{display:none}
-.v14QuadraButton{
+.fcQuadraTabs::-webkit-scrollbar{display:none;}
+.fcQuadraTabs button{
   min-width:92px;
   border:1px solid var(--line);
   background:#fff;
   color:var(--muted);
   border-radius:999px;
-  padding:11px 13px;
+  padding:12px 14px;
   font-weight:950;
   line-height:1.05;
   box-shadow:0 8px 22px rgba(28,34,48,.04);
 }
-.v14QuadraButton small{display:block;margin-top:4px;font-size:11px;color:inherit;opacity:.8}
-.v14QuadraButton.active{
+.fcQuadraTabs button small{display:block;margin-top:5px;font-size:11px;color:inherit;opacity:.8;}
+.fcQuadraTabs button.active{
   background:var(--brand);
-  border-color:transparent;
   color:#fff;
+  border-color:transparent;
   box-shadow:0 16px 42px rgba(201,90,53,.22);
 }
-.v14MapGrid{
+.fcMapGrid{
   display:grid;
-  grid-template-columns:minmax(0,1.08fr) minmax(330px,.92fr);
+  grid-template-columns:minmax(0,1.12fr) minmax(320px,.88fr);
   gap:18px;
   align-items:start;
 }
-.v14MapStage{display:grid;gap:10px}
-.v14MapViewport{
-  position:relative;
-  overflow:hidden;
+.fcMapFrame{
   border-radius:28px;
+  overflow:hidden;
   border:1px solid var(--line);
   background:#fff;
-  min-height:560px;
   box-shadow:inset 0 0 0 1px rgba(28,34,48,.04);
 }
-.v14MapViewport img{
+.fcMapFrame img{
   width:100%;
-  height:100%;
-  object-fit:contain;
-  object-position:center;
   display:block;
-  background:#fffdf9;
+  height:auto;
+  object-fit:contain;
+  background:#fff;
 }
-.v14MapOverlay{position:absolute;inset:0;pointer-events:none}
-.v14QuadraFocus{
-  position:absolute;
-  left:var(--x);
-  top:var(--y);
-  transform:translate(-50%,-50%);
-  border:1px solid rgba(32,159,159,.24);
-  background:rgba(255,253,249,.88);
-  color:var(--ink);
-  padding:9px 12px;
-  border-radius:999px;
-  font-weight:950;
-  box-shadow:0 14px 36px rgba(28,34,48,.13);
-  backdrop-filter:blur(12px);
-  white-space:nowrap;
-}
-.v14LotPin{
-  position:absolute;
-  left:var(--x);
-  top:var(--y);
-  transform:translate(-50%,-100%);
-  display:grid;
-  justify-items:center;
-  gap:4px;
-  pointer-events:none;
-}
-.v14LotPinLabel{
-  border-radius:999px;
-  padding:9px 13px;
-  background:rgba(255,253,249,.92);
-  border:1px solid rgba(201,90,53,.30);
-  color:var(--ink);
-  box-shadow:0 15px 38px rgba(28,34,48,.18);
-  font-size:13px;
-  font-weight:950;
-  white-space:nowrap;
-  backdrop-filter:blur(14px);
-}
-.v14LotPinLabel b{color:var(--brand)}
-.v14LotDot{
-  width:20px;
-  height:20px;
-  border-radius:50%;
-  background:var(--brand);
-  border:4px solid #fff;
-  box-shadow:0 0 0 10px rgba(201,90,53,.18),0 18px 38px rgba(28,34,48,.20);
-}
-.v14WaterPill{
-  position:absolute;
-  left:5.2%;
-  bottom:8.5%;
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  background:rgba(255,253,249,.90);
-  border:1px solid rgba(28,34,48,.10);
-  border-radius:999px;
-  padding:8px 11px;
-  font-size:12px;
-  font-weight:950;
-  color:#2d759d;
-  box-shadow:0 12px 30px rgba(28,34,48,.12);
-}
-.v14WaterPill span{
-  width:12px;height:12px;border-radius:50%;background:#3E9CCD;display:inline-block;
-}
-.v14MapLegend{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  padding:0 4px;
-}
-.v14MapLegend span{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:12px;
-  color:var(--muted);
-  font-weight:850;
-}
-.v14MapLegend i{
-  width:11px;height:11px;border-radius:50%;display:inline-block;
-}
-.v14MapLegend i.available{background:#6CAB43}
-.v14MapLegend i.reserved{background:#C95A35}
-.v14MapLegend i.sold{background:#8A93A3}
-.v14MapLegend i.selected{background:var(--brand);box-shadow:0 0 0 5px rgba(201,90,53,.18)}
-.v14SidePanel{
-  display:grid;
-  gap:12px;
-  align-content:start;
-}
-.v14PanelCard,.v14SelectedCard,.v14LotRow{
+.fcMapPanel{display:grid;gap:12px;align-content:start;}
+.fcPanelCard,.fcSelectedCard,.fcLotRow{
   background:#fff;
   border:1px solid var(--line);
   border-radius:24px;
   padding:18px;
   box-shadow:0 14px 40px rgba(28,34,48,.07);
 }
-.v14PanelCard h3,.v14SelectedCard h3{
-  margin:8px 0 8px;
-  font-size:30px;
-  line-height:1.02;
-  letter-spacing:-.04em;
-}
-.v14Stats{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:8px;
-  margin-top:12px;
-}
-.v14Stats span{
-  background:#fbf4eb;
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:10px;
-  color:var(--muted);
-  font-weight:850;
-}
-.v14Stats b{display:block;color:var(--ink);font-size:18px}
-.v14SelectedActions{
-  display:grid;
-  gap:8px;
-  margin-top:14px;
-}
-.v14SelectedActions .row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-}
-.v14SelectedActions .btn{
-  min-height:46px!important;
-  border-radius:16px!important;
-}
-.v14SelectedActions .ghost{
-  background:transparent!important;
-  color:var(--brand)!important;
-  border:0!important;
-}
-.v14LotList{
-  display:grid;
-  gap:10px;
-  max-height:520px;
-  overflow:auto;
-  padding-right:3px;
-}
-.v14LotRow{
-  cursor:pointer;
-  transition:.15s ease;
-}
-.v14LotRow:hover,.v14LotRow.active{
-  border-color:rgba(201,90,53,.45);
-  box-shadow:0 18px 48px rgba(201,90,53,.15);
-}
-.v14LotRow.active{
-  background:linear-gradient(180deg,#fff7ef,#fffdf9);
-}
-.v14LotRowTop{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-}
-.v14LotRow h4{margin:0;font-size:19px}
-.v14Badge{
-  display:inline-flex;
-  border-radius:999px;
-  padding:7px 10px;
-  font-size:12px;
-  font-weight:950;
-}
-.v14Badge.available{background:#E9F6EA;color:#2c733e}
-.v14Badge.reserved{background:#FFF1E8;color:#C95A35}
-.v14Badge.sold{background:#ECEFF2;color:#687386}
-.v14Meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-  margin-top:12px;
-}
-.v14Meta span{
-  background:#f7f1e9;
-  border:1px solid var(--line);
-  border-radius:999px;
-  padding:7px 10px;
-  color:var(--muted);
-  font-size:13px;
-  font-weight:850;
-}
-.v14RowFooter{
-  display:flex;
-  justify-content:flex-end;
-  margin-top:12px;
-}
-.v14RowFooter .btn{
-  min-height:38px!important;
-  border-radius:999px!important;
-  font-size:13px!important;
-}
-.v14DetailMap{
-  position:relative;
-  overflow:hidden;
-  border-radius:24px;
-  border:1px solid var(--line);
-  background:#fff;
-  min-height:320px;
-  margin:14px 0;
-}
-.v14DetailMap img{
-  width:100%;height:100%;object-fit:contain;display:block;background:#fffdf9;
-}
-.v14DetailGrid{
-  display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:14px;
-}
-.v14DetailInfoCard{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:22px;
-  padding:16px;
-}
-.v14DetailInfoCard h3{margin:0 0 8px;font-size:25px}
-.v14DetailActions{
-  display:grid;
-  gap:9px;
-  margin-top:12px;
-}
-.v14DetailActions .row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-}
+.fcPanelCard h3,.fcSelectedCard h3{margin:8px 0 8px;font-size:30px;line-height:1.02;letter-spacing:-.04em;}
+.fcStats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px;}
+.fcStats span{background:#fbf4eb;border:1px solid var(--line);border-radius:16px;padding:10px;color:var(--muted);font-weight:850;}
+.fcStats b{display:block;color:var(--ink);font-size:18px;}
+.fcMeta{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px;}
+.fcMeta span{background:#f7f1e9;border:1px solid var(--line);border-radius:999px;padding:7px 10px;color:var(--muted);font-size:13px;font-weight:850;}
+.fcActions{display:grid;gap:8px;margin-top:14px;}
+.fcActions .row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.fcActions .btn{min-height:46px!important;border-radius:16px!important;}
+.fcActions .ghost{background:transparent!important;color:var(--brand)!important;border:0!important;}
+.fcLotList{display:grid;gap:10px;max-height:520px;overflow:auto;padding-right:3px;}
+.fcLotRow{cursor:pointer;transition:.15s ease;}
+.fcLotRow:hover,.fcLotRow.active{border-color:rgba(201,90,53,.45);box-shadow:0 18px 48px rgba(201,90,53,.15);}
+.fcLotRow.active{background:linear-gradient(180deg,#fff7ef,#fffdf9);}
+.fcLotRowTop{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.fcLotRow h4{margin:0;font-size:19px;}
+.fcBadge{display:inline-flex;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:950;}
+.fcBadge.available{background:#E9F6EA;color:#2c733e;}
+.fcBadge.reserved{background:#FFF1E8;color:#C95A35;}
+.fcBadge.sold{background:#ECEFF2;color:#687386;}
+.fcRowFooter{display:flex;justify-content:flex-end;margin-top:12px;}
+.fcRowFooter .btn{min-height:38px!important;border-radius:999px!important;font-size:13px!important;}
+.fcDetailMap{position:relative;overflow:hidden;border-radius:24px;border:1px solid var(--line);background:#fff;margin:14px 0;}
+.fcDetailMap img{width:100%;height:auto;display:block;}
+.fcDetailGrid{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;}
+.fcDetailInfoCard{background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px;}
+.fcDetailInfoCard h3{margin:0 0 8px;font-size:25px;}
+.fcDetailActions{display:grid;gap:9px;margin-top:12px;}
+.fcDetailActions .row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 @media(max-width:980px){
-  .v14MapGrid,.v14DetailGrid{grid-template-columns:1fr}
-  .v14MapViewport{min-height:auto;aspect-ratio:1/1}
-  .v14LotList{max-height:430px}
+  .fcMapGrid,.fcDetailGrid{grid-template-columns:1fr;}
+  .fcLotList{max-height:430px;}
 }
 @media(max-width:560px){
-  .v14MapShell{padding:12px;border-radius:28px}
-  .v14MapIntro{display:grid;padding:6px 4px 12px}
-  .v14MapIntro h3{font-size:27px}
-  .v14MapViewport{aspect-ratio:4/3;border-radius:22px}
-  .v14QuadraFocus{font-size:12px;padding:7px 10px}
-  .v14LotPinLabel{font-size:12px;padding:8px 10px}
-  .v14WaterPill{font-size:11px;left:4.5%;bottom:7%}
-  .v14SelectedActions .row,.v14DetailActions .row{grid-template-columns:1fr}
-  .v14DetailMap{min-height:auto;aspect-ratio:4/3}
+  .fcMapShell{padding:12px;border-radius:28px;}
+  .fcMapTop{display:grid;padding:6px 4px 12px;}
+  .fcMapTop h3{font-size:27px;}
+  .fcMapFrame{border-radius:22px;}
+  .fcActions .row,.fcDetailActions .row{grid-template-columns:1fr;}
+  .fcLotList{max-height:390px;}
 }
 
 </style>
@@ -3115,52 +2902,43 @@ section:has(.journeyCard){display:none!important}
 
   
 
-<section class="wrap section mapSection v14MapSection" id="mapa">
-  <div class="sectionHead v14MapHead">
+<section class="wrap section mapSection fcMapSection" id="mapa">
+  <div class="sectionHead fcMapHead">
     <div>
-      <div class="eyebrow">Mapa profissional</div>
+      <div class="eyebrow">Mapa Solaris</div>
       <h2>Escolha a quadra. Depois selecione o lote.</h2>
-      <p class="muted">Uma única base de mapa será usada em todas as telas: mapa geral, seleção de lote e detalhamento. Assim, o cliente sempre vê a mesma referência.</p>
+      <p class="muted">A plataforma agora usa a imagem georreferenciada validada da v14.3 como base única em todas as áreas com mapa.</p>
     </div>
-    <div class="modebar v14StatusTabs" id="v14StatusTabs">
-      <button class="mode active" type="button" data-v14-status="available">Disponíveis</button>
-      <button class="mode" type="button" data-v14-status="reserved">Reservados</button>
-      <button class="mode" type="button" data-v14-status="sold">Vendidos</button>
-      <button class="mode" type="button" data-v14-status="all">Todos</button>
+    <div class="modebar fcStatusTabs" id="fcStatusTabs">
+      <button class="mode active" type="button" data-fc-status="available">Disponíveis</button>
+      <button class="mode" type="button" data-fc-status="reserved">Reservados</button>
+      <button class="mode" type="button" data-fc-status="sold">Vendidos</button>
+      <button class="mode" type="button" data-fc-status="all">Todos</button>
     </div>
   </div>
 
-  <div class="v14MapShell">
-    <div class="v14MapIntro">
+  <div class="fcMapShell">
+    <div class="fcMapTop">
       <div>
         <span class="tag">Solaris Home Resort</span>
-        <h3>Mapa único do empreendimento</h3>
-        <p class="muted">Base oficial com setor de águas incorporado. O mapa evita pins em massa e destaca apenas o contexto selecionado.</p>
+        <h3>Mapa georreferenciado</h3>
+        <p class="muted">A seleção é feita pela lista para preservar precisão visual. O mapa aparece como referência oficial do empreendimento.</p>
       </div>
-      <button class="btn light small" type="button" id="v14MapCenter">Centralizar</button>
     </div>
 
-    <div class="v14QuadraStrip" id="v14QuadraStrip"></div>
+    <div class="fcQuadraTabs" id="fcQuadraTabs"></div>
 
-    <div class="v14MapGrid">
-      <section class="v14MapStage">
-        <div class="v14MapViewport" id="v14MapViewport">
-          <img src="solaris-mapa-master-v14.jpg" alt="Mapa Solaris Home Resort">
-          <div class="v14WaterPill"><span></span> Setor de águas</div>
-          <div class="v14MapOverlay" id="v14MapOverlay"></div>
-        </div>
-        <div class="v14MapLegend">
-          <span><i class="available"></i>Disponível</span>
-          <span><i class="reserved"></i>Reservado</span>
-          <span><i class="sold"></i>Vendido</span>
-          <span><i class="selected"></i>Selecionado</span>
+    <div class="fcMapGrid">
+      <section class="fcMapStage">
+        <div class="fcMapFrame">
+          <img src="solaris-mapa-georreferenciado-v14-4.jpeg" alt="Mapa georreferenciado Solaris Home Resort">
         </div>
       </section>
 
-      <aside class="v14SidePanel">
-        <div id="v14QuadraSummary"></div>
-        <div id="v14SelectedLot"></div>
-        <div class="v14LotList" id="v14LotList"></div>
+      <aside class="fcMapPanel">
+        <div id="fcQuadraSummary"></div>
+        <div id="fcSelectedLot"></div>
+        <div class="fcLotList" id="fcLotList"></div>
       </aside>
     </div>
   </div>
@@ -8639,118 +8417,178 @@ bindCommercialMap();
 renderCommercialMap();
 
 
-/* v14.0 — Mapa profissional, único e consistente */
-const V14_MAP_SRC = 'solaris-mapa-master-v14.jpg';
-const V14_CROP = {left:220, top:0, right:1375, bottom:930, fullW:1536, fullH:961};
-const V14_QUADRA_POS = {
-  A:{x:57.5,y:13.0}, B:{x:47.5,y:46.0}, C:{x:57.0,y:30.5}, D:{x:60.8,y:17.0}, E:{x:77.5,y:64.5},
-  F:{x:79.5,y:38.0}, G:{x:56.0,y:63.0}, H:{x:65.0,y:64.5}, I:{x:59.5,y:83.5}, J:{x:79.0,y:82.0}
-};
-let v14Status = 'available';
-let v14Quadra = 'A';
-let v14SelectedLotId = '';
+/* v14.4 — Mapa validado v14.3 + plataforma completa */
+const mapImageSrc = 'solaris-mapa-georreferenciado-v14-4.jpeg';
+const FC_MAP_IMAGE = 'solaris-mapa-georreferenciado-v14-4.jpeg';
+let fcMapStatus = 'available';
+let fcSelectedQuadra = 'A';
+let fcSelectedLotId = '';
 
-function v14TransformPoint(x, y){
-  const px = (Number(x) / 100) * V14_CROP.fullW;
-  const py = (Number(y) / 100) * V14_CROP.fullH;
-  const nx = ((px - V14_CROP.left) / (V14_CROP.right - V14_CROP.left)) * 100;
-  const ny = ((py - V14_CROP.top) / (V14_CROP.bottom - V14_CROP.top)) * 100;
-  return {
-    x: Math.max(2, Math.min(98, nx)),
-    y: Math.max(2, Math.min(98, ny))
-  };
+function fcStatusLabel(status){
+  return status === 'reserved' ? 'Reservado' : status === 'sold' ? 'Vendido' : 'Disponível';
 }
-function v14LotById(id){ return MAP_LOTS.find(l=>l.id===id); }
-function v14StatusLabel(status){ return status === 'reserved' ? 'Reservado' : status === 'sold' ? 'Vendido' : 'Disponível'; }
-function v14Quadras(){
-  return Array.from(new Set(MAP_LOTS.filter(l=>!['K','L'].includes(String(l.quadra))).map(l=>l.quadra))).sort((a,b)=>String(a).localeCompare(String(b),'pt-BR',{numeric:true}));
+function fcQuadras(){
+  if(typeof MAP_LOTS === 'undefined') return [];
+  return Array.from(new Set(MAP_LOTS.filter(l=>!['K','L'].includes(String(l.quadra))).map(l=>l.quadra)))
+    .sort((a,b)=>String(a).localeCompare(String(b),'pt-BR',{numeric:true}));
 }
-function v14LotsForQuadra(quadra=v14Quadra, status=v14Status){
-  return MAP_LOTS.filter(l=>!['K','L'].includes(String(l.quadra)) && l.quadra===quadra && (status==='all' || l.status===status));
+function fcAllQuadraLots(q=fcSelectedQuadra){
+  return (typeof MAP_LOTS === 'undefined' ? [] : MAP_LOTS.filter(l=>l.quadra===q && !['K','L'].includes(String(l.quadra))));
 }
-function v14AllQuadraLots(q=v14Quadra){ return MAP_LOTS.filter(l=>l.quadra===q && !['K','L'].includes(String(l.quadra))); }
-function v14SelectFirstLot(){
-  const lots = v14LotsForQuadra();
-  if(!lots.length){ v14SelectedLotId=''; return; }
-  if(!lots.some(l=>l.id===v14SelectedLotId)) v14SelectedLotId = lots[0].id;
+function fcLotsForQuadra(q=fcSelectedQuadra,status=fcMapStatus){
+  return fcAllQuadraLots(q).filter(l=>status==='all' || l.status===status);
 }
-function v14RenderQuadraStrip(){
-  const el=document.getElementById('v14QuadraStrip'); if(!el) return;
-  el.innerHTML = v14Quadras().map(q=>{
-    const all=v14AllQuadraLots(q); const available=all.filter(l=>l.status==='available').length;
-    return `<button type="button" class="v14QuadraButton ${q===v14Quadra?'active':''}" data-v14-quadra="${q}">Quadra ${q}<small>${available} disp.</small></button>`;
+function fcLotById(id){
+  return (typeof MAP_LOTS !== 'undefined' ? MAP_LOTS.find(l=>l.id===id) : null) || (typeof LOTS !== 'undefined' ? LOTS.find(l=>l.id===id) : null);
+}
+function fcMinPrice(lots){
+  const values = lots.map(l=>Number(l.price||0)).filter(v=>v>0);
+  return values.length ? Math.min(...values) : 0;
+}
+function fcSelectFirstLotIfNeeded(){
+  const lots = fcLotsForQuadra();
+  if(!lots.length){ fcSelectedLotId = ''; return; }
+  if(!lots.some(l=>l.id===fcSelectedLotId)) fcSelectedLotId = lots[0].id;
+}
+function fcRenderQuadraTabs(){
+  const el = document.getElementById('fcQuadraTabs');
+  if(!el) return;
+  el.innerHTML = fcQuadras().map(q=>{
+    const available = fcAllQuadraLots(q).filter(l=>l.status==='available').length;
+    return '<button type="button" class="' + (q===fcSelectedQuadra?'active':'') + '" data-fc-quadra="' + q + '">Quadra ' + q + '<small>' + available + ' disp.</small></button>';
   }).join('');
 }
-function v14RenderOverlay(){
-  const overlay=document.getElementById('v14MapOverlay'); if(!overlay) return;
-  const qposOriginal = V14_QUADRA_POS[v14Quadra] || {x:50,y:50};
-  const qpos = v14TransformPoint(qposOriginal.x,qposOriginal.y);
-  const lot = v14LotById(v14SelectedLotId);
-  const lotPos = lot ? v14TransformPoint(lot.x, lot.y) : null;
-  overlay.innerHTML = `<div class="v14QuadraFocus" style="--x:${qpos.x}%;--y:${qpos.y}%">Quadra ${v14Quadra}</div>
-    ${lot && lotPos ? `<div class="v14LotPin" style="--x:${lotPos.x}%;--y:${lotPos.y}%"><div class="v14LotPinLabel"><b>Q${lot.quadra}</b> • Lote ${lot.number}</div><div class="v14LotDot"></div></div>` : ''}`;
+function fcRenderSummary(){
+  const el = document.getElementById('fcQuadraSummary');
+  if(!el) return;
+  const all = fcAllQuadraLots();
+  const filtered = fcLotsForQuadra();
+  const available = all.filter(l=>l.status==='available').length;
+  const reserved = all.filter(l=>l.status==='reserved').length;
+  const sold = all.filter(l=>l.status==='sold').length;
+  const min = fcMinPrice(all);
+  el.innerHTML = '<div class="fcPanelCard"><span class="tag">Quadra selecionada</span><h3>Quadra ' + fcSelectedQuadra + '</h3>' +
+    '<p class="muted">A lista mostra os lotes desta quadra. O mapa permanece como referência georreferenciada única.</p>' +
+    '<div class="fcStats"><span><b>' + all.length + '</b>lotes</span><span><b>' + available + '</b>disponíveis</span><span><b>' + reserved + '</b>reservados</span><span><b>' + sold + '</b>vendidos</span><span><b>' + (min ? fmt(min) : '-') + '</b>a partir de</span><span><b>' + filtered.length + '</b>no filtro</span></div></div>';
 }
-function v14MoneyMin(lots){ const vals=lots.map(l=>Number(l.price||0)).filter(Boolean); return vals.length?Math.min(...vals):0; }
-function v14RenderSummary(){
-  const el=document.getElementById('v14QuadraSummary'); if(!el) return;
-  const all=v14AllQuadraLots(); const filtered=v14LotsForQuadra();
-  const available=all.filter(l=>l.status==='available').length;
-  const reserved=all.filter(l=>l.status==='reserved').length;
-  const sold=all.filter(l=>l.status==='sold').length;
-  const min=v14MoneyMin(all);
-  el.innerHTML=`<div class="v14PanelCard"><span class="tag">Quadra selecionada</span><h3>Quadra ${v14Quadra}</h3>
-    <p class="muted">A lista mostra apenas os lotes desta quadra, evitando poluição visual no mapa.</p>
-    <div class="v14Stats"><span><b>${all.length}</b>lotes</span><span><b>${available}</b>disponíveis</span><span><b>${reserved}</b>reservados</span><span><b>${sold}</b>vendidos</span><span><b>${min?fmt(min):'-'}</b>a partir de</span><span><b>${filtered.length}</b>no filtro</span></div></div>`;
+function fcRenderSelectedLot(){
+  const el = document.getElementById('fcSelectedLot');
+  if(!el) return;
+  const lot = fcLotById(fcSelectedLotId);
+  if(!lot){
+    el.innerHTML = '<div class="fcSelectedCard"><span class="tag">Sem lote</span><h3>Nenhum lote encontrado</h3><p class="muted">Escolha outro status ou outra quadra.</p></div>';
+    return;
+  }
+  el.innerHTML = '<div class="fcSelectedCard"><span class="tag">Lote selecionado • ' + fcStatusLabel(lot.status) + '</span><h3>Quadra ' + lot.quadra + ' • Lote ' + lot.number + '</h3>' +
+    '<div class="fcMeta"><span>' + Math.round(lot.area) + ' m²</span><span>' + lot.dims + '</span><span>' + fmt(lot.price) + '</span><span>' + (lot.street || 'Via interna') + '</span></div>' +
+    '<p class="muted">' + (lot.details || 'Lote do Solaris Home Resort.') + '</p>' +
+    '<div class="fcActions"><button class="btn primary" type="button" data-fc-choose="' + lot.id + '">Escolher este lote</button>' +
+    '<div class="row"><button class="btn light" type="button" data-fc-detail="' + lot.id + '">Ver detalhes</button><button class="btn light" type="button" data-fc-sim="' + lot.id + '">Simular só o lote</button></div>' +
+    '<button class="btn ghost" type="button" data-fc-ar="' + lot.id + '">◎ Ver no local (AR)</button></div></div>';
 }
-function v14RenderSelectedLot(){
-  const el=document.getElementById('v14SelectedLot'); if(!el) return;
-  const lot=v14LotById(v14SelectedLotId);
-  if(!lot){ el.innerHTML=`<div class="v14SelectedCard"><span class="tag">Sem lote</span><h3>Nenhum lote encontrado</h3><p class="muted">Escolha outro status ou outra quadra.</p></div>`; return; }
-  el.innerHTML=`<div class="v14SelectedCard"><span class="tag">Lote selecionado • ${v14StatusLabel(lot.status)}</span><h3>Quadra ${lot.quadra} • Lote ${lot.number}</h3>
-    <div class="v14Meta"><span>${Math.round(lot.area)} m²</span><span>${lot.dims}</span><span>${fmt(lot.price)}</span><span>${lot.street||'Via interna'}</span></div>
-    <p class="muted">${lot.details}</p>
-    <div class="v14SelectedActions"><button class="btn primary" type="button" data-v14-choose="${lot.id}">Escolher este lote</button>
-      <div class="row"><button class="btn light" type="button" data-v14-detail="${lot.id}">Ver detalhes</button><button class="btn light" type="button" data-v14-sim="${lot.id}">Simular só o lote</button></div>
-      <button class="btn ghost" type="button" data-v14-ar="${lot.id}">◎ Ver no local (AR)</button></div></div>`;
+function fcRenderLotList(){
+  const el = document.getElementById('fcLotList');
+  if(!el) return;
+  const lots = fcLotsForQuadra();
+  el.innerHTML = lots.map(l=>'<article class="fcLotRow ' + (l.id===fcSelectedLotId?'active':'') + '" data-fc-lot="' + l.id + '" role="button" tabindex="0">' +
+    '<div class="fcLotRowTop"><h4>Lote ' + l.number + '</h4><span class="fcBadge ' + l.status + '">' + fcStatusLabel(l.status) + '</span></div>' +
+    '<div class="fcMeta"><span>' + Math.round(l.area) + ' m²</span><span>' + l.dims + '</span><span>' + fmt(l.price) + '</span></div>' +
+    '<div class="fcRowFooter"><button type="button" class="btn ' + (l.id===fcSelectedLotId?'primary':'light') + ' small" data-fc-select="' + l.id + '">' + (l.id===fcSelectedLotId?'Selecionado':'Selecionar') + '</button></div>' +
+    '</article>').join('') || '<div class="fcLotRow"><p class="muted" style="margin:0">Nenhum lote encontrado nesta quadra com o filtro atual.</p></div>';
 }
-function v14RenderLotList(){
-  const el=document.getElementById('v14LotList'); if(!el) return;
-  const lots=v14LotsForQuadra();
-  el.innerHTML = lots.map(l=>`<article class="v14LotRow ${l.id===v14SelectedLotId?'active':''}" data-v14-lot="${l.id}" role="button" tabindex="0">
-    <div class="v14LotRowTop"><h4>Lote ${l.number}</h4><span class="v14Badge ${l.status}">${v14StatusLabel(l.status)}</span></div>
-    <div class="v14Meta"><span>${Math.round(l.area)} m²</span><span>${l.dims}</span><span>${fmt(l.price)}</span></div>
-    <div class="v14RowFooter"><button type="button" class="btn ${l.id===v14SelectedLotId?'primary':'light'} small" data-v14-select="${l.id}">${l.id===v14SelectedLotId?'Selecionado':'Selecionar'}</button></div>
-  </article>`).join('') || `<div class="v14LotRow"><p class="muted" style="margin:0">Nenhum lote encontrado nesta quadra com o filtro atual.</p></div>`;
+function fcRenderMap(){
+  fcSelectFirstLotIfNeeded();
+  fcRenderQuadraTabs();
+  fcRenderSummary();
+  fcRenderSelectedLot();
+  fcRenderLotList();
 }
-function v14RenderAll(){ v14SelectFirstLot(); v14RenderQuadraStrip(); v14RenderOverlay(); v14RenderSummary(); v14RenderSelectedLot(); v14RenderLotList(); }
-function v14SetSelectedLot(id,{scroll=false}={}){ const lot=v14LotById(id); if(!lot) return; v14SelectedLotId=id; v14Quadra=lot.quadra; v14RenderAll(); trackPartnerEvent?.('v14_lot_select',{id,quadra:lot.quadra,lot:lot.number}); if(scroll) setTimeout(()=>document.getElementById('v14SelectedLot')?.scrollIntoView({behavior:'smooth',block:'nearest'}),30); }
-function v14ChooseLot(id,{scrollToSimulation=true}={}){ const mapLot=v14LotById(id); if(!mapLot) return; const lot=ensureMapLotInLots(mapLot); state.lot=lot; state.customLotPrice=lot.price; state.mode='lot'; if($('#buyMode')) $('#buyMode').value='lot'; syncPriceInputs(); renderAll(); trackPartnerEvent?.('v14_lot_choose',{id,quadra:mapLot.quadra,lot:mapLot.number}); toast('Lote escolhido para simulação.'); if(scrollToSimulation) document.querySelector('#bandeja')?.scrollIntoView({behavior:'smooth',block:'start'}); }
-function v14MiniMapHtml(mapLot){ const p=v14TransformPoint(mapLot.x,mapLot.y); const base=V14_QUADRA_POS[mapLot.quadra]||{x:50,y:50}; const qp=v14TransformPoint(base.x,base.y); return `<div class="v14DetailMap"><img src="${V14_MAP_SRC}" alt="Mapa do lote"><div class="v14WaterPill"><span></span> Setor de águas</div><div class="v14MapOverlay"><div class="v14QuadraFocus" style="--x:${qp.x}%;--y:${qp.y}%">Quadra ${mapLot.quadra}</div><div class="v14LotPin" style="--x:${p.x}%;--y:${p.y}%"><div class="v14LotPinLabel"><b>Q${mapLot.quadra}</b> • Lote ${mapLot.number}</div><div class="v14LotDot"></div></div></div></div>`; }
-function openLotDetails(id){
-  const lot = resolveSelectableLot(id) || LOTS.find(x=>x.id===id);
+function fcEnsureLot(id){
+  const mapLot = (typeof MAP_LOTS !== 'undefined' ? MAP_LOTS.find(l=>l.id===id) : null);
+  if(mapLot && typeof ensureMapLotInLots === 'function') return ensureMapLotInLots(mapLot);
+  return (typeof LOTS !== 'undefined' ? LOTS.find(l=>l.id===id) : null);
+}
+function fcChooseLot(id, scrollToSimulation=true){
+  const lot = fcEnsureLot(id);
   if(!lot) return;
-  const mapLot = MAP_LOTS.find(m=>m.id===id) || MAP_LOTS.find(m=>m.quadra===lot.quadra && String(m.number).padStart(2,'0')===String(lot.number || '').padStart(2,'0')) || MAP_LOTS.find(m=>m.name===lot.name);
-  const display = mapLot || lot;
-  const coords = display.coords || lot.coords || null;
-  const gps = coords ? `${Number(coords.lat).toFixed(6)}, ${Number(coords.lng).toFixed(6)}` : 'Coordenada pendente';
-  const miniMap = mapLot ? v14MiniMapHtml(mapLot) : '';
-  openModal(`<div class="modalHead"><div><span class="tag">Solaris Home Resort</span><h2>${display.name || lot.name}</h2><p class="muted">Mapa, dados e ações usam a mesma base visual da tela de seleção.</p></div><button class="btn light small" data-close-modal>Fechar</button></div>
-    <div class="modalBody">${miniMap}<div class="v14DetailGrid"><div class="v14DetailInfoCard"><h3>Dados do lote</h3><div class="v14Meta"><span>Quadra ${display.quadra || lot.quadra || '-'}</span><span>Lote ${display.number || lot.number || '-'}</span><span>${Math.round(display.area || lot.area || 0)} m²</span><span>${display.dims || lot.dims || '-'}</span><span>${v14StatusLabel(display.status || 'available')}</span></div><p class="muted" style="margin-top:12px">${display.details || lot.details || ''}</p></div><div class="v14DetailInfoCard"><h3>${fmt(display.price || lot.price || 0)}</h3><p class="muted"><b>Rua:</b> ${display.street || lot.street || 'Via interna'}<br><b>GPS:</b> ${gps}</p><div class="v14DetailActions"><button class="btn primary" type="button" data-v14-detail-choose="${display.id || lot.id}">Escolher este lote</button><div class="row"><button class="btn light" type="button" data-route-lot="${display.id || lot.id}">Rota</button><button class="btn light" type="button" data-v14-detail-sim="${display.id || lot.id}">Simular</button></div><button class="btn light" type="button" data-ar-lot="${display.id || lot.id}">Ver no local (AR)</button></div></div></div></div>`);
+  state.lot = lot;
+  state.customLotPrice = lot.price;
+  state.mode = 'lot';
+  const buyMode = document.getElementById('buyMode');
+  if(buyMode) buyMode.value = 'lot';
+  syncPriceInputs();
+  renderAll();
+  toast('Lote escolhido para simulação.');
+  if(scrollToSimulation) document.querySelector('#bandeja')?.scrollIntoView({behavior:'smooth', block:'start'});
 }
-document.addEventListener('click',(event)=>{
-  const q=event.target.closest('[data-v14-quadra]'); if(q){ event.preventDefault(); v14Quadra=q.dataset.v14Quadra; const first=v14LotsForQuadra(v14Quadra)[0]; v14SelectedLotId=first?.id||''; v14RenderAll(); trackPartnerEvent?.('v14_quadra_select',{quadra:v14Quadra}); return; }
-  const st=event.target.closest('[data-v14-status]'); if(st){ event.preventDefault(); v14Status=st.dataset.v14Status; document.querySelectorAll('[data-v14-status]').forEach(b=>b.classList.toggle('active', b.dataset.v14Status===v14Status)); const first=v14LotsForQuadra(v14Quadra,v14Status)[0]; v14SelectedLotId=first?.id||''; v14RenderAll(); return; }
-  const row=event.target.closest('[data-v14-lot]'); if(row && !event.target.closest('button')){ event.preventDefault(); v14SetSelectedLot(row.dataset.v14Lot,{scroll:true}); return; }
-  const sel=event.target.closest('[data-v14-select]'); if(sel){ event.preventDefault(); v14SetSelectedLot(sel.dataset.v14Select,{scroll:true}); return; }
-  const choose=event.target.closest('[data-v14-choose]'); if(choose){ event.preventDefault(); v14ChooseLot(choose.dataset.v14Choose); return; }
-  const sim=event.target.closest('[data-v14-sim]'); if(sim){ event.preventDefault(); v14ChooseLot(sim.dataset.v14Sim); return; }
-  const det=event.target.closest('[data-v14-detail]'); if(det){ event.preventDefault(); const ml=v14LotById(det.dataset.v14Detail); ensureMapLotInLots(ml); openLotDetails(ml.id); return; }
-  const ar=event.target.closest('[data-v14-ar]'); if(ar){ event.preventDefault(); const ml=v14LotById(ar.dataset.v14Ar); const l=ensureMapLotInLots(ml); openARView(l.id); return; }
-  const modalChoose=event.target.closest('[data-v14-detail-choose]'); if(modalChoose){ event.preventDefault(); closeModal(); v14ChooseLot(modalChoose.dataset.v14DetailChoose); return; }
-  const modalSim=event.target.closest('[data-v14-detail-sim]'); if(modalSim){ event.preventDefault(); closeModal(); v14ChooseLot(modalSim.dataset.v14DetailSim); return; }
-});
-document.getElementById('v14MapCenter')?.addEventListener('click',()=>{ document.getElementById('v14MapViewport')?.scrollIntoView({behavior:'smooth',block:'center'}); toast('Mapa centralizado.'); });
-v14RenderAll();
+function fcOpenLotDetails(id){
+  const lot = fcEnsureLot(id) || fcLotById(id);
+  if(!lot){ toast('Não foi possível abrir os detalhes deste lote.'); return; }
+  const coords = lot.coords || {};
+  const gps = (Number.isFinite(Number(coords.lat)) && Number.isFinite(Number(coords.lng))) ? (Number(coords.lat).toFixed(6) + ', ' + Number(coords.lng).toFixed(6)) : 'Coordenada pendente';
+  const html = '<div class="modalHead"><div><span class="tag">Solaris Home Resort</span><h2>' + (lot.name || ('Quadra ' + lot.quadra + ' • Lote ' + lot.number)) + '</h2><p class="muted">Detalhamento conectado ao mapa georreferenciado validado.</p></div><button class="btn light small" data-close-modal>Fechar</button></div>' +
+    '<div class="modalBody"><div class="fcDetailMap"><img src="' + FC_MAP_IMAGE + '" alt="Mapa georreferenciado Solaris"></div>' +
+    '<div class="fcDetailGrid"><div class="fcDetailInfoCard"><h3>Dados do lote</h3><div class="fcMeta">' +
+    '<span>Quadra ' + (lot.quadra || '-') + '</span><span>Lote ' + (lot.number || '-') + '</span><span>' + Math.round(lot.area || 0) + ' m²</span><span>' + (lot.dims || '-') + '</span><span>' + fcStatusLabel(lot.status || 'available') + '</span></div>' +
+    '<p class="muted" style="margin-top:12px">' + (lot.details || 'Lote do Solaris Home Resort.') + '</p></div>' +
+    '<div class="fcDetailInfoCard"><h3>' + fmt(lot.price || 0) + '</h3><p class="muted"><b>Rua:</b> ' + (lot.street || 'Via interna') + '<br><b>GPS:</b> ' + gps + '</p>' +
+    '<div class="fcDetailActions"><button class="btn primary" type="button" data-fc-detail-choose="' + lot.id + '">Escolher este lote</button><div class="row">' +
+    '<button class="btn light" type="button" data-route-lot="' + lot.id + '">Rota</button><button class="btn light" type="button" data-fc-detail-sim="' + lot.id + '">Simular</button></div>' +
+    '<button class="btn light" type="button" data-ar-lot="' + lot.id + '">Ver no local (AR)</button></div></div></div></div>';
+  openModal(html);
+}
+// Corrige também botões de detalhes existentes fora do mapa, sem mexer no restante da plataforma.
+openLotDetails = fcOpenLotDetails;
+
+document.addEventListener('click', (event)=>{
+  const quadra = event.target.closest('[data-fc-quadra]');
+  if(quadra){
+    event.preventDefault();
+    fcSelectedQuadra = quadra.dataset.fcQuadra;
+    fcSelectedLotId = '';
+    fcRenderMap();
+    return;
+  }
+  const status = event.target.closest('[data-fc-status]');
+  if(status){
+    event.preventDefault();
+    fcMapStatus = status.dataset.fcStatus;
+    document.querySelectorAll('[data-fc-status]').forEach(b=>b.classList.toggle('active', b.dataset.fcStatus===fcMapStatus));
+    fcSelectedLotId = '';
+    fcRenderMap();
+    return;
+  }
+  const select = event.target.closest('[data-fc-select]');
+  if(select){
+    event.preventDefault();
+    fcSelectedLotId = select.dataset.fcSelect;
+    fcRenderMap();
+    document.getElementById('fcSelectedLot')?.scrollIntoView({behavior:'smooth', block:'nearest'});
+    return;
+  }
+  const row = event.target.closest('[data-fc-lot]');
+  if(row && !event.target.closest('button')){
+    event.preventDefault();
+    fcSelectedLotId = row.dataset.fcLot;
+    fcRenderMap();
+    document.getElementById('fcSelectedLot')?.scrollIntoView({behavior:'smooth', block:'nearest'});
+    return;
+  }
+  const detail = event.target.closest('[data-fc-detail]');
+  if(detail){ event.preventDefault(); fcOpenLotDetails(detail.dataset.fcDetail); return; }
+  const choose = event.target.closest('[data-fc-choose]');
+  if(choose){ event.preventDefault(); fcChooseLot(choose.dataset.fcChoose, true); return; }
+  const sim = event.target.closest('[data-fc-sim]');
+  if(sim){ event.preventDefault(); fcChooseLot(sim.dataset.fcSim, true); return; }
+  const ar = event.target.closest('[data-fc-ar]');
+  if(ar){ event.preventDefault(); const lot = fcEnsureLot(ar.dataset.fcAr); if(lot) openARView(lot.id); return; }
+  const modalChoose = event.target.closest('[data-fc-detail-choose]');
+  if(modalChoose){ event.preventDefault(); closeModal(); fcChooseLot(modalChoose.dataset.fcDetailChoose, true); return; }
+  const modalSim = event.target.closest('[data-fc-detail-sim]');
+  if(modalSim){ event.preventDefault(); closeModal(); fcChooseLot(modalSim.dataset.fcDetailSim, true); return; }
+}, true);
+
+fcRenderMap();
 
 </script>
 </body>

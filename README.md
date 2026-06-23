@@ -1,20 +1,25 @@
-# Futura Casa v14.0 — Mapa Profissional
+# Futura Casa v14.4 — Plataforma completa + mapa v14.3
 
-Nova linha v14.
+Esta versão preserva a plataforma completa da linha anterior e substitui apenas a seção de mapa.
 
-Correções principais:
-- Uma única base de mapa (`solaris-mapa-master-v14.jpg`) passa a ser usada no mapa geral e no detalhamento do lote.
-- O setor de águas foi incorporado ao mapa mestre de forma sutil e consistente.
-- Removida a bagunça visual de bolhas de quadras espalhadas sobre o mapa.
-- O mapa mostra somente:
-  - a quadra selecionada;
-  - o lote selecionado;
-  - o setor de águas;
-  - legenda discreta.
-- O detalhamento do lote agora mostra o mesmo mapa mestre com o lote destacado.
-- A lista de lotes continua filtrada por quadra e status.
-- Mantidos os status provisórios: 60% disponíveis, 30% vendidos e 10% reservados.
-- Mantidos Corretores, Leads, Wellness e Blogs.
+Mapa usado:
+- `solaris-mapa-georreferenciado-v14-4.jpeg`
 
-Observação técnica:
-Esta versão ainda usa posições visuais aproximadas calculadas a partir do mapa mestre. A versão de produção deve converter o DXF em SVG/GeoJSON com polígonos reais por quadra e lote.
+Correções:
+- Remove a seção antiga do mapa comercial com imagem antiga, logo, legenda e bolhas sobrepostas.
+- Usa a imagem georreferenciada validada da v14.3 no mapa principal.
+- Usa a mesma imagem no modal de detalhes do lote.
+- Corrige o botão Ver detalhes do lote.
+- Mantém as demais áreas da plataforma:
+  - início;
+  - lotes;
+  - casas;
+  - simulação;
+  - proposta;
+  - wellness;
+  - corretores;
+  - painel do corretor;
+  - backoffice.
+
+Observação:
+A seleção de lote continua pela lista/cards. O próximo passo técnico será transformar o SVG/GeoJSON em camada clicável real por lote sobre a imagem validada.
