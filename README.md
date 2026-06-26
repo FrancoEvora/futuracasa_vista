@@ -1,23 +1,22 @@
-# Futura Casa v14.7 — Balões anuais + AR ampliado
+# Futura Casa v14.8 — Balões por percentual + AR ajustada
 
 Base:
-- Mantém a plataforma completa da v14.6.
-- Mantém o mapa georreferenciado, marcação de quadra/lote e AR com coordenadas DXF.
+- Mantém a plataforma completa da v14.7.
+- Mantém mapa georreferenciado, marcação de lote/quadra e AR com coordenadas DXF.
 
 Correções desta versão:
-- Adiciona no simulador:
-  - valor de cada balão anual;
-  - quantidade de balões anuais;
-  - opção de incidência de juros sobre os balões;
-  - opção de incidência de correção monetária sobre os balões.
-- Mostra no resultado:
-  - total dos balões anuais;
-  - política de juros/correção dos balões;
-  - base mensal após abatimento dos balões.
-- Corrige o modo `Somente lote` para não mostrar a casa como item ativo.
-- O resumo/proposta agora respeita a jornada `Somente lote` e `Somente casa`.
-- Amplia a janela de Realidade Aumentada no mobile.
-- A caixa principal da AR passa a indicar `Você está aqui` quando o GPS identifica proximidade do lote.
+- Substitui o valor manual do balão por percentual de balões anuais.
+- O percentual permitido é de 0% a 40%.
+- O valor de cada balão é calculado automaticamente a partir do valor financiado.
+- A quantidade máxima de balões passa a acompanhar o prazo da simulação:
+  - 120 meses = até 10 balões;
+  - 180 meses = até 15 balões;
+  - 240 meses = até 20 balões;
+  - 360 meses = até 30 balões.
+- O cálculo mensal abate o total base dos balões do valor financiado.
+- Juros e correção dos balões são aplicados apenas quando o usuário marca as opções correspondentes.
+- A AR substitui o texto `Lote mais próximo de você` por `Você está aqui`.
+- A janela de AR foi ampliada um pouco mais no mobile.
 
 Observação:
-A lógica dos balões é estimativa comercial. A fórmula contratual definitiva deve ser validada com a política comercial/jurídica da empresa.
+A simulação dos balões é estimativa comercial. A fórmula contratual definitiva deve ser validada pela política comercial/jurídica.

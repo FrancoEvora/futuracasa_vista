@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Futura Casa | v14.7 Balões anuais + AR ampliado</title>
+<title>Futura Casa | v14.8 Balões por percentual + AR ajustada</title>
 <meta name="theme-color" content="#f5efe7">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -3072,6 +3072,62 @@ section:has(.journeyCard){display:none!important}
   }
 }
 
+
+/* v14.8 — balões por percentual e AR maior */
+#annualBalloonPercent,
+#annualBalloonCount,
+#annualBalloonInterest,
+#annualBalloonCorrection,
+#annualBalloonValueDisplay,
+#annualBalloonTotalDisplay{
+  border-color:rgba(201,90,53,.22)!important;
+}
+#annualBalloonValueDisplay,
+#annualBalloonTotalDisplay{
+  background:rgba(255,253,249,.62)!important;
+  color:var(--muted)!important;
+  font-weight:850!important;
+}
+.fieldModalCard{
+  width:min(1240px,calc(100vw - 8px))!important;
+}
+.fieldStage{
+  min-height:760px!important;
+  height:min(86vh,920px)!important;
+}
+.fieldStatusText small.dynamicLabel{
+  letter-spacing:.20em!important;
+  text-transform:uppercase!important;
+  color:var(--orange)!important;
+  font-weight:950!important;
+}
+@media(max-width:700px){
+  .modal.show.fieldMode{
+    padding:0!important;
+    align-items:stretch!important;
+  }
+  .fieldModalCard{
+    width:100vw!important;
+    max-width:100vw!important;
+    min-height:100dvh!important;
+    border-radius:0!important;
+  }
+  .fieldStage{
+    min-height:78dvh!important;
+    height:78dvh!important;
+    border-radius:0 0 22px 22px!important;
+  }
+  .fieldInfo{
+    padding-left:12px!important;
+    padding-right:12px!important;
+  }
+  .fieldActions{
+    padding-left:12px!important;
+    padding-right:12px!important;
+    padding-bottom:max(12px,env(safe-area-inset-bottom))!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -3248,10 +3304,13 @@ section:has(.journeyCard){display:none!important}
             <option value="AMERICANO">Americano</option>
             <option value="BALAO">Balão</option>
           </select></div>
-          <div class="field"><label>Valor de cada balão anual</label><input type="number" id="annualBalloonValue" min="0" step="1000" value="0" placeholder="Ex.: 30000"></div>
-          <div class="field"><label>Quantidade de balões anuais</label><input type="number" id="annualBalloonCount" min="0" max="30" step="1" value="0"></div>
+          <div class="field"><label>Percentual em balões anuais</label><input type="number" id="annualBalloonPercent" min="0" max="40" step="1" value="0" placeholder="0 a 40%"></div>
+          <div class="field"><label>Quantidade de balões anuais</label><input type="number" id="annualBalloonCount" min="0" max="20" step="1" value="0"></div>
+          <div class="field"><label>Valor estimado de cada balão</label><input type="text" id="annualBalloonValueDisplay" value="R$ 0" readonly></div>
+          <div class="field"><label>Total base em balões</label><input type="text" id="annualBalloonTotalDisplay" value="R$ 0" readonly></div>
           <div class="field"><label>Juros sobre os balões?</label><select id="annualBalloonInterest"><option value="no" selected>Não</option><option value="yes">Sim</option></select></div>
           <div class="field"><label>Correção sobre os balões?</label><select id="annualBalloonCorrection"><option value="no" selected>Não</option><option value="yes">Sim</option></select></div>
+          <div class="field full"><div class="balloonMiniNote" id="annualBalloonLimitNote">O limite de balões acompanha o prazo da simulação.</div></div>
         </div>
 
         <div class="contactBlock">
@@ -9337,6 +9396,296 @@ setFieldActiveLot = function(activeLot, modeLabel='Você está vendo'){
   }
 };
 
+renderTray();
+
+
+/* v14.8 — cálculo correto dos balões por percentual + texto AR */
+function annualBalloonMaxCount(){
+  const term = Math.max(1, Number(document.getElementById('term')?.value || 240));
+  return Math.max(0, Math.floor(term / 12));
+}
+
+function normalizeAnnualBalloonInputs({autoCount=false} = {}){
+  const percentEl = document.getElementById('annualBalloonPercent');
+  const countEl = document.getElementById('annualBalloonCount');
+  const max = annualBalloonMaxCount();
+
+  if(countEl){
+    countEl.max = String(max);
+    let count = Math.floor(Number(countEl.value || 0));
+    if(count < 0) count = 0;
+    if(count > max) count = max;
+    const percent = percentEl ? Math.max(0, Math.min(40, Number(percentEl.value || 0))) : 0;
+    if(autoCount && percent > 0 && count === 0 && max > 0) count = 1;
+    countEl.value = String(count);
+  }
+
+  if(percentEl){
+    let percent = Number(percentEl.value || 0);
+    if(percent < 0) percent = 0;
+    if(percent > 40) percent = 40;
+    percentEl.value = String(percent);
+  }
+
+  const note = document.getElementById('annualBalloonLimitNote');
+  if(note) note.textContent = `Limite: até ${max} balão(ões) anual(is), conforme o prazo selecionado. Percentual permitido: 0% a 40%.`;
+}
+
+function readAnnualBalloonConfig(){
+  normalizeAnnualBalloonInputs();
+  const percent = Math.max(0, Math.min(40, Number(document.getElementById('annualBalloonPercent')?.value || 0)));
+  const count = Math.max(0, Math.min(annualBalloonMaxCount(), Math.floor(Number(document.getElementById('annualBalloonCount')?.value || 0))));
+  const interest = document.getElementById('annualBalloonInterest')?.value === 'yes';
+  const correction = document.getElementById('annualBalloonCorrection')?.value === 'yes';
+  return {percent, count, interest, correction};
+}
+
+function annualBalloonSummary(config, rateInfo, financed){
+  const percent = Math.max(0, Math.min(40, Number(config.percent || 0)));
+  const count = Math.max(0, Number(config.count || 0));
+  const baseTotal = count > 0 ? Math.min(financed, financed * percent / 100) : 0;
+  const baseValue = count > 0 ? baseTotal / count : 0;
+
+  const interestRate = config.interest ? Math.max(0, Number(rateInfo?.interestMonthly || 0)) / 100 : 0;
+  const correctionRate = config.correction ? Math.max(0, Number(rateInfo?.correctionMonthly || 0)) / 100 : 0;
+  const monthlyRate = interestRate + correctionRate;
+
+  let adjustedTotal = 0;
+  const rows = [];
+  for(let i=1;i<=count;i++){
+    const factor = monthlyRate > 0 ? Math.pow(1 + monthlyRate, 12 * i) : 1;
+    const adjusted = baseValue * factor;
+    adjustedTotal += adjusted;
+    rows.push({year:i, value:adjusted, baseValue});
+  }
+
+  const policy = [
+    config.interest ? 'com juros' : 'sem juros',
+    config.correction ? 'com correção' : 'sem correção'
+  ].join(' · ');
+
+  return {percent, count, baseValue, baseTotal, adjustedTotal, policy, monthlyRate, rows};
+}
+
+getTotals = function(changedField=''){
+  const mode = document.getElementById('buyMode')?.value || state.mode;
+  state.mode = mode;
+
+  normalizeAnnualBalloonInputs(changedField === 'annualBalloonPercent' ? {autoCount:true} : {});
+
+  let lot = Number(document.getElementById('lotPriceInput')?.value || 0);
+  let home = Number(document.getElementById('homePriceInput')?.value || 0);
+
+  if(mode === 'lot'){
+    home = 0;
+  } else if(mode === 'home'){
+    lot = 0;
+  }
+
+  if(mode !== 'home') state.customLotPrice = lot || state.customLotPrice;
+  if(mode !== 'lot') state.customHomePrice = home || state.customHomePrice;
+
+  const addons = state.addons.reduce((sum,a)=>sum+a.price,0);
+  let total = 0;
+  if(mode === 'lot') total = lot;
+  if(mode === 'home') total = home;
+  if(mode === 'combo') total = lot + home;
+  if(mode === 'future') total = lot + home * 0.15;
+  total += addons;
+
+  let entryPercent = Number(document.getElementById('entryPercent')?.value || 0);
+  let entryValue = Number(document.getElementById('entryValue')?.value || 0);
+
+  if(changedField === 'entryValue'){
+    entryPercent = total ? (entryValue / total) * 100 : 0;
+    if(document.getElementById('entryPercent')) document.getElementById('entryPercent').value = entryPercent.toFixed(2);
+  }else{
+    entryValue = total * entryPercent / 100;
+    if(document.getElementById('entryValue')) document.getElementById('entryValue').value = Math.round(entryValue);
+  }
+
+  const installments = Number(document.getElementById('entryInstallments')?.value || 1);
+  const entryInstallment = installments ? entryValue / installments : entryValue;
+  const financed = Math.max(total - entryValue,0);
+  const term = Number(document.getElementById('term')?.value || 240);
+  const system = document.getElementById('system')?.value || 'PRICE';
+  const rateInfo = financeRateInfo(mode);
+  const annualBalloon = readAnnualBalloonConfig();
+  const balloonInfo = annualBalloonSummary(annualBalloon, rateInfo, financed);
+
+  const monthlyFinanced = Math.max(financed - balloonInfo.baseTotal, 0);
+  const paymentInfo = calculateFinancingPayment(monthlyFinanced, term, rateInfo.monthlyRate, system);
+  const modelResidual = Number(paymentInfo.residual || 0);
+
+  paymentInfo.modelResidual = modelResidual;
+  paymentInfo.annualBalloonBaseTotal = balloonInfo.baseTotal;
+  paymentInfo.annualBalloonAdjustedTotal = balloonInfo.adjustedTotal;
+  paymentInfo.annualBalloonPolicy = balloonInfo.policy;
+  paymentInfo.annualBalloonPercent = balloonInfo.percent;
+  paymentInfo.annualBalloonValue = balloonInfo.baseValue;
+  paymentInfo.monthlyFinanced = monthlyFinanced;
+  paymentInfo.residual = modelResidual + balloonInfo.adjustedTotal;
+
+  if(annualBalloon.count > 0 && annualBalloon.percent > 0){
+    paymentInfo.note = (paymentInfo.note || 'Parcela estimada') + ` Balões anuais: ${annualBalloon.percent.toFixed(1).replace('.',',')}% do financiado, em ${annualBalloon.count}x anuais de ${fmt(balloonInfo.baseValue)} (${balloonInfo.policy}).`;
+  }
+
+  return {mode,addons,lot,home,total,entryPercent,entryValue,installments,entryInstallment,financed,monthlyFinanced,payment:paymentInfo.payment,system,term,rateInfo,paymentInfo,annualBalloon,balloonInfo};
+};
+
+renderTray = function(changedField=''){
+  const mode = document.getElementById('buyMode')?.value || state.mode;
+  state.mode = mode;
+
+  const lotInput = document.getElementById('lotPriceInput');
+  const homeInput = document.getElementById('homePriceInput');
+
+  if(mode === 'lot'){
+    if(lotInput) lotInput.disabled = false;
+    if(homeInput){ homeInput.disabled = true; homeInput.value = 0; }
+  }else if(mode === 'home'){
+    if(lotInput){ lotInput.disabled = true; lotInput.value = 0; }
+    if(homeInput) homeInput.disabled = false;
+  }else{
+    if(lotInput){
+      lotInput.disabled = false;
+      if(!Number(lotInput.value) && state.customLotPrice) lotInput.value = Math.round(state.customLotPrice);
+    }
+    if(homeInput){
+      homeInput.disabled = false;
+      if(!Number(homeInput.value) && state.customHomePrice) homeInput.value = Math.round(state.customHomePrice);
+    }
+  }
+
+  const t = getTotals(changedField);
+
+  const trayLotLine = document.getElementById('trayLot')?.closest('.trayLine');
+  const trayHomeLine = document.getElementById('trayHome')?.closest('.trayLine');
+  trayLotLine?.classList.toggle('notApplicable', mode === 'home');
+  trayHomeLine?.classList.toggle('notApplicable', mode === 'lot');
+
+  if(document.getElementById('trayLot')){
+    document.getElementById('trayLot').textContent = mode === 'home'
+      ? 'Não se aplica à jornada somente casa'
+      : (state.lot ? state.lot.name : 'Nenhum');
+  }
+  if(document.getElementById('trayHome')){
+    document.getElementById('trayHome').textContent = mode === 'lot'
+      ? 'Não se aplica à jornada somente lote'
+      : (state.home ? state.home.name : 'Nenhuma');
+  }
+
+  const balloonEach = document.getElementById('annualBalloonValueDisplay');
+  const balloonTotal = document.getElementById('annualBalloonTotalDisplay');
+  if(balloonEach) balloonEach.value = t.annualBalloon.count > 0 && t.annualBalloon.percent > 0 ? fmt(t.balloonInfo.baseValue) : 'R$ 0';
+  if(balloonTotal) balloonTotal.value = t.annualBalloon.count > 0 && t.annualBalloon.percent > 0 ? fmt(t.balloonInfo.baseTotal) : 'R$ 0';
+
+  document.getElementById('trayAddons').textContent = fmt(t.addons);
+  document.getElementById('trayTotal').textContent = fmt(t.total);
+  document.getElementById('resEntry').textContent = fmt(t.entryValue);
+  document.getElementById('resEntryInstallment').textContent = `${t.installments}X no cartão de ${fmt(t.entryInstallment)}`;
+  if(document.getElementById('entryInstallmentField')) document.getElementById('entryInstallmentField').value = fmt(t.entryInstallment);
+  document.getElementById('resFinanced').textContent = fmt(t.financed);
+  document.getElementById('resPayment').textContent = fmt(t.payment);
+  document.getElementById('resRatio').textContent = t.entryPercent.toFixed(1).replace('.',',') + '%';
+  document.getElementById('resSystem').textContent = systemDisplayName(t.system);
+  if(document.getElementById('resInterestRate')) document.getElementById('resInterestRate').textContent = t.rateInfo?.interestText || '-';
+  if(document.getElementById('resCorrectionIndex')) document.getElementById('resCorrectionIndex').textContent = t.rateInfo?.correctionText || '-';
+  if(document.getElementById('resResidual')) document.getElementById('resResidual').textContent = t.paymentInfo?.residual ? fmt(t.paymentInfo.residual) : '-';
+  if(document.getElementById('resAnnualBalloons')){
+    document.getElementById('resAnnualBalloons').textContent = t.annualBalloon.count > 0 && t.annualBalloon.percent > 0
+      ? `${t.annualBalloon.percent.toFixed(1).replace('.',',')}% · ${t.annualBalloon.count}x de ${fmt(t.balloonInfo.baseValue)}`
+      : '-';
+  }
+  if(document.getElementById('resAnnualBalloonPolicy')){
+    document.getElementById('resAnnualBalloonPolicy').textContent = t.annualBalloon.count > 0 && t.annualBalloon.percent > 0 ? t.paymentInfo.annualBalloonPolicy : '-';
+  }
+  if(document.getElementById('resMonthlyBase')){
+    document.getElementById('resMonthlyBase').textContent = t.annualBalloon.count > 0 && t.annualBalloon.percent > 0 ? fmt(t.monthlyFinanced) : fmt(t.financed);
+  }
+  if(document.getElementById('resSystemNote')) document.getElementById('resSystemNote').textContent = t.paymentInfo?.note || '-';
+
+  const healthy = t.entryPercent >= 30;
+  const attention = t.entryPercent >= 20 && t.entryPercent < 30;
+  document.getElementById('diagnosisTitle').textContent = healthy ? 'Entrada forte para avançar.' : attention ? 'Composição equilibrada para negociar.' : 'Vale reforçar a entrada ou ajustar a composição.';
+  document.getElementById('diagnosisText').textContent = healthy ? 'A entrada está robusta e cria uma base confortável para a conversa comercial.' : attention ? 'A configuração está funcional e pode ser refinada no prazo, na entrada, nos balões ou na composição do combo.' : 'Uma boa alternativa é elevar a entrada, ajustar balões anuais, reduzir a composição ou considerar lote agora + casa em etapa seguinte.';
+};
+
+function effectiveChoiceName(kind, fallback='-'){
+  const mode = document.getElementById('buyMode')?.value || state.mode;
+  if(kind === 'lot' && mode === 'home') return 'Não se aplica à jornada somente casa';
+  if(kind === 'home' && mode === 'lot') return 'Não se aplica à jornada somente lote';
+  if(kind === 'lot') return state.lot?.name || fallback;
+  if(kind === 'home') return state.home?.name || fallback;
+  return fallback;
+}
+
+proposalText = function(){
+  const t = getTotals();
+  const b = buyerData();
+  const modeLabel = t.mode === 'lot' ? 'Somente lote' : t.mode === 'home' ? 'Somente casa' : t.mode === 'future' ? 'Lote agora + casa pré-contratada' : 'Lote + casa';
+  const brokerInfo = partnerAttributionText();
+  return `Futura Casa | Proposta para negociação${brokerInfo ? `\nOrigem: ${brokerInfo}` : ''}\n\nDADOS DO INTERESSADO
+Nome: ${b.name || '-'}
+WhatsApp/telefone: ${b.phone || '-'}
+E-mail: ${b.email || '-'}
+Cidade: ${b.city || '-'}
+Preferência de contato: ${b.preference || '-'}
+Melhor horário: ${b.time || '-'}
+Observação: ${b.note || '-'}
+
+ESCOLHA DO CLIENTE
+Jornada: ${modeLabel}
+Lote: ${effectiveChoiceName('lot')}
+Casa: ${effectiveChoiceName('home')}
+Adicionais: ${state.addons.map(a=>a.name).join(', ') || '-'}
+
+SIMULAÇÃO
+Valor total estimado: ${fmt(t.total)}
+Entrada total: ${fmt(t.entryValue)}
+Parcelamento da entrada: ${t.installments}X no cartão de ${fmt(t.entryInstallment)}
+Valor financiado: ${fmt(t.financed)}
+Percentual em balões anuais: ${t.annualBalloon.percent.toFixed(1).replace('.',',')}%
+Balões anuais: ${t.annualBalloon.count && t.annualBalloon.percent ? `${t.annualBalloon.count}x de ${fmt(t.balloonInfo.baseValue)} · total base ${fmt(t.balloonInfo.baseTotal)} · total ajustado ${fmt(t.paymentInfo.annualBalloonAdjustedTotal)}` : '-'}
+Juros/correção nos balões: ${t.annualBalloon.count && t.annualBalloon.percent ? t.paymentInfo.annualBalloonPolicy : '-'}
+Base mensal após balões: ${fmt(t.monthlyFinanced)}
+Prazo: ${t.term} meses
+Modelo financeiro: ${systemDisplayName(t.system)}
+Juros remuneratórios: ${t.rateInfo?.interestText || '-'}
+Índice de correção: ${t.rateInfo?.correctionText || '-'}
+Taxa mensal considerada: ${t.rateInfo?.effectiveText || '-'}
+Saldo residual / balão: ${t.paymentInfo?.residual ? fmt(t.paymentInfo.residual) : '-'}
+Observação do modelo: ${t.paymentInfo?.note || '-'}
+Parcela estimada: ${fmt(t.payment)}
+Entrada em %: ${t.entryPercent.toFixed(1)}%
+
+Solicito contato de um consultor para iniciar a negociação.`;
+};
+
+['annualBalloonPercent','annualBalloonCount','annualBalloonInterest','annualBalloonCorrection','term'].forEach(id=>{
+  const el = document.getElementById(id);
+  if(el){
+    el.addEventListener('input',()=>renderTray(id));
+    el.addEventListener('change',()=>renderTray(id));
+  }
+});
+
+const previousSetFieldActiveLotV148 = setFieldActiveLot;
+setFieldActiveLot = function(activeLot, modeLabel='Você está aqui'){
+  let normalized = modeLabel;
+  if(['Você está em','Lote mais próximo','Lote mais próximo de você','Você está vendo'].includes(modeLabel)){
+    normalized = 'Você está aqui';
+  }
+  previousSetFieldActiveLotV148(activeLot, normalized);
+  const label = document.getElementById('fieldStatusLabel');
+  if(label && /lote mais próximo/i.test(label.textContent || '')){
+    label.textContent = 'Você está aqui';
+  }
+  const status = document.querySelector('.fieldStatus');
+  if(status) status.classList.add('isHere');
+};
+
+normalizeAnnualBalloonInputs();
 renderTray();
 
 </script>
