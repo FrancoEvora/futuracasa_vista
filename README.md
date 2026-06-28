@@ -1,22 +1,29 @@
-# Futura Casa v14.8 — Balões por percentual + AR ajustada
+# Futura Casa Pro v1.0
 
-Base:
-- Mantém a plataforma completa da v14.7.
-- Mantém mapa georreferenciado, marcação de lote/quadra e AR com coordenadas DXF.
+Nova linha conceitual da plataforma.
 
-Correções desta versão:
-- Substitui o valor manual do balão por percentual de balões anuais.
-- O percentual permitido é de 0% a 40%.
-- O valor de cada balão é calculado automaticamente a partir do valor financiado.
-- A quantidade máxima de balões passa a acompanhar o prazo da simulação:
-  - 120 meses = até 10 balões;
-  - 180 meses = até 15 balões;
-  - 240 meses = até 20 balões;
-  - 360 meses = até 30 balões.
-- O cálculo mensal abate o total base dos balões do valor financiado.
-- Juros e correção dos balões são aplicados apenas quando o usuário marca as opções correspondentes.
-- A AR substitui o texto `Lote mais próximo de você` por `Você está aqui`.
-- A janela de AR foi ampliada um pouco mais no mobile.
+Objetivo:
+- Abandonar a lógica de landing page longa como experiência principal.
+- Transformar a Futura Casa em uma jornada guiada, com uma decisão por vez.
+- O cliente escolhe primeiro o que quer montar:
+  1. Comprar um lote
+  2. Lote + casa
+  3. Casa para o lote que já tem
 
-Observação:
-A simulação dos balões é estimativa comercial. A fórmula contratual definitiva deve ser validada pela política comercial/jurídica.
+Características:
+- Interface principal em modo Pro, quase como um sistema operacional da compra.
+- O site clássico continua preservado como fallback em `Modo clássico`.
+- A plataforma mostra poucos cards recomendados por etapa.
+- O resumo da escolha acompanha a jornada.
+- AR aparece depois do lote selecionado.
+- Geração de imagem da casa no lote aparece depois do momento correto da jornada.
+- Simulador Pro compacto usa os mesmos cálculos da v14.8:
+  - balões por percentual;
+  - limite de balões vinculado ao prazo;
+  - juros/correção dos balões conforme seleção;
+  - AR com coordenadas DXF;
+  - mapa georreferenciado.
+
+Arquivos principais:
+- `index.html`
+- demais páginas administrativas e wellness preservadas.
