@@ -109,3 +109,178 @@ function bindOcc(){
   $('#occForm').onsubmit=e=>{e.preventDefault();const arr=get('fc_mod_occ',[]);const o={protocolo:'#'+(2481+arr.length),cat,local:'QH · Lote 14',status:'Em análise',date:new Date().toISOString()};arr.unshift(o);store('fc_mod_occ',arr);$('#protocol').innerHTML=protocol(o);toast(`Ocorrência ${o.protocolo} enviada.`);}
 }
 document.addEventListener('DOMContentLoaded',()=>{renderGestao();renderPos();renderOcorrencia();});
+
+
+/* v2.4 — overrides: obra em duas camadas e ocorrências com geolocalização */
+(function(){
+  let occurrenceGeo = JSON.parse(localStorage.getItem('fc_occ_geo_v24') || 'null');
+
+  window.setWorkLayer = function(layer){
+    localStorage.setItem('fc_work_layer_v24', layer);
+    renderPos();
+  };
+
+  window.renderPos = function(){
+    const el = $('#posApp'); if(!el) return;
+    const activeLayer = localStorage.getItem('fc_work_layer_v24') || 'loteamento';
+    const checklist = get('fc_mod_check',{a:true,b:true,c:false,d:false,e:false});
+
+    const loteamento = `
+      <div class="layerTabs">
+        <button class="layerTab active" onclick="setWorkLayer('loteamento')">Obras do loteamento</button>
+        <button class="layerTab" onclick="setWorkLayer('casa')">Obras da casa</button>
+      </div>
+      <div class="moduleCard moduleCardPad">
+        <span class="statusPill green">Implantação Solaris</span>
+        <h2 style="margin:12px 0 6px">Acompanhe a infraestrutura do empreendimento.</h2>
+        <div class="progressRow">
+          ${[
+            ['Terraplenagem','done'],
+            ['Drenagem e redes','active'],
+            ['Pavimentação','pending'],
+            ['Iluminação','pending'],
+            ['Paisagismo','pending']
+          ].map(([s,c])=>`<div class="progressItem ${c}"><span class="progressIcon">${c==='done'?'✓':c==='active'?'▦':'○'}</span><b>${s}</b><small>${c==='done'?'Concluído':c==='active'?'Em andamento':'Pendente'}</small></div>`).join('')}
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr .85fr;gap:14px;margin-top:14px">
+        <div class="moduleCard moduleCardPad">
+          <b>Entregas de infraestrutura</b>
+          ${[
+            ['Rede de água','Em implantação'],
+            ['Rede de esgoto','Em implantação'],
+            ['Pavimentação','Programada'],
+            ['Iluminação pública','Programada'],
+            ['Portaria e controle de acesso','Programada']
+          ].map(([a,b])=>`<div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #e8dccd"><span>${a}</span><span class="statusPill">${b}</span></div>`).join('')}
+        </div>
+        <div class="moduleCard moduleCardPad">
+          <b>Solicitações do loteamento</b>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px">
+            ${['Drenagem','Pavimentação','Iluminação pública','Paisagismo','Portaria','Sinalização'].map(s=>`<button class="appBtn secondary" onclick="service('${s}')">${s}</button>`).join('')}
+          </div>
+        </div>
+      </div>`;
+
+    const casa = `
+      <div class="layerTabs">
+        <button class="layerTab" onclick="setWorkLayer('loteamento')">Obras do loteamento</button>
+        <button class="layerTab active" onclick="setWorkLayer('casa')">Obras da casa</button>
+      </div>
+      <div class="moduleCard moduleCardPad">
+        <span class="statusPill green">Minha Obra</span>
+        <h2 style="margin:12px 0 6px">Acompanhe cada etapa até sua casa ganhar vida.</h2>
+        <div class="progressRow">${[
+          ['Projeto aprovado','done'],
+          ['Fundação','done'],
+          ['Estrutura','active'],
+          ['Acabamento','pending'],
+          ['Entrega','pending']
+        ].map(([s,c])=>`<div class="progressItem ${c}"><span class="progressIcon">${c==='done'?'✓':c==='active'?'▦':'○'}</span><b>${s}</b><small>${c==='done'?'Concluído':c==='active'?'Em andamento':'Pendente'}</small></div>`).join('')}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr .85fr;gap:14px;margin-top:14px">
+        <div class="moduleCard moduleCardPad"><b>Checklist da etapa atual</b>${[
+          ['a','Alvará de execução'],
+          ['b','Fundação concluída'],
+          ['c','Vistoria de estrutura'],
+          ['d','Instalações hidráulicas'],
+          ['e','Instalações elétricas']
+        ].map(([id,label])=>`<div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #e8dccd"><span>${checklist[id]?'✓':'○'} ${label}</span><button class="appBtn ghost" onclick="toggleCheck('${id}')">›</button></div>`).join('')}</div>
+        <div class="moduleCard moduleCardPad"><b>Solicitações da casa</b><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px">${['Água','Energia','Acesso para prestadores','Vistorias','Documentos','Visitas'].map(s=>`<button class="appBtn secondary" onclick="service('${s}')">${s}</button>`).join('')}</div></div>
+      </div>`;
+
+    el.innerHTML = activeLayer === 'casa' ? casa : loteamento;
+  };
+
+  window.useOccurrenceLocation = function(){
+    if(!navigator.geolocation){
+      toast('Geolocalização não disponível neste navegador.');
+      return;
+    }
+    const status = $('#geoStatus');
+    if(status) status.textContent = 'Localizando...';
+    navigator.geolocation.getCurrentPosition(pos=>{
+      occurrenceGeo = {
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude,
+        accuracy: Math.round(pos.coords.accuracy || 0),
+        at: new Date().toISOString()
+      };
+      localStorage.setItem('fc_occ_geo_v24', JSON.stringify(occurrenceGeo));
+      renderOcorrencia();
+      toast('Localização da ocorrência registrada.');
+    }, err=>{
+      if(status) status.textContent = 'Não foi possível obter a localização. Permita o GPS ou informe manualmente.';
+      toast('Não foi possível acessar o GPS.');
+    }, {enableHighAccuracy:true, timeout:10000, maximumAge:30000});
+  };
+
+  window.clearOccurrenceLocation = function(){
+    occurrenceGeo = null;
+    localStorage.removeItem('fc_occ_geo_v24');
+    renderOcorrencia();
+  };
+
+  window.renderOcorrencia = function(){
+    const el = $('#occApp'); if(!el)return;
+    const occ = get('fc_mod_occ',[]);
+    const geoText = occurrenceGeo
+      ? `Lat ${Number(occurrenceGeo.lat).toFixed(6)} · Lng ${Number(occurrenceGeo.lng).toFixed(6)} · precisão aprox. ${occurrenceGeo.accuracy || '-'} m`
+      : 'Use a localização do aparelho para registrar o ponto real da ocorrência.';
+    const mapPin = occurrenceGeo
+      ? `<span class="mapPin" style="--x:52%;--y:22%"><b>Você está aqui</b><i></i></span>`
+      : `<span class="mapPin" style="--x:52%;--y:22%"><b>Selecionar localização</b><i></i></span>`;
+
+    el.innerHTML = `
+      <form class="formGrid moduleCard moduleCardPad" id="occForm">
+        <div class="mapFrame"><img src="solaris-mapa-georreferenciado-pro-v1-1.jpeg">${mapPin}</div>
+        <div class="geoBox">
+          <b>Localização da ocorrência</b>
+          <small id="geoStatus">${geoText}</small>
+          <div class="geoActions">
+            <button class="appBtn primary" type="button" onclick="useOccurrenceLocation()">Usar minha localização</button>
+            <button class="appBtn secondary" type="button" onclick="clearOccurrenceLocation()">Limpar ponto</button>
+          </div>
+        </div>
+        <div><b>Foto do local</b><div class="photoRow" style="margin-top:8px"><div class="photoBox" id="photoBox">Nenhuma foto selecionada</div><label class="photoBox"><input type="file" id="photoInput" accept="image/*" hidden>📷<br>Adicionar foto</label></div></div>
+        <div><b>Categoria</b><div class="chips" id="chips">${['Buraco','Iluminação','Alagamento','Segurança','Outro'].map((c,i)=>`<button type="button" class="chip ${i===0?'active':''}" data-cat="${c}">${c}</button>`).join('')}</div></div>
+        <textarea id="occDesc" placeholder="Descreva a ocorrência">Buraco grande na via, oferecendo risco para veículos e pedestres.</textarea>
+        <button class="appBtn primary" type="submit">Enviar ocorrência</button>
+      </form>
+      <div id="protocol" style="margin-top:14px">${occ[0]?protocol(occ[0]):''}</div>
+    `;
+    bindOcc();
+  };
+
+  window.bindOcc = function(){
+    let cat='Buraco';
+    $$('#chips .chip').forEach(ch=>ch.onclick=()=>{
+      $$('#chips .chip').forEach(x=>x.classList.remove('active'));
+      ch.classList.add('active');
+      cat=ch.dataset.cat;
+    });
+    const pi = $('#photoInput');
+    if(pi) pi.onchange=e=>{
+      const file=e.target.files[0]; if(!file)return;
+      const r=new FileReader();
+      r.onload=()=>$('#photoBox').innerHTML=`<img src="${r.result}">`;
+      r.readAsDataURL(file);
+    };
+    $('#occForm').onsubmit=e=>{
+      e.preventDefault();
+      const arr=get('fc_mod_occ',[]);
+      const geo = occurrenceGeo ? {lat:occurrenceGeo.lat,lng:occurrenceGeo.lng,accuracy:occurrenceGeo.accuracy} : null;
+      const local = geo ? `GPS ${Number(geo.lat).toFixed(6)}, ${Number(geo.lng).toFixed(6)}` : 'Localização não informada';
+      const o={protocolo:'#'+(2481+arr.length),cat,local,status:'Em análise',date:new Date().toISOString(),geo,description:$('#occDesc').value};
+      arr.unshift(o);
+      store('fc_mod_occ',arr);
+      $('#protocol').innerHTML=protocol(o);
+      toast(`Ocorrência ${o.protocolo} enviada.`);
+    };
+  };
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    renderPos();
+    renderOcorrencia();
+  });
+})();

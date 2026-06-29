@@ -412,3 +412,95 @@ textarea{min-height:116px;padding:14px;resize:vertical}
   .moduleDevice{border-radius:28px}
   .metricGrid,.photoRow{grid-template-columns:1fr}
 }
+
+
+/* v2.4 — módulos: nav sem sobreposição, obras em duas camadas e ocorrência por geolocalização */
+.moduleTopbar{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:start!important;
+}
+.moduleBrand{
+  min-width:0;
+}
+.moduleBrandText strong{
+  display:block;
+  color:#fff;
+  font-weight:950;
+  letter-spacing:-.03em;
+}
+.moduleNav{
+  max-width:620px;
+}
+.moduleNav a,
+.moduleNav button{
+  min-width:0;
+  white-space:nowrap;
+}
+.layerTabs{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin-bottom:14px;
+}
+.layerTab{
+  border:1px solid var(--fc-line);
+  background:#fff;
+  color:var(--fc-muted);
+  border-radius:999px;
+  min-height:46px;
+  font-weight:950;
+}
+.layerTab.active{
+  background:var(--fc-brand);
+  color:#fff;
+  border-color:var(--fc-brand);
+}
+.geoBox{
+  border:1px solid var(--fc-line);
+  background:#fff;
+  border-radius:18px;
+  padding:14px;
+  display:grid;
+  gap:8px;
+}
+.geoBox small{
+  color:var(--fc-muted);
+  line-height:1.4;
+}
+.geoActions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+@media(max-width:760px){
+  .moduleTopbar{
+    grid-template-columns:1fr!important;
+    gap:12px;
+  }
+  .moduleBrand{
+    display:grid!important;
+    grid-template-columns:auto 1fr;
+  }
+  .moduleLogo{
+    width:146px!important;
+  }
+  .moduleNav{
+    width:100%;
+    max-width:none;
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .moduleNav a,
+  .moduleNav button{
+    justify-content:center;
+    font-size:13px;
+    padding:0 10px;
+  }
+  .moduleHero{
+    gap:16px!important;
+  }
+  .geoActions{
+    grid-template-columns:1fr;
+  }
+}
