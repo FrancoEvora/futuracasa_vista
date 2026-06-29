@@ -1,56 +1,39 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#F5EFE7">
-  <title>Futura Casa Pro | Painel de Gestão</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css">
-  <script src="data.js" defer></script>
-  <script src="app.js" defer></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Futura Casa Pro | Painel de Gestão</title>
+<link rel="stylesheet" href="pro-clean.css">
+<link rel="stylesheet" href="pro-modules.css">
+<script src="pro-modules.js" defer></script>
 </head>
-<body>
-<div class="app-shell">
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="index.html"><img class="brand-logo" src="assets/futura-casa-pro-mark.svg" alt="Futura Casa Pro"><span class="brand-word">Futura Casa <em>Pro</em><small>Visão operacional</small></span></a>
-      <nav class="nav">
-        <a href="index.html" class="">Vendas</a>
-        <a href="gestao.html" class="active">Gestão</a>
-        <a href="pos-venda.html" class="">Pós-venda</a>
-        <a href="ocorrencias.html" class="">Ocorrências</a>
+<body class="proModule">
+  <main class="moduleShell">
+    <header class="moduleTopbar">
+      <a class="moduleBrand" href="index.html"><img class="moduleLogo" src="assets/futura-casa-logo-v1-1.webp" alt="Futura Casa Pro"><span class="moduleBrandText"><small>Identidade Futura Casa Pro 1.1</small></span></a>
+      
+      <nav class="moduleNav">
+        <a href="index.html">Vendas</a>
+        <a class="active" href="gestao.html">Gestão</a>
+        <a class="" href="pos-venda.html">Pós-venda</a>
+        <a class="" href="ocorrencias.html">Ocorrências</a>
       </nav>
-    </div>
-  </header>
-  <main>
-
-    <section class="page">
-      <div class="page-inner dashboard">
-        <aside class="card sidebar">
-          <a class="active" href="gestao.html">Painel</a>
-          <a href="index.html">Lotes</a>
-          <a href="index.html">Clientes</a>
-          <a href="index.html">Corretores</a>
-          <a href="pos-venda.html">Obras</a>
-          <a href="ocorrencias.html">Ocorrências</a>
-          <a href="#" onclick="toast('Relatório preparado')">Relatórios</a>
-          <a href="#" onclick="toast('Configurações')">Configurações</a>
-        </aside>
-        <div>
-          <div class="section-title">
-            <span class="tag">Gestão</span>
-            <h1>Painel de Gestão</h1>
-            <p>Visão geral do empreendimento: consultas, reservas, visitas, ocorrências e andamento comercial.</p>
-          </div>
-          <div id="dashboardApp"></div>
-        </div>
-      </div>
+    </header>
+    <section class="moduleHero">
+      <aside class="moduleIntro">
+        <span class="moduleBadge">Futura Casa Pro</span>
+        <h1>Painel de Gestão</h1>
+        <p>Visão comercial e operacional do empreendimento, com mapa, reservas, consultas, visitas e ocorrências.</p>
+        <div class="moduleBenefitList"><div class="moduleBenefit"><span class="moduleBenefitIcon ">◫</span><div><b>Venda com confiança</b><small>Disponibilidade, reservas e visitas em uma visão executiva.</small></div></div><div class="moduleBenefit"><span class="moduleBenefitIcon orange">◎</span><div><b>Mapa inteligente</b><small>Heatmap do empreendimento e atividade comercial.</small></div></div><div class="moduleBenefit"><span class="moduleBenefitIcon ">✓</span><div><b>Decisão rápida</b><small>Indicadores claros para gestão e atendimento.</small></div></div></div>
+      </aside>
+      <section class="moduleDevice">
+        <div class="moduleDeviceHead"><div><span class="statusPill green">GESTAO</span><h2>Painel de Gestão</h2><p>Visão geral do empreendimento em tempo real.</p></div></div>
+        <div class="moduleDeviceBody"><div id="gestaoApp"></div></div>
+      </section>
     </section>
-
   </main>
-</div>
-<div id="toast" class="toast"></div>
-<div id="modal" class="modal"></div>
+  <div id="toast" class="toast"></div>
+  <div id="modal" class="modal"></div>
 </body>
 </html>

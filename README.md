@@ -1,25 +1,16 @@
-# Futura Casa Pro v2.2 — Identidade Completa
+# Futura Casa Pro v1.1 — Clean Flow
 
-Esta versão entrega o pacote completo, não apenas HTMLs soltos.
+Melhorias:
+- Interface mais limpa, inspirada em apps comerciais simples.
+- Header e navegação inferior antigos são ocultados no modo Pro.
+- Experiência principal em uma tela: escolha de jornada à esquerda e etapa ativa à direita.
+- Menos cards por etapa: recomendações primeiro, lista completa só no modo clássico.
+- Hierarquia de botões: 1 CTA primário por contexto, apoio em outline e AR/rota como ações secundárias.
+- Geração de imagem por IA recolocada de forma explícita no momento certo.
+- Botão de rota corrigido para abrir Google Maps com o nome do lote/local e coordenadas técnicas.
 
-Arquivos principais:
-- `index.html` — Modo Vendas
-- `gestao.html` — Painel de Gestão
-- `pos-venda.html` — Minha Obra / pós-venda
-- `ocorrencias.html` — Registro de ocorrências
-- `styles.css` — identidade visual completa
-- `app.js` — interações funcionais
-- `data.js` — dados demonstrativos
-- `manifest.webmanifest` — PWA
-- `assets/futura-casa-pro-mark.svg` — logomarca
-- `assets/futura-casa-pro-logo.svg` — assinatura completa
-- `assets/contour-pattern.svg` — textura topográfica
-- `assets/solaris-map.jpeg` — mapa base
-
-Identidade visual aplicada:
-- Wordmark serifado “Futura Casa Pro”, com “Pro” em verde.
-- Ícone casa + folha em círculo.
-- Fundo off-white com textura topográfica.
-- Paleta natural: verde oliva, terracota, creme e dourado.
-- Botões com hierarquia: primário verde, secundário outline, terracota como destaque contextual.
-- Cards arredondados, sombra suave e aparência de produto premium.
+Arquivos:
+- index.html
+- pro-clean.css
+- pro-clean.js
+- solaris-mapa-georreferenciado-pro-v1-1.jpeg
