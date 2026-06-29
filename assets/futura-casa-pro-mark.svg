@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" role="img" aria-label="Futura Casa Pro">
+  <defs>
+    <linearGradient id="fcg" x1="12" y1="8" x2="62" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#506B3C"/>
+      <stop offset=".68" stop-color="#506B3C"/>
+      <stop offset="1" stop-color="#C95A35"/>
+    </linearGradient>
+  </defs>
+  <circle cx="36" cy="36" r="30" fill="none" stroke="url(#fcg)" stroke-width="3.4"/>
+  <path d="M18.8 37.3 36 20.9l17.2 16.4v19.9H42.4V45H29.6v12.2H18.8V37.3Z" fill="none" stroke="#506B3C" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M43.1 51.2c10.8-2.1 16-10.3 14.1-21.4-11.3 1.1-18.8 8.1-19.6 19.3 2.5-3.4 6.3-6.4 12-9.2" fill="none" stroke="#506B3C" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M37.9 50.1c3.3.8 7.2.8 11.3-.8" fill="none" stroke="#C95A35" stroke-width="3.5" stroke-linecap="round"/>
+</svg>

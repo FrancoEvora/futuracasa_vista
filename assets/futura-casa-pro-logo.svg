@@ -1,13 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Futura Casa Pro">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 92" role="img" aria-label="Futura Casa Pro">
   <defs>
-    <linearGradient id="g" x1="11" y1="8" x2="55" y2="58" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#506B3C"/>
-      <stop offset="0.55" stop-color="#506B3C"/>
-      <stop offset="1" stop-color="#C95A35"/>
-    </linearGradient>
+    <style>
+      .serif{font-family: Georgia, 'Times New Roman', serif;font-weight:500;letter-spacing:-2px}
+      .sans{font-family: Inter, Arial, sans-serif;font-weight:800;letter-spacing:.9px}
+    </style>
   </defs>
-  <circle cx="32" cy="32" r="27" fill="none" stroke="url(#g)" stroke-width="3.2"/>
-  <path d="M17.5 32.5 32 18.5l14.5 14v17H37V39.2H27V49.5h-9.5v-17Z" fill="none" stroke="#506B3C" stroke-width="3.2" stroke-linejoin="round"/>
-  <path d="M38.3 44.4c9.4-1.8 14-8.8 12.4-18.4-9.9 1-16.4 6.9-17.1 16.8 2.2-2.9 5.5-5.6 10.4-8" fill="none" stroke="#506B3C" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M33.8 43.3c2.8.7 6.3.8 9.9-.7" fill="none" stroke="#C95A35" stroke-width="3.2" stroke-linecap="round"/>
+  <g transform="translate(0 10)">
+    <circle cx="36" cy="36" r="30" fill="none" stroke="#506B3C" stroke-width="3.4"/>
+    <path d="M18.8 37.3 36 20.9l17.2 16.4v19.9H42.4V45H29.6v12.2H18.8V37.3Z" fill="none" stroke="#506B3C" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M43.1 51.2c10.8-2.1 16-10.3 14.1-21.4-11.3 1.1-18.8 8.1-19.6 19.3 2.5-3.4 6.3-6.4 12-9.2" fill="none" stroke="#506B3C" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M37.9 50.1c3.3.8 7.2.8 11.3-.8" fill="none" stroke="#C95A35" stroke-width="3.5" stroke-linecap="round"/>
+  </g>
+  <text x="88" y="52" class="serif" fill="#1C2230" font-size="42">Futura Casa</text>
+  <text x="324" y="52" class="serif" fill="#506B3C" font-size="42">Pro</text>
+  <text x="91" y="75" class="sans" fill="#667085" font-size="10">JORNADA INTELIGENTE PARA LOTEADORAS</text>
 </svg>

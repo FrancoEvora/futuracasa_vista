@@ -1,22 +1,25 @@
-# Futura Casa v14.8 — Balões por percentual + AR ajustada
+# Futura Casa Pro v2.2 — Identidade Completa
 
-Base:
-- Mantém a plataforma completa da v14.7.
-- Mantém mapa georreferenciado, marcação de lote/quadra e AR com coordenadas DXF.
+Esta versão entrega o pacote completo, não apenas HTMLs soltos.
 
-Correções desta versão:
-- Substitui o valor manual do balão por percentual de balões anuais.
-- O percentual permitido é de 0% a 40%.
-- O valor de cada balão é calculado automaticamente a partir do valor financiado.
-- A quantidade máxima de balões passa a acompanhar o prazo da simulação:
-  - 120 meses = até 10 balões;
-  - 180 meses = até 15 balões;
-  - 240 meses = até 20 balões;
-  - 360 meses = até 30 balões.
-- O cálculo mensal abate o total base dos balões do valor financiado.
-- Juros e correção dos balões são aplicados apenas quando o usuário marca as opções correspondentes.
-- A AR substitui o texto `Lote mais próximo de você` por `Você está aqui`.
-- A janela de AR foi ampliada um pouco mais no mobile.
+Arquivos principais:
+- `index.html` — Modo Vendas
+- `gestao.html` — Painel de Gestão
+- `pos-venda.html` — Minha Obra / pós-venda
+- `ocorrencias.html` — Registro de ocorrências
+- `styles.css` — identidade visual completa
+- `app.js` — interações funcionais
+- `data.js` — dados demonstrativos
+- `manifest.webmanifest` — PWA
+- `assets/futura-casa-pro-mark.svg` — logomarca
+- `assets/futura-casa-pro-logo.svg` — assinatura completa
+- `assets/contour-pattern.svg` — textura topográfica
+- `assets/solaris-map.jpeg` — mapa base
 
-Observação:
-A simulação dos balões é estimativa comercial. A fórmula contratual definitiva deve ser validada pela política comercial/jurídica.
+Identidade visual aplicada:
+- Wordmark serifado “Futura Casa Pro”, com “Pro” em verde.
+- Ícone casa + folha em círculo.
+- Fundo off-white com textura topográfica.
+- Paleta natural: verde oliva, terracota, creme e dourado.
+- Botões com hierarquia: primário verde, secundário outline, terracota como destaque contextual.
+- Cards arredondados, sombra suave e aparência de produto premium.

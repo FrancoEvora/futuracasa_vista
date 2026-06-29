@@ -1,4 +1,3 @@
-// Futura Casa Pro v2.0 — dados demonstrativos
 const FC_LOTS = [
   {
     "id": "sol-H14",
@@ -123,39 +122,9 @@ const FC_LOTS = [
 ];
 
 const FC_HOUSES = [
-  {
-    id:'essenza',
-    name:'Casa Essenza',
-    tier:'Premium',
-    area:124,
-    bedrooms:3,
-    suites:1,
-    price:490000,
-    style:'Contemporânea',
-    description:'Residência térrea com integração social, varanda gourmet e planta eficiente.'
-  },
-  {
-    id:'harmonia',
-    name:'Casa Harmonia',
-    tier:'Família',
-    area:152,
-    bedrooms:3,
-    suites:2,
-    price:640000,
-    style:'Natural',
-    description:'Projeto com ambientes amplos, conforto térmico e forte conexão com o jardim.'
-  },
-  {
-    id:'vista',
-    name:'Casa Vista',
-    tier:'Alto padrão',
-    area:188,
-    bedrooms:4,
-    suites:2,
-    price:820000,
-    style:'Assinada',
-    description:'Projeto com fachada marcante, suíte master e experiência de lazer integrada.'
-  }
+  {id:'essenza', name:'Casa Essenza', tier:'Premium', area:124, bedrooms:3, suites:1, price:490000, style:'Contemporânea', description:'Residência térrea com integração social, varanda gourmet e planta eficiente.'},
+  {id:'harmonia', name:'Casa Harmonia', tier:'Família', area:152, bedrooms:3, suites:2, price:640000, style:'Natural', description:'Projeto com ambientes amplos, conforto térmico e forte conexão com o jardim.'},
+  {id:'vista', name:'Casa Vista', tier:'Alto padrão', area:188, bedrooms:4, suites:2, price:820000, style:'Assinada', description:'Projeto com fachada marcante, suíte master e experiência de lazer integrada.'}
 ];
 
 const FC_BUILD_STAGES = [
@@ -167,9 +136,9 @@ const FC_BUILD_STAGES = [
 ];
 
 const FC_STORAGE = {
-  reservations:'fcpro_reservations_v2',
-  occurrences:'fcpro_occurrences_v2',
-  services:'fcpro_services_v2',
-  checklist:'fcpro_checklist_v2',
-  salesState:'fcpro_sales_state_v2'
+  reservations:'fcpro_reservations_v22',
+  occurrences:'fcpro_occurrences_v22',
+  services:'fcpro_services_v22',
+  checklist:'fcpro_checklist_v22',
+  salesState:'fcpro_sales_state_v22'
 };
