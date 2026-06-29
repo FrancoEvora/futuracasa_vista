@@ -1,17 +1,9 @@
 {
-  "name": "Futura Casa",
-  "short_name": "Futura Casa",
-  "start_url": "./index.html",
+  "name": "Futura Casa Pro",
+  "short_name": "Futura Pro",
+  "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#f5efe7",
-  "theme_color": "#1C2230",
-  "description": "Escolha o lote, combine a casa, simule e reserve sua proposta Futura Casa.",
-  "icons": [
-    {
-      "src": "icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ]
+  "background_color": "#F5EFE7",
+  "theme_color": "#506B3C",
+  "icons": []
 }

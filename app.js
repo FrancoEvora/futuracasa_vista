@@ -1,0 +1,342 @@
+const $ = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+function money(v){
+  return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(Number(v||0));
+}
+function read(key, fallback){
+  try{return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback));}catch(e){return fallback;}
+}
+function write(key, value){localStorage.setItem(key, JSON.stringify(value));}
+function toast(msg){
+  let el = $('#toast');
+  if(!el){el=document.createElement('div');el.id='toast';el.className='toast';document.body.appendChild(el);}
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer=setTimeout(()=>el.classList.remove('show'),2600);
+}
+function openModal(html){
+  let modal = $('#modal');
+  if(!modal){modal=document.createElement('div');modal.id='modal';modal.className='modal';document.body.appendChild(modal);}
+  modal.innerHTML = `<div class="modal-card">${html}</div>`;
+  modal.classList.add('show');
+  $$('[data-close-modal]', modal).forEach(b=>b.onclick=()=>modal.classList.remove('show'));
+}
+function statusLabel(status){return status==='reserved'?'Reservado':status==='sold'?'Vendido':'Disponível';}
+function statusClass(status){return status || 'available';}
+function pointName(lot){return `Solaris Home Resort - Quadra ${lot.quadra} - Lote ${lot.number}`;}
+function mapsUrl(lot){
+  const destination = `${pointName(lot)} @ ${lot.lat},${lot.lng}`;
+  const params = new URLSearchParams({api:'1',destination,travelmode:'driving'});
+  return `https://www.google.com/maps/dir/?${params.toString()}`;
+}
+function openMaps(lotId){
+  const lot = FC_LOTS.find(l=>l.id===lotId);
+  if(!lot) return;
+  const url = mapsUrl(lot);
+  const w = window.open(url,'_blank','noopener');
+  if(!w) location.href = url;
+  toast(`Abrindo Google Maps para ${pointName(lot)}.`);
+}
+function reserveVisit(lotId){
+  const lot = FC_LOTS.find(l=>l.id===lotId);
+  if(!lot) return;
+  const reservations = read(FC_STORAGE.reservations, []);
+  const protocol = `RES-${String(reservations.length+1).padStart(4,'0')}`;
+  reservations.unshift({protocol, lotId, lot:pointName(lot), date:new Date().toISOString(), status:'Aguardando confirmação'});
+  write(FC_STORAGE.reservations, reservations);
+  toast(`Visita reservada: ${protocol}`);
+}
+function lotDetails(lotId){
+  const lot = FC_LOTS.find(l=>l.id===lotId);
+  if(!lot) return;
+  openModal(`
+    <div class="modal-head">
+      <div><span class="tag">Solaris Home Resort</span><h2>${pointName(lot)}</h2><p style="color:var(--muted)">Detalhes comerciais e posição técnica do lote.</p></div>
+      <button class="btn light small" data-close-modal>Fechar</button>
+    </div>
+    <div class="grid" style="margin-top:16px">
+      <div class="card" style="padding:16px">
+        <div class="lot-row">
+          <div class="info"><small>Área</small><b>${lot.area.toLocaleString('pt-BR')} m²</b></div>
+          <div class="info"><small>Valor</small><b>${money(lot.price)}</b></div>
+          <div class="info"><small>Dimensões</small><b>${lot.dims}</b></div>
+          <div class="info"><small>Status</small><b>${statusLabel(lot.status)}</b></div>
+        </div>
+        <p style="color:var(--muted)">${lot.profile}. Rua: ${lot.street}. Coordenada: ${lot.lat.toFixed(6)}, ${lot.lng.toFixed(6)}.</p>
+      </div>
+      <div class="grid" style="grid-template-columns:1fr 1fr;gap:10px">
+        <button class="btn primary" onclick="reserveVisit('${lot.id}')">Reservar visita</button>
+        <button class="btn secondary" onclick="openMaps('${lot.id}')">Abrir rota</button>
+        <button class="btn light" onclick="startAR('${lot.id}')">Ver no local (AR)</button>
+        <button class="btn light" onclick="selectLot('${lot.id}', true)">Escolher lote</button>
+      </div>
+    </div>
+  `);
+}
+function startAR(lotId){
+  const lot = FC_LOTS.find(l=>l.id===lotId);
+  if(!lot) return;
+  openModal(`
+    <div class="modal-head">
+      <div><span class="tag orange">Realidade aumentada</span><h2>Você está aqui</h2><p style="color:var(--muted)">A AR usa a coordenada técnica do lote para orientar a visita em campo.</p></div>
+      <button class="btn light small" data-close-modal>Fechar</button>
+    </div>
+    <div style="margin-top:16px;background:#10141d;border-radius:24px;min-height:430px;display:grid;place-items:center;color:white;position:relative;overflow:hidden">
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(80,107,60,.45),rgba(0,0,0,.52)), url('assets/solaris-map.jpeg') center/cover;filter:blur(3px);transform:scale(1.04)"></div>
+      <div style="position:relative;text-align:center;padding:24px">
+        <div style="font-size:48px">◎</div>
+        <h2>${pointName(lot)}</h2>
+        <p>${Math.round(lot.area)} m² · ${money(lot.price)}<br>GPS técnico: ${lot.lat.toFixed(6)}, ${lot.lng.toFixed(6)}</p>
+        <button class="btn primary" onclick="openMaps('${lot.id}')">Abrir rota</button>
+      </div>
+    </div>
+  `);
+}
+function generateAI(lotId=null, homeId=null){
+  const lot = FC_LOTS.find(l=>l.id===lotId) || read(FC_STORAGE.salesState, {}).lot;
+  const home = FC_HOUSES.find(h=>h.id===homeId) || read(FC_STORAGE.salesState, {}).home;
+  openModal(`
+    <div class="modal-head">
+      <div><span class="tag orange">Imagem por IA</span><h2>Casa no lote</h2><p style="color:var(--muted)">Recurso contextual: aparece depois que há lote e/ou casa definidos.</p></div>
+      <button class="btn light small" data-close-modal>Fechar</button>
+    </div>
+    <div class="card" style="margin-top:16px;overflow:hidden">
+      <div style="height:260px;background:linear-gradient(135deg,rgba(80,107,60,.18),rgba(201,90,53,.15)),url('assets/solaris-map.jpeg') center/cover;display:grid;place-items:center">
+        <div style="background:rgba(255,253,249,.92);border:1px solid var(--line);border-radius:20px;padding:18px;text-align:center">
+          <b>Preview IA solicitado</b><br>
+          <small>${home?.name || 'Casa selecionada'} aplicada ao ${lot?.name || 'lote escolhido'}</small>
+        </div>
+      </div>
+      <div style="padding:16px">
+        <p style="color:var(--muted)">Na versão produção, este botão enviará lote, orientação, modelo de casa e imagem de referência para o motor de geração.</p>
+        <button class="btn primary" onclick="toast('Solicitação de imagem IA registrada.')">Solicitar renderização</button>
+      </div>
+    </div>
+  `);
+}
+
+function getSalesState(){
+  return read(FC_STORAGE.salesState, {mode:'combo', lot:FC_LOTS[0], home:FC_HOUSES[0]});
+}
+function setSalesState(state){write(FC_STORAGE.salesState,state);}
+function selectMode(mode){
+  const state = getSalesState();
+  state.mode = mode;
+  if(mode==='lot') state.home = null;
+  if(mode==='home') state.lot = null;
+  setSalesState(state);
+  renderSales();
+}
+function selectLot(id, stay=false){
+  const state = getSalesState();
+  state.lot = FC_LOTS.find(l=>l.id===id);
+  if(state.mode === 'home') state.mode = 'combo';
+  setSalesState(state);
+  renderSales();
+  if(!stay) toast('Lote selecionado.');
+}
+function selectHome(id){
+  const state = getSalesState();
+  state.home = FC_HOUSES.find(h=>h.id===id);
+  if(state.mode === 'lot') state.mode = 'combo';
+  setSalesState(state);
+  renderSales();
+  toast('Casa selecionada.');
+}
+function selectedTotal(){
+  const s = getSalesState();
+  return (s.mode!=='home' && s.lot ? s.lot.price : 0) + (s.mode!=='lot' && s.home ? s.home.price : 0);
+}
+function renderSales(){
+  const app = $('#salesApp');
+  if(!app) return;
+  const state = getSalesState();
+  const lot = state.lot || FC_LOTS[0];
+  const home = state.home || FC_HOUSES[0];
+  const modeLabels = {lot:'Quero um lote', combo:'Quero lote + casa', home:'Já tenho lote'};
+  const houseSelector = state.mode !== 'lot' ? `
+    <div class="card" style="margin:0 16px 14px;padding:14px">
+      <span class="tag orange">Casa</span>
+      <h3 style="margin:8px 0 10px">${home?.name || 'Escolha uma casa'}</h3>
+      <div class="grid" style="grid-template-columns:1fr 1fr 1fr;gap:8px">
+        ${FC_HOUSES.map(h=>`<button class="btn ${home?.id===h.id?'primary':'light'} small" onclick="selectHome('${h.id}')">${h.name.replace('Casa ','')}</button>`).join('')}
+      </div>
+    </div>` : '';
+  app.innerHTML = `
+    <div class="phone-head">
+      <div class="phone-title"><span>⌂</span> Futura Casa <span>Pro</span></div><button class="bell" aria-label="Avisos"></button>
+    </div>
+    <div class="mode-head"><h2>Modo Vendas</h2><p>Como você deseja continuar sua jornada?</p></div>
+    <div class="mode-cards">
+      <button class="mode-card ${state.mode==='lot'?'active':''}" onclick="selectMode('lot')"><span class="ico">♧</span><b>Quero um<br>lote</b></button>
+      <button class="mode-card ${state.mode==='combo'?'active':''}" onclick="selectMode('combo')"><span class="ico">⌂</span><b>Quero lote<br>+ casa</b></button>
+      <button class="mode-card ${state.mode==='home'?'active':''}" onclick="selectMode('home')"><span class="ico">⚿</span><b>Já tenho<br>lote</b></button>
+    </div>
+    <div class="map-stage">
+      <img src="assets/solaris-map.jpeg" alt="Mapa Solaris">
+      ${lot && state.mode!=='home' ? `<div class="map-marker" style="--x:${lot.x}%;--y:${lot.y}%"><b>Q${lot.quadra} · Lote ${lot.number}</b><i></i></div>` : ''}
+      <div class="map-tools"><button onclick="openMaps('${lot.id}')">↗</button><button onclick="startAR('${lot.id}')">◎</button></div>
+    </div>
+    ${state.mode==='home' ? `<div class="lot-card"><span class="tag orange">Casa para seu lote</span><h3>${home.name}</h3><div class="lot-row"><div class="info"><small>Área</small><b>${home.area} m²</b></div><div class="info"><small>Valor referência</small><b>${money(home.price)}</b></div></div><div class="grid" style="margin-top:12px;grid-template-columns:1fr 1fr"><button class="btn primary" onclick="generateAI(null,'${home.id}')">Aplicar ao meu lote</button><button class="btn secondary" onclick="location.href='pos-venda.html'">Pós-venda</button></div></div>` : `
+    <div class="lot-card">
+      <div style="display:flex;justify-content:space-between;gap:10px"><span class="tag ${statusClass(lot.status)}">${statusLabel(lot.status)}</span><span class="tag orange">${modeLabels[state.mode]}</span></div>
+      <h3>Quadra ${lot.quadra} • Lote ${lot.number}</h3>
+      <div class="lot-row">
+        <div class="info"><small>Área total</small><b>${lot.area.toLocaleString('pt-BR')} m²</b></div>
+        <div class="info"><small>Valor</small><b>${money(lot.price)}</b></div>
+        <div class="info"><small>Topografia</small><b>Plana</b></div>
+        <div class="info"><small>Localização</small><b>${lot.profile}</b></div>
+      </div>
+      <div style="display:grid;gap:10px;margin-top:14px">
+        <button class="btn primary" onclick="lotDetails('${lot.id}')">Ver detalhes</button>
+        <button class="btn secondary" onclick="reserveVisit('${lot.id}')">Reservar visita</button>
+        ${state.mode==='combo' ? `<button class="btn light" onclick="generateAI('${lot.id}','${home.id}')">Gerar imagem por IA</button>` : ''}
+      </div>
+    </div>`}
+    ${houseSelector}
+    <div class="app-tabs">
+      <button class="app-tab active"><i>▱</i>Mapa</button>
+      <button class="app-tab" onclick="location.href='gestao.html'"><i>◫</i>Gestão</button>
+      <button class="app-tab" onclick="location.href='pos-venda.html'"><i>＋</i>Obra</button>
+      <button class="app-tab" onclick="location.href='ocorrencias.html'"><i>!</i>Ocorrência</button>
+      <button class="app-tab"><i>◎</i>Perfil</button>
+    </div>
+  `;
+  const picker = $('#lotPicker');
+  if(picker){
+    picker.innerHTML = FC_LOTS.map(l=>`
+      <article class="card" style="padding:14px">
+        <div style="display:flex;justify-content:space-between;gap:8px"><b>Q${l.quadra} · Lote ${l.number}</b><span class="tag ${statusClass(l.status)}">${statusLabel(l.status)}</span></div>
+        <div class="lot-row"><div class="info"><small>Área</small><b>${l.area.toLocaleString('pt-BR')} m²</b></div><div class="info"><small>Valor</small><b>${money(l.price)}</b></div></div>
+        <div class="grid" style="grid-template-columns:1fr 1fr;margin-top:10px"><button class="btn primary small" onclick="selectLot('${l.id}')">Selecionar</button><button class="btn light small" onclick="lotDetails('${l.id}')">Detalhes</button></div>
+      </article>`).join('');
+  }
+}
+function renderDashboard(){
+  const occ = read(FC_STORAGE.occurrences, []);
+  const reservations = read(FC_STORAGE.reservations, []);
+  const services = read(FC_STORAGE.services, []);
+  const el = $('#dashboardApp');
+  if(!el) return;
+  el.innerHTML = `
+    <div class="metrics">
+      <div class="card metric"><small>Lotes consultados</small><b>348</b><small>+18% vs período anterior</small></div>
+      <div class="card metric"><small>Reservas</small><b>${42 + reservations.length}</b><small>+12% vs período anterior</small></div>
+      <div class="card metric"><small>Visitas agendadas</small><b>96</b><small>+15% vs período anterior</small></div>
+      <div class="card metric"><small>Conversão</small><b>24%</b><small>+3 p.p.</small></div>
+      <div class="card metric"><small>Ocorrências</small><b>${occ.length}</b><small>${services.length} serviços solicitados</small></div>
+    </div>
+    <div class="dash-grid">
+      <div class="grid">
+        <div class="card" style="padding:16px"><div style="display:flex;justify-content:space-between;gap:10px"><b>Mapa do empreendimento Solaris</b><span class="tag">Heatmap: visitas</span></div><div class="dash-map" style="margin-top:12px"><img src="assets/solaris-map.jpeg"><span class="heat" style="--x:34%;--y:52%"></span><span class="heat" style="--x:55%;--y:28%"></span><span class="heat" style="--x:68%;--y:45%"></span><span class="heat" style="--x:48%;--y:74%"></span></div></div>
+        <div class="card" style="padding:16px"><b>Atividades recentes</b><table class="table"><thead><tr><th>Lote</th><th>Cliente</th><th>Atividade</th><th>Status</th></tr></thead><tbody>${[
+          ['H-14','Mariana Silva','Reserva realizada','Reservado'],
+          ['A-39','Carlos Andrade','Visita agendada','Agendado'],
+          ['B-08','Juliana Costa','Proposta enviada','Em negociação'],
+          ['D-07','Rafael Oliveira','Documentação enviada','Em análise'],
+          ...occ.slice(0,3).map(o=>[o.location,'Cliente app','Ocorrência registrada',o.status])
+        ].map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
+      </div>
+      <div class="grid">
+        <div class="card" style="padding:16px"><b>Lotes por status</b><div class="donut"><div><b>472</b><small>Total</small></div></div><p><span class="tag">62% disponíveis</span> <span class="tag orange">16% reservados</span></p></div>
+        <div class="card" style="padding:16px"><b>Evolução de consultas</b><svg viewBox="0 0 360 160" width="100%" height="150"><polyline points="0,118 56,98 112,108 168,60 224,88 280,34 340,68" fill="none" stroke="#506B3C" stroke-width="4"/><line x1="0" y1="130" x2="360" y2="130" stroke="#E5D8C8"/><text x="0" y="152" font-size="12" fill="#667085">01/05</text><text x="260" y="152" font-size="12" fill="#667085">29/05</text></svg></div>
+        <div class="card" style="padding:16px"><b>Atividades de hoje</b><div class="grid" style="margin-top:10px">${['Visita agendada · 09:00','Reunião com corretor · 10:30','Acompanhar obra · 14:00','Proposta de negociação · 16:30'].map(x=>`<div style="display:flex;gap:8px"><span class="tag">✓</span><span>${x}</span></div>`).join('')}</div></div>
+      </div>
+    </div>
+  `;
+}
+function renderPostSale(){
+  const el = $('#postSaleApp');
+  if(!el) return;
+  const checklist = read(FC_STORAGE.checklist, {'vigas':true,'laje':true,'alvenaria':false,'hidraulica':false,'eletrica':false});
+  el.innerHTML = `
+    <div class="mobile-grid">
+      <div class="card" style="padding:22px">
+        <span class="tag">Futura Casa Pro</span><h1>Minha Obra</h1><p style="color:var(--muted)">Acompanhe cada etapa até sua casa ganhar vida.</p>
+        <div class="work-progress">${FC_BUILD_STAGES.map(s=>`<div class="stage ${s.status}"><span class="stage-icon">${s.status==='done'?'✓':s.status==='active'?'▦':'○'}</span><b>${s.label}</b><small>${s.status==='done'?'Concluído':s.status==='active'?'Em andamento':'Pendente'}</small></div>`).join('')}</div>
+        <div class="card checklist" style="padding:18px;margin-top:18px"><div style="display:flex;justify-content:space-between"><b>Checklist da etapa atual</b><span class="tag">2 de 5</span></div>${[
+          ['vigas','Armação das vigas e pilares'],
+          ['laje','Laje concretada'],
+          ['alvenaria','Alvenaria em andamento'],
+          ['hidraulica','Instalações hidráulicas'],
+          ['eletrica','Instalações elétricas']
+        ].map(([id,label])=>`<div class="check"><span>${checklist[id]?'✅':'○'} ${label}</span><button onclick="toggleCheck('${id}')">›</button></div>`).join('')}</div>
+      </div>
+      <div class="grid">
+        <div class="card" style="padding:18px"><b>Solicitações de serviços</b><div class="service-grid" style="margin-top:12px">${[
+          ['Água','Solicitar','💧'],['Energia','Solicitar','⚡'],['Acesso para prestadores','Solicitar','👤'],['Vistorias','Agendar','🔍'],['Documentos','Acessar','📄'],['Visitas','Agendar','📅']
+        ].map(([a,b,i])=>`<button class="service" onclick="requestService('${a}')"><span style="font-size:24px">${i}</span><b>${a}</b><small>${b}</small></button>`).join('')}</div></div>
+        <div class="card" style="padding:18px"><b>Normas, visitas e documentos</b><div class="grid" style="grid-template-columns:repeat(3,1fr);margin-top:12px">${['Ver normas','Ver visitas','Ver documentos'].map(x=>`<button class="service" onclick="toast('${x}')"><b>${x}</b><small>Consultar</small></button>`).join('')}</div></div>
+      </div>
+    </div>
+  `;
+}
+function toggleCheck(id){
+  const c = read(FC_STORAGE.checklist, {});
+  c[id] = !c[id];
+  write(FC_STORAGE.checklist, c);
+  renderPostSale();
+}
+function requestService(name){
+  const arr = read(FC_STORAGE.services, []);
+  const protocol = `SER-${String(arr.length+1).padStart(4,'0')}`;
+  arr.unshift({protocol,name,status:'Solicitado',date:new Date().toISOString()});
+  write(FC_STORAGE.services, arr);
+  toast(`${name}: protocolo ${protocol}`);
+}
+function renderOccurrences(){
+  const el = $('#occApp');
+  if(!el) return;
+  const occ = read(FC_STORAGE.occurrences, []);
+  el.innerHTML = `
+    <div class="mobile-grid">
+      <div class="card" style="padding:22px"><span class="tag orange">Registrar ocorrência</span><h1>Ajude a cuidar do empreendimento.</h1><p style="color:var(--muted)">Informe o local, adicione foto e acompanhe o protocolo.</p></div>
+      <div class="card" style="padding:18px">
+        <form class="occ-form" id="occForm">
+          <div class="occ-map"><img src="assets/solaris-map.jpeg"><span class="pin">●</span><span class="address">Solaris Home Resort<br>Quadra H · Lote 14</span></div>
+          <div><b>Foto do local</b><div class="photo-row" style="margin-top:8px"><div class="photo-preview" id="photoPreview">Nenhuma foto selecionada</div><label class="photo-add"><input type="file" id="occPhoto" accept="image/*" hidden>📷<br>Adicionar foto</label></div></div>
+          <div><b>Categoria</b><div class="chips" id="categoryChips">${['Buraco','Iluminação','Alagamento','Segurança','Outro'].map((c,i)=>`<button type="button" class="chip ${i===0?'active':''}" data-category="${c}">${c}</button>`).join('')}</div></div>
+          <textarea id="occDesc" placeholder="Descrição opcional">Buraco grande na via, oferecendo risco para veículos e pedestres.</textarea>
+          <button class="btn primary" type="submit">Enviar ocorrência</button>
+        </form>
+        <div id="occProtocol" style="margin-top:14px">${occ[0] ? protocolCard(occ[0]) : ''}</div>
+      </div>
+    </div>
+  `;
+  bindOccurrences();
+}
+function protocolCard(o){
+  return `<div class="card" style="padding:16px"><div style="display:flex;justify-content:space-between;gap:10px"><b>Protocolo ${o.protocol}</b><span class="tag orange">${o.status}</span></div><p style="color:var(--muted)">Sua ocorrência foi registrada com sucesso.<br>${new Date(o.date).toLocaleString('pt-BR')}</p></div>`;
+}
+function bindOccurrences(){
+  const form = $('#occForm');
+  if(!form) return;
+  let category = 'Buraco';
+  $$('#categoryChips .chip').forEach(chip=>chip.onclick=()=>{
+    $$('#categoryChips .chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active'); category = chip.dataset.category;
+  });
+  $('#occPhoto').onchange = e=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => $('#photoPreview').innerHTML = `<img src="${reader.result}" alt="Foto">`;
+    reader.readAsDataURL(file);
+  };
+  form.onsubmit = e=>{
+    e.preventDefault();
+    const occ = read(FC_STORAGE.occurrences, []);
+    const o = {protocol:`#${2481+occ.length}`, category, description:$('#occDesc').value, location:'QH · Lote 14', status:'Em análise', date:new Date().toISOString()};
+    occ.unshift(o); write(FC_STORAGE.occurrences, occ);
+    $('#occProtocol').innerHTML = protocolCard(o);
+    toast(`Ocorrência ${o.protocol} enviada.`);
+  };
+}
+document.addEventListener('DOMContentLoaded', ()=>{
+  renderSales();
+  renderDashboard();
+  renderPostSale();
+  renderOccurrences();
+});

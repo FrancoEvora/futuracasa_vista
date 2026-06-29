@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F5EFE7">
+  <title>Futura Casa Pro | Painel de Gestão</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html"><span class="brand-mark">⌂</span><span>Futura Casa Pro<small>Visão operacional</small></span></a>
+      <nav class="nav">
+        <a href="index.html" class="">Vendas</a>
+        <a href="gestao.html" class="active">Gestão</a>
+        <a href="pos-venda.html" class="">Pós-venda</a>
+        <a href="ocorrencias.html" class="">Ocorrências</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+
+    <section class="page">
+      <div class="page-inner dashboard">
+        <aside class="card sidebar">
+          <a class="active" href="gestao.html">Painel</a>
+          <a href="index.html">Lotes</a>
+          <a href="index.html">Clientes</a>
+          <a href="index.html">Corretores</a>
+          <a href="pos-venda.html">Obras</a>
+          <a href="ocorrencias.html">Ocorrências</a>
+          <a href="#" onclick="toast('Relatório preparado')">Relatórios</a>
+          <a href="#" onclick="toast('Configurações')">Configurações</a>
+        </aside>
+        <div>
+          <div class="section-title">
+            <span class="tag">Gestão</span>
+            <h1>Painel de Gestão</h1>
+            <p>Visão geral do empreendimento: consultas, reservas, visitas, ocorrências e andamento comercial.</p>
+          </div>
+          <div id="dashboardApp"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+<div id="toast" class="toast"></div>
+<div id="modal" class="modal"></div>
+</body>
+</html>
