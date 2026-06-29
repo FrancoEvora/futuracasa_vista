@@ -1,9 +1,9 @@
 {
-  "name": "Futura Casa Pro v2.2",
+  "name": "Futura Casa Pro v2.5",
   "short_name": "Futura Pro",
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#F5EFE7",
-  "theme_color": "#506B3C",
+  "background_color": "#10141d",
+  "theme_color": "#10141d",
   "icons": []
 }

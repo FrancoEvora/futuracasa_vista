@@ -3,37 +3,35 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10141d">
 <title>Futura Casa Pro | Pós-venda</title>
-<link rel="stylesheet" href="pro-clean.css">
-<link rel="stylesheet" href="pro-modules.css">
-<script src="pro-modules.js" defer></script>
+<link rel="stylesheet" href="styles.css">
+<script src="data.js" defer></script>
+<script src="app.js" defer></script>
 </head>
-<body class="proModule">
-  <main class="moduleShell">
-    <header class="moduleTopbar">
-      <a class="moduleBrand" href="index.html"><img class="moduleLogo" src="assets/futura-casa-logo-v1-1.webp" alt="Futura Casa Pro"><span class="moduleBrandText"><strong>Futura Casa Pro</strong><small>Plataforma integrada</small></span></a>
-      
-      <nav class="moduleNav">
-        <a href="index.html">Vendas</a>
-        <a class="" href="gestao.html">Gestão</a>
-        <a class="active" href="pos-venda.html">Pós-venda</a>
-        <a class="" href="ocorrencias.html">Ocorrências</a>
-      </nav>
-    </header>
-    <section class="moduleHero">
-      <aside class="moduleIntro">
-        <span class="moduleBadge">Futura Casa Pro</span>
-        <h1>Minha Obra</h1>
-        <p>Acompanhamos cada cliente depois da venda, da aprovação à entrega da casa.</p>
-        <div class="moduleBenefitList"><div class="moduleBenefit"><span class="moduleBenefitIcon ">▦</span><div><b>Acompanhe</b><small>Veja o andamento da sua obra.</small></div></div><div class="moduleBenefit"><span class="moduleBenefitIcon orange">□</span><div><b>Organize</b><small>Solicite serviços e documentos em um só lugar.</small></div></div><div class="moduleBenefit"><span class="moduleBenefitIcon ">✓</span><div><b>Conquiste</b><small>Mais clareza até a casa ganhar vida.</small></div></div></div>
-      </aside>
-      <section class="moduleDevice">
-        <div class="moduleDeviceHead"><div><span class="statusPill green">POS</span><h2>Minha Obra</h2><p>Acompanhe etapas, documentos, visitas e serviços.</p></div></div>
-        <div class="moduleDeviceBody"><div id="posApp"></div></div>
-      </section>
-    </section>
-  </main>
-  <div id="toast" class="toast"></div>
-  <div id="modal" class="modal"></div>
+<body class="appDark">
+<header class="top">
+  <div class="top-inner">
+    <a class="logo" href="index.html"><img src="assets/futura-casa-logo-v1-1.webp" alt="Futura Casa Pro"><span class="sub">Compra guiada</span></a>
+    <nav class="nav">
+      <a class="" href="index.html">Vendas</a>
+      <a class="" href="gestao.html">Gestão</a>
+      <a class="active" href="pos-venda.html">Pós-venda</a>
+      <a class="" href="ocorrencias.html">Ocorrências</a>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="page">
+  <div class="page-inner">
+    <div class="page-title"><span class="badge">Pós-venda</span><h1>Minha Obra</h1><p>Obras do loteamento e obras da casa em camadas separadas.</p></div>
+    <div class="panel"><div class="panel-head"><h2>Minha Obra</h2><p>Acompanhe etapas, documentos, visitas e serviços.</p></div><div class="panel-body" id="posApp"></div></div>
+  </div>
+</section>
+
+</main>
+<div id="toast" class="toast"></div>
+<div id="modal" class="modal"></div>
 </body>
 </html>
