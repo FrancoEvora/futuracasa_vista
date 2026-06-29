@@ -166,13 +166,13 @@ function renderSales(){
     </div>` : '';
   app.innerHTML = `
     <div class="phone-head">
-      <div class="phone-title"><span>⌂</span> Futura Casa <span>Pro</span></div><button class="bell" aria-label="Avisos"></button>
+      <div class="phone-title"><img class="mini-logo" src="assets/futura-casa-pro-logo.svg" alt=""><b>Futura Casa <span>Pro</span></b></div><button class="bell" aria-label="Avisos"></button>
     </div>
     <div class="mode-head"><h2>Modo Vendas</h2><p>Como você deseja continuar sua jornada?</p></div>
     <div class="mode-cards">
-      <button class="mode-card ${state.mode==='lot'?'active':''}" onclick="selectMode('lot')"><span class="ico">♧</span><b>Quero um<br>lote</b></button>
-      <button class="mode-card ${state.mode==='combo'?'active':''}" onclick="selectMode('combo')"><span class="ico">⌂</span><b>Quero lote<br>+ casa</b></button>
-      <button class="mode-card ${state.mode==='home'?'active':''}" onclick="selectMode('home')"><span class="ico">⚿</span><b>Já tenho<br>lote</b></button>
+      <button class="mode-card ${state.mode==='lot'?'active':''}" onclick="selectMode('lot')"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M7 8c0-3 5-5 5-5s5 2 5 5-2 6-5 8c-3-2-5-5-5-8Z"/></svg></span><b>Quero um<br>lote</b></button>
+      <button class="mode-card ${state.mode==='combo'?'active':''}" onclick="selectMode('combo')"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></span><b>Quero lote<br>+ casa</b></button>
+      <button class="mode-card ${state.mode==='home'?'active':''}" onclick="selectMode('home')"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="4"/><path d="M11 11l9 9"/><path d="M16 16l-3 3"/><path d="M19 13l-3 3"/></svg></span><b>Já tenho<br>lote</b></button>
     </div>
     <div class="map-stage">
       <img src="assets/solaris-map.jpeg" alt="Mapa Solaris">
